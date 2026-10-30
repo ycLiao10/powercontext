@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文献阅读工作台 · 导入 → 混合检索 → 出处定位</title>
+<meta name="description" content="文献阅读工作台：把散落的 .md/.txt 文献导入后，用词法 + 本地向量模型做混合检索，回答「出自哪篇、第几段、哪几个字」；阅读记忆由 PowerContext 保存并在下次检索中参与排序。">
+<meta name="theme-color" content="#f6f2e9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5bd7'/%3E%3Cpath d='M9 8h9l5 5v11H9z' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M13 16h7M13 20h5' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">文</span>
+      <span class="brand-text">文献阅读工作台<em>Literature Desk</em></span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#problem">问题</a>
+      <a href="#features">功能</a>
+      <a href="#demo">演示</a>
+      <a href="#arch">架构</a>
+      <a href="#evidence">验证</a>
+      <a href="#run">运行</a>
+    </nav>
+    <a class="btn btn-ghost" href="https://github.com/ycLiao10/powercontext" target="_blank" rel="noopener">代码仓库</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">2026 OceanBase 数据库大赛 · Qoder 生态赛题</p>
+        <h1>读文献真正费时间的，<br>是找出这句话的出处。</h1>
+        <p class="lede">
+          把散落在多个 <code>.md</code>/<code>.txt</code> 里的资料导入，工作台负责切分、建索引、混合检索，
+          每条结果都带<strong>文献名、第几段、字符区间</strong>；读过的文献由
+          <strong>PowerContext</strong> 记入长期记忆，下次检索时参与排序。
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#demo">看真实检索演示</a>
+          <a class="btn btn-ghost" href="#run">本地跑起来</a>
+        </div>
+        <ul class="chips" aria-label="技术栈">
+          <li>PowerContext 1.2.0</li>
+          <li>SQLite FTS5 trigram</li>
+          <li>bge-small-zh-v1.5 · 512 维</li>
+          <li>本地嵌入服务 · 无需云端 Key</li>
+        </ul>
+      </div>
+      <figure class="hero-shot">
+        <div class="window">
+          <div class="window-bar"><span></span><span></span><span></span><em>127.0.0.1:8080</em></div>
+          <img src="assets/ui-search.png" alt="工作台界面：检索「两种检索方式的结果怎么合到一起排序」，首条结果标注「向量语义」与「按阅读记忆加权」，右侧列出 PowerContext 记忆条目与 entry_id。" width="1440" height="1100" loading="eager">
+        </div>
+        <figcaption>真实运行截图：换说法的查询由向量通道召回，命中文献带记忆加权标签。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="problem">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">01 / 问题</p>
+        <h2>三个反复出现的小麻烦</h2>
+      </header>
+      <div class="grid-3">
+        <article class="card">
+          <h3>出处找不回来</h3>
+          <p>记得「某篇文档里讲过 BM25 和向量怎么结合」，但翻不到是哪一篇、哪一段。只给文件名的搜索解决不了这个。</p>
+        </article>
+        <article class="card">
+          <h3>换个说法就搜不到</h3>
+          <p>关键词索引只认字面：写「融合排序」能搜到，写「把两路结果合到一起排」就漏召回。纯关键词不够。</p>
+        </article>
+        <article class="card">
+          <h3>读过就忘</h3>
+          <p>这周读了三篇 RAG 评测，下周只记得「读过」。阅读偏好、已读清单散落在脑子里，工具也不会替你记住。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="features">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">02 / 功能</p>
+        <h2>导入一次，检索两条通道，记忆跨会话保留</h2>
+      </header>
+      <div class="grid-2">
+        <article class="card card-num">
+          <span class="num">01</span>
+          <h3>导入与切分</h3>
+          <p>粘贴正文或选择 <code>.md</code>/<code>.txt</code>，按段落与句末切成约 600 字的分块，记录每块的字符偏移，为出处定位打底。</p>
+        </article>
+        <article class="card card-num">
+          <span class="num">02</span>
+          <h3>混合检索</h3>
+          <p>词法通道用 SQLite FTS5 三元组索引（中文可用），向量通道用本地 <code>bge-small-zh-v1.5</code>；两路候选按 RRF（k=60）融合，只看名次、不混量纲。</p>
+        </article>
+        <article class="card card-num">
+          <span class="num">03</span>
+          <h3>出处定位</h3>
+          <p>每条结果返回「文献名 + 第 N 段 + 字符区间 + 原文片段」，并标注它来自词法、向量还是两条通道同时命中。</p>
+        </article>
+        <article class="card card-num">
+          <span class="num">04</span>
+          <h3>阅读记忆</h3>
+          <p>导入时把每块来源与文献记忆写入 PowerContext；检索时读取同一 Scope 的记忆，命中已读文献的结果获得 1.15 倍加权，偏好也能手动沉淀。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="demo">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">03 / 演示</p>
+        <h2>同一批数据，四种问法</h2>
+        <p class="section-note">
+          下面回放的是本机工作台真实接口的验证导出（<code>artifacts/verify-literature.json</code>），
+          点查询切换结果。本站是静态介绍页，在线互动检索需按「本地运行」启动服务。
+        </p>
+      </header>
+
+      <div class="demo">
+        <div class="demo-controls" role="tablist" aria-label="示例查询">
+          <button class="tab is-active" role="tab" aria-selected="true" data-index="0">
+            <span class="tab-kind">关键词</span>混合检索如何融合排序
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-index="1">
+            <span class="tab-kind">关键词</span>自注意力如何缓解长程依赖
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-index="2">
+            <span class="tab-kind">换说法</span>两种检索方式的结果怎么合到一起排序
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-index="3">
+            <span class="tab-kind">换说法</span>长距离依赖为什么不再是问题
+          </button>
+        </div>
+
+        <div class="demo-panel" role="tabpanel" aria-live="polite">
+          <div class="demo-meta">
+            <span class="label">检索通道</span>
+            <span id="demoChannels" class="channels"></span>
+            <span class="label">记忆复用</span>
+            <span id="demoMemory" class="memory-flag"></span>
+          </div>
+          <ol class="hits" id="demoHits"></ol>
+          <p class="demo-foot">
+            <span class="legend"><i class="dot dot-lex"></i>词法 BM25</span>
+            <span class="legend"><i class="dot dot-vec"></i>向量语义</span>
+            <span class="legend"><i class="dot dot-mem"></i>按阅读记忆加权</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="arch">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">04 / 架构</p>
+        <h2>每条数据写两处，排序时再合流</h2>
+      </header>
+      <div class="arch">
+        <div class="arch-row">
+          <div class="box box-ui"><b>浏览器</b><span>导入 / 检索 / 偏好</span></div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↓</div>
+        <div class="arch-row">
+          <div class="box box-app"><b>app/server.py</b><span>标准库 HTTP，无第三方依赖</span></div>
+        </div>
+        <div class="arch-split">
+          <div class="arch-col">
+            <div class="arch-arrow" aria-hidden="true">↓ 导入</div>
+            <div class="box box-store"><b>SQLite</b><span>chunks + FTS5 trigram + chunk_vectors</span></div>
+            <div class="box box-embed"><b>本地嵌入服务 :8081</b><span>fastembed · bge-small-zh-v1.5 · 512 维</span></div>
+          </div>
+          <div class="arch-col">
+            <div class="arch-arrow" aria-hidden="true">↓ 记忆</div>
+            <div class="box box-pc"><b>PowerContext 1.2.0</b><span>Scope · Sources · Memory</span></div>
+            <div class="box box-pc2"><b>search_modes</b><span>auto · fts · vector · hybrid</span></div>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↓ 检索</div>
+        <div class="arch-row">
+          <div class="box box-fuse"><b>RRF 融合（k=60）+ 记忆加权（1.15×）</b><span>返回：文献名 · 第 N 段 · 字符区间 · 通道来源</span></div>
+        </div>
+      </div>
+      <p class="section-note">
+        PowerContext 不只是"存一下"：导入写入来源与文献记忆，检索时用 <code>/v1/memory/search</code>
+        读回同一 Scope 的记忆，命中即加权——这是记忆被复用的可核对证据。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="evidence">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">05 / 验证</p>
+        <h2>可复现的两组验证</h2>
+        <p class="section-note">两个脚本都不依赖人工点击，直接断言结果；证据 JSON 落在 <code>qoder/artifacts/</code>。</p>
+      </header>
+
+      <div class="grid-2">
+        <article class="card evidence-card">
+          <h3>组件级：PowerContext</h3>
+          <pre><code>python tools/verify_powercontext.py</code></pre>
+          <ul class="checklist">
+            <li>新建独立 Scope，写入一条带 run_id 的偏好记忆</li>
+            <li>关键词检索命中 → <code>matched_by: fts</code></li>
+            <li>换说法做 hybrid 检索 → <code>matched_by: ["vector"]</code></li>
+            <li>断言 <code>search_modes</code> 含 <code>vector</code>/<code>hybrid</code></li>
+          </ul>
+          <p class="artifact">证据：<code>artifacts/verify-powercontext.json</code></p>
+        </article>
+
+        <article class="card evidence-card">
+          <h3>端到端：导入 → 检索 → 出处</h3>
+          <pre><code>python tools/verify_literature.py</code></pre>
+          <ul class="checklist">
+            <li>导入两篇文献，校验分块数 = 向量数</li>
+            <li>关键词查询：词法 + 向量双通道命中</li>
+            <li>换说法查询：首位由向量通道召回</li>
+            <li>每条命中都验证 <code>memory_reused</code> 与 <code>memory_boost</code></li>
+          </ul>
+          <p class="artifact">证据：<code>artifacts/verify-literature.json</code></p>
+        </article>
+      </div>
+
+      <dl class="facts" id="facts">
+        <div><dt>search_modes</dt><dd id="factModes">auto · fts · vector · hybrid</dd></div>
+        <div><dt>嵌入模型</dt><dd id="factModel">BAAI/bge-small-zh-v1.5 · 512 维</dd></div>
+        <div><dt>验证库规模</dt><dd id="factScale">3 篇文献 / 3 个分块</dd></div>
+        <div><dt>验证结论</dt><dd class="ok">passed = true</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="run">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">06 / 运行</p>
+        <h2>三个终端，从零跑起来</h2>
+        <p class="section-note">需要 Python 3.11+；嵌入模型约 100 MB，首次启动自动下载到 <code>qoder/data/models</code>。</p>
+      </header>
+
+      <div class="run-grid">
+        <article class="card run-card">
+          <h3><span class="step">终端 A</span>本地嵌入服务</h3>
+          <pre><code>pip install "fastembed==0.9.1" truststore
+cd qoder
+python tools/embed_server.py --port 8081
+curl -s http://127.0.0.1:8081/health</code></pre>
+          <p class="hint">期望返回 <code>"dimension": 512</code>。</p>
+        </article>
+        <article class="card run-card">
+          <h3><span class="step">终端 B</span>PowerContext</h3>
+          <pre><code>uv tool install --force "powercontext[cli,server]==1.2.0"
+cd qoder
+cp .env.example .env   # 取消 embedding 段注释并填绝对路径
+powercontext config validate --env-file .env
+powercontext server run --env-file .env</code></pre>
+          <p class="hint">/v1/capabilities 的 <code>search_modes</code> 应包含 vector、hybrid。</p>
+        </article>
+        <article class="card run-card">
+          <h3><span class="step">终端 C</span>工作台</h3>
+          <pre><code>cd qoder
+python -m app --port 8080</code></pre>
+          <p class="hint">打开 <code>http://127.0.0.1:8080</code>：导入 → 检索 → 看出处与记忆加权。</p>
+        </article>
+      </div>
+
+      <div class="card repo-card">
+        <div>
+          <h3>代码与提交</h3>
+          <p>仓库 <a href="https://github.com/ycLiao10/powercontext" target="_blank" rel="noopener">ycLiao10/powercontext</a>，分支 <code>2026-competition-ecosystem</code>，作品目录 <code>qoder/</code>。运行说明见 <code>qoder/README.md</code>，验证样例见 <code>qoder/docs/verification-example.md</code>。</p>
+        </div>
+        <a class="btn" href="https://github.com/ycLiao10/powercontext/tree/2026-competition-ecosystem/qoder" target="_blank" rel="noopener">查看 qoder/ 目录</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p><strong>文献阅读工作台</strong> · 2026 OceanBase 数据库大赛 Qoder 生态赛题参赛作品</p>
+    <p class="muted">检索在本地完成：SQLite 索引 + 本地嵌入模型；记忆与上下文由 PowerContext 托管。</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

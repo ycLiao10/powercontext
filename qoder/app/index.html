@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文献阅读工作台</title>
+<style>
+  :root { --ink:#1b2430; --muted:#6a7683; --line:#e3e8ef; --accent:#2f6fed; --bg:#f6f8fb; --mark:#fff3bf; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; color:var(--ink); background:var(--bg); }
+  header { padding:20px 28px; background:#fff; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:14px; }
+  header h1 { margin:0; font-size:19px; }
+  header span { color:var(--muted); font-size:13px; }
+  #pcState, #embedState { font-size:12px; padding:4px 10px; border-radius:99px; background:#eef2f8; color:var(--muted); }
+  #pcState { margin-left:auto; }
+  .channels { font-size:12px; color:var(--muted); margin-bottom:10px; }
+  main { max-width:1080px; margin:0 auto; padding:24px 20px 60px; display:grid; grid-template-columns: 1fr 320px; gap:20px; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  section { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; }
+  h2 { font-size:14px; margin:0 0 12px; color:var(--muted); font-weight:600; letter-spacing:.4px; }
+  input[type=text], textarea { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 12px; font:inherit; background:#fcfdff; }
+  textarea { min-height:110px; resize:vertical; }
+  .row { display:flex; gap:10px; margin-top:10px; }
+  button { border:0; border-radius:8px; padding:10px 16px; font:inherit; cursor:pointer; background:var(--accent); color:#fff; }
+  button.ghost { background:#eef2f8; color:var(--ink); }
+  button:disabled { opacity:.55; cursor:default; }
+  .searchbar { display:flex; gap:10px; margin-bottom:16px; }
+  .hit { border-top:1px solid var(--line); padding:14px 0; }
+  .hit:first-of-type { border-top:0; }
+  .hit .meta { font-size:12px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .hit .title { font-weight:600; }
+  .hit p { margin:0; line-height:1.75; font-size:14px; white-space:pre-wrap; }
+  mark { background:var(--mark); padding:0 2px; border-radius:3px; }
+  .badge { font-size:11px; background:#e7f0ff; color:#1f4fbd; border-radius:99px; padding:2px 8px; }
+  ul.mem { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+  ul.mem li { font-size:13px; line-height:1.6; background:#f8fafd; border:1px solid var(--line); border-radius:8px; padding:10px; }
+  .hint { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.6; }
+  .empty { color:var(--muted); font-size:13px; padding:12px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>文献阅读工作台</h1>
+  <span>导入 → 检索 → 出处定位，阅读偏好由 PowerContext 记住</span>
+  <span id="pcState">检查组件…</span>
+  <span id="embedState">检查嵌入模型…</span>
+</header>
+<main>
+  <div>
+    <section>
+      <h2>导入文献</h2>
+      <input type="text" id="title" placeholder="标题，例如：混合检索综述">
+      <div class="row">
+        <input type="file" id="file" accept=".md,.txt,.markdown" hidden multiple>
+        <button class="ghost" id="pickFile">选择 .md / .txt 文件</button>
+        <button id="ingest">导入正文</button>
+      </div>
+      <textarea id="text" placeholder="也可以直接粘贴文献正文…"></textarea>
+      <div class="hint" id="ingestMsg"></div>
+    </section>
+
+    <section style="margin-top:20px">
+      <h2>检索</h2>
+      <div class="searchbar">
+        <input type="text" id="q" placeholder="例如：BM25 和向量检索怎么结合？">
+        <button id="go">检索</button>
+      </div>
+      <div id="results"><div class="empty">还没有检索结果。</div></div>
+    </section>
+  </div>
+
+  <aside>
+    <section>
+      <h2>我的阅读记忆（PowerContext）</h2>
+      <ul class="mem" id="mem"><li>检索后会显示与查询相关的记忆。</li></ul>
+      <div class="hint">命中的文献在排序时会获得加权，说明记忆真的参与了检索。</div>
+      <input type="text" id="pref" placeholder="记录一条偏好，例如：优先看中文综述" style="margin-top:12px">
+      <button class="ghost" id="savePref" style="margin-top:8px;width:100%">记住这条偏好</button>
+    </section>
+  </aside>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function api(path, options) {
+  const res = await fetch(path, options);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+function highlight(text, query) {
+  let html = esc(text);
+  const terms = query.split(/[\s,，。？?；;]+/).filter((t) => t.length >= 2);
+  for (const term of terms) {
+    html = html.replaceAll(esc(term), `<mark>${esc(term)}</mark>`);
+  }
+  return html;
+}
+
+async function health() {
+  try {
+    const data = await api('/api/health');
+    const pc = data.powercontext;
+    $('pcState').textContent = pc.available
+      ? `PowerContext 已连接 · ${data.documents} 篇 / ${data.chunks} 段`
+      : 'PowerContext 不可用';
+    const emb = data.embedding;
+    $('embedState').textContent = emb.available
+      ? `嵌入 ${emb.model} · ${emb.dimension} 维`
+      : '嵌入服务不可用（仅词法检索）';
+  } catch (e) {
+    $('pcState').textContent = '服务未就绪';
+    $('embedState').textContent = '服务未就绪';
+  }
+}
+
+$('pickFile').onclick = () => $('file').click();
+$('file').onchange = async (event) => {
+  const files = [...event.target.files];
+  for (const file of files) {
+    const text = await file.text();
+    $('title').value = file.name.replace(/\.(md|txt|markdown)$/i, '');
+    $('text').value = text;
+  }
+};
+
+$('ingest').onclick = async () => {
+  $('ingestMsg').textContent = '导入中…';
+  try {
+    const data = await api('/api/documents', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({title: $('title').value, text: $('text').value}),
+    });
+    $('ingestMsg').textContent = data.duplicate
+      ? `《${data.title}》内容已存在，跳过重复导入。`
+      : `已导入《${data.title}》共 ${data.chunk_count} 段，生成 ${data.vector_count} 条向量${data.warnings.length ? '；警告：' + data.warnings.join('；') : '，来源与记忆已写入 PowerContext。'}`;
+    $('text').value = '';
+    health();
+  } catch (e) {
+    $('ingestMsg').textContent = '导入失败：' + e.message;
+  }
+};
+
+$('go').onclick = runSearch;
+$('q').addEventListener('keydown', (e) => { if (e.key === 'Enter') runSearch(); });
+
+async function runSearch() {
+  const query = $('q').value.trim();
+  if (!query) return;
+  $('results').innerHTML = '<div class="empty">检索中…</div>';
+  try {
+    const data = await api('/api/search?q=' + encodeURIComponent(query));
+    renderMemory(data.memory);
+    const channelLabels = {lexical: '词法 BM25', vector: '向量语义'};
+    const channelsText = data.channels_used.map((name) => channelLabels[name] || name).join(' + ');
+    if (!data.results.length) {
+      $('results').innerHTML = `<div class="channels">检索通道：${channelsText}</div><div class="empty">没有命中，换个关键词试试。</div>`;
+      return;
+    }
+    $('results').innerHTML = `<div class="channels">检索通道：${channelsText}（RRF 融合，名次取并集）</div>` + data.results.map((hit) => `
+      <div class="hit">
+        <div class="meta">
+          <span class="title">《${esc(hit.document_title)}》</span>
+          <span>第 ${hit.ordinal} 段 · 字符 ${hit.start_offset}-${hit.end_offset}</span>
+          <span>相关度 ${hit.final_score.toFixed(1)}</span>
+          ${hit.channels.map((name) => `<span class="badge">${channelLabels[name] || name}</span>`).join('')}
+          ${hit.memory_boost ? '<span class="badge">按阅读记忆加权</span>' : ''}
+        </div>
+        <p>${highlight(hit.text, query)}</p>
+      </div>`).join('');
+  } catch (e) {
+    $('results').innerHTML = `<div class="empty">检索失败：${esc(e.message)}</div>`;
+  }
+}
+
+function renderMemory(memory) {
+  if (!memory || !memory.length) {
+    $('mem').innerHTML = '<li>这次查询没有命中已保存的记忆。</li>';
+    return;
+  }
+  $('mem').innerHTML = memory.map((item) =>
+    `<li>${esc(item.text)}<div class="hint">entry: ${esc(item.entry_id)}</div></li>`).join('');
+}
+
+$('savePref').onclick = async () => {
+  const text = $('pref').value.trim();
+  if (!text) return;
+  try {
+    const data = await api('/api/preferences', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({text}),
+    });
+    $('pref').value = '';
+    $('mem').innerHTML = `<li>已记住：${esc(text)}<div class="hint">entry: ${esc(data.entry.entry_id)}</div></li>`;
+  } catch (e) {
+    alert('保存失败：' + e.message);
+  }
+};
+
+health();
+
+const initialQuery = new URLSearchParams(location.search).get('q');
+if (initialQuery) {
+  $('q').value = initialQuery;
+  runSearch();
+}
+</script>
+</body>
+</html>

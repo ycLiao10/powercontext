@@ -1,0 +1,234 @@
+{
+  "captured_from": "http://127.0.0.1:8080/api/search",
+  "evidence_file": "qoder/artifacts/verify-literature.json",
+  "embedding": {
+    "available": true,
+    "model": "BAAI/bge-small-zh-v1.5",
+    "dimension": 512,
+    "base_url": "http://127.0.0.1:8081/v1"
+  },
+  "search_modes": [
+    "auto",
+    "fts",
+    "vector",
+    "hybrid"
+  ],
+  "documents": 3,
+  "chunks": 3,
+  "cases": [
+    {
+      "case": "lexical",
+      "query": "混合检索如何融合排序",
+      "channels_used": [
+        "lexical",
+        "vector"
+      ],
+      "memory_reused": true,
+      "results": [
+        {
+          "title": "混合检索实践",
+          "ordinal": 1,
+          "offset": [
+            0,
+            136
+          ],
+          "score": 100.0,
+          "channels": [
+            "lexical",
+            "vector"
+          ],
+          "memory_boost": true,
+          "text": "BM25 基于词频与逆文档频率，擅长关键词精确匹配；向量检索把文本映射到稠密空间，擅长语义近义与跨语言召回。\n\n混合检索把两路候选做融合重排（如 RRF、加权求和），通常能同时提升召回率与排序精度。融合前需要统一候选数量与打分量纲，否则容易出现某一路完全压制另一路的情况。"
+        },
+        {
+          "title": "Transformer 综述",
+          "ordinal": 1,
+          "offset": [
+            0,
+            134
+          ],
+          "score": 42.8,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "自注意力机制通过 query 与 key 的相似度对 value 加权聚合，避免了循环结构的长程依赖问题。位置编码为序列注入顺序信息，多头注意力让不同子空间关注不同模式。\n\n训练阶段使用残差连接与层归一化稳定深层网络，推理阶段可用 KV 缓存降低自回归解码的重复计算。"
+        },
+        {
+          "title": "课题组知识管理笔记",
+          "ordinal": 1,
+          "offset": [
+            0,
+            59
+          ],
+          "score": 42.1,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "组会记录：本周阅读三篇关于 RAG 评测的论文，结论是检索质量比生成模型更影响最终答案。下次组会需要汇报评测指标定义。"
+        }
+      ]
+    },
+    {
+      "case": "lexical",
+      "query": "自注意力如何缓解长程依赖",
+      "channels_used": [
+        "lexical",
+        "vector"
+      ],
+      "memory_reused": true,
+      "results": [
+        {
+          "title": "Transformer 综述",
+          "ordinal": 1,
+          "offset": [
+            0,
+            134
+          ],
+          "score": 100.0,
+          "channels": [
+            "lexical",
+            "vector"
+          ],
+          "memory_boost": true,
+          "text": "自注意力机制通过 query 与 key 的相似度对 value 加权聚合，避免了循环结构的长程依赖问题。位置编码为序列注入顺序信息，多头注意力让不同子空间关注不同模式。\n\n训练阶段使用残差连接与层归一化稳定深层网络，推理阶段可用 KV 缓存降低自回归解码的重复计算。"
+        },
+        {
+          "title": "混合检索实践",
+          "ordinal": 1,
+          "offset": [
+            0,
+            136
+          ],
+          "score": 42.8,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "BM25 基于词频与逆文档频率，擅长关键词精确匹配；向量检索把文本映射到稠密空间，擅长语义近义与跨语言召回。\n\n混合检索把两路候选做融合重排（如 RRF、加权求和），通常能同时提升召回率与排序精度。融合前需要统一候选数量与打分量纲，否则容易出现某一路完全压制另一路的情况。"
+        },
+        {
+          "title": "课题组知识管理笔记",
+          "ordinal": 1,
+          "offset": [
+            0,
+            59
+          ],
+          "score": 42.1,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "组会记录：本周阅读三篇关于 RAG 评测的论文，结论是检索质量比生成模型更影响最终答案。下次组会需要汇报评测指标定义。"
+        }
+      ]
+    },
+    {
+      "case": "semantic",
+      "query": "两种检索方式的结果怎么合到一起排序",
+      "channels_used": [
+        "lexical",
+        "vector"
+      ],
+      "memory_reused": true,
+      "results": [
+        {
+          "title": "混合检索实践",
+          "ordinal": 1,
+          "offset": [
+            0,
+            136
+          ],
+          "score": 100.0,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": true,
+          "text": "BM25 基于词频与逆文档频率，擅长关键词精确匹配；向量检索把文本映射到稠密空间，擅长语义近义与跨语言召回。\n\n混合检索把两路候选做融合重排（如 RRF、加权求和），通常能同时提升召回率与排序精度。融合前需要统一候选数量与打分量纲，否则容易出现某一路完全压制另一路的情况。"
+        },
+        {
+          "title": "Transformer 综述",
+          "ordinal": 1,
+          "offset": [
+            0,
+            134
+          ],
+          "score": 85.6,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "自注意力机制通过 query 与 key 的相似度对 value 加权聚合，避免了循环结构的长程依赖问题。位置编码为序列注入顺序信息，多头注意力让不同子空间关注不同模式。\n\n训练阶段使用残差连接与层归一化稳定深层网络，推理阶段可用 KV 缓存降低自回归解码的重复计算。"
+        },
+        {
+          "title": "课题组知识管理笔记",
+          "ordinal": 1,
+          "offset": [
+            0,
+            59
+          ],
+          "score": 84.2,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "组会记录：本周阅读三篇关于 RAG 评测的论文，结论是检索质量比生成模型更影响最终答案。下次组会需要汇报评测指标定义。"
+        }
+      ]
+    },
+    {
+      "case": "semantic",
+      "query": "长距离依赖为什么不再是问题",
+      "channels_used": [
+        "lexical",
+        "vector"
+      ],
+      "memory_reused": true,
+      "results": [
+        {
+          "title": "Transformer 综述",
+          "ordinal": 1,
+          "offset": [
+            0,
+            134
+          ],
+          "score": 100.0,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": true,
+          "text": "自注意力机制通过 query 与 key 的相似度对 value 加权聚合，避免了循环结构的长程依赖问题。位置编码为序列注入顺序信息，多头注意力让不同子空间关注不同模式。\n\n训练阶段使用残差连接与层归一化稳定深层网络，推理阶段可用 KV 缓存降低自回归解码的重复计算。"
+        },
+        {
+          "title": "混合检索实践",
+          "ordinal": 1,
+          "offset": [
+            0,
+            136
+          ],
+          "score": 85.6,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "BM25 基于词频与逆文档频率，擅长关键词精确匹配；向量检索把文本映射到稠密空间，擅长语义近义与跨语言召回。\n\n混合检索把两路候选做融合重排（如 RRF、加权求和），通常能同时提升召回率与排序精度。融合前需要统一候选数量与打分量纲，否则容易出现某一路完全压制另一路的情况。"
+        },
+        {
+          "title": "课题组知识管理笔记",
+          "ordinal": 1,
+          "offset": [
+            0,
+            59
+          ],
+          "score": 84.2,
+          "channels": [
+            "vector"
+          ],
+          "memory_boost": false,
+          "text": "组会记录：本周阅读三篇关于 RAG 评测的论文，结论是检索质量比生成模型更影响最终答案。下次组会需要汇报评测指标定义。"
+        }
+      ]
+    }
+  ]
+}
