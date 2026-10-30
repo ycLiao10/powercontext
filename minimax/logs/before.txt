@@ -1,0 +1,54 @@
+# 改前（before）目标测试执行记录
+
+时间: 2026-10-31 00:16:33 CST
+工作目录: /home/lyc/powercontext/minimax
+命令: $ python -m pytest sample_project/tests/test_pricing.py -v
+实际解释器: /home/lyc/pcvenv/bin/python (Python 3.12.3)
+
+--- 命令输出 ---
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /home/lyc/pcvenv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/lyc/powercontext/minimax
+plugins: anyio-4.15.1, platformdirs-4.14.0
+collecting ... collected 8 items
+
+sample_project/tests/test_pricing.py::test_total_of_empty_order_is_zero PASSED [ 12%]
+sample_project/tests/test_pricing.py::test_total_sums_the_prices_of_the_items PASSED [ 25%]
+sample_project/tests/test_pricing.py::test_total_without_discount_below_the_threshold PASSED [ 37%]
+sample_project/tests/test_pricing.py::test_total_applies_the_full_reduction PASSED [ 50%]
+sample_project/tests/test_pricing.py::test_total_applies_the_member_discount PASSED [ 62%]
+sample_project/tests/test_pricing.py::test_total_applies_the_member_discount_below_the_threshold PASSED [ 75%]
+sample_project/tests/test_pricing.py::test_target_discounts_do_not_stack_when_the_full_reduction_is_larger FAILED [ 87%]
+sample_project/tests/test_pricing.py::test_target_discounts_do_not_stack_when_the_member_discount_is_larger FAILED [100%]
+
+=================================== FAILURES ===================================
+_____ test_target_discounts_do_not_stack_when_the_full_reduction_is_larger _____
+
+    def test_target_discounts_do_not_stack_when_the_full_reduction_is_larger():
+        """满减 30 大于会员折扣 25 时，只能优惠 30。"""
+>       assert total(_items(250), is_member=True) == 220
+E       AssertionError: assert 195.0 == 220
+E        +  where 195.0 = total([{'name': 'item-0', 'price': 250}], is_member=True)
+E        +    where [{'name': 'item-0', 'price': 250}] = _items(250)
+
+sample_project/tests/test_pricing.py:42: AssertionError
+____ test_target_discounts_do_not_stack_when_the_member_discount_is_larger _____
+
+    def test_target_discounts_do_not_stack_when_the_member_discount_is_larger():
+        """会员折扣 100 大于满减 30 时，只能优惠 100。"""
+>       assert total(_items(1000), is_member=True) == 900
+E       AssertionError: assert 870.0 == 900
+E        +  where 870.0 = total([{'name': 'item-0', 'price': 1000}], is_member=True)
+E        +    where [{'name': 'item-0', 'price': 1000}] = _items(1000)
+
+sample_project/tests/test_pricing.py:47: AssertionError
+=========================== short test summary info ============================
+FAILED sample_project/tests/test_pricing.py::test_target_discounts_do_not_stack_when_the_full_reduction_is_larger
+FAILED sample_project/tests/test_pricing.py::test_target_discounts_do_not_stack_when_the_member_discount_is_larger
+========================= 2 failed, 6 passed in 0.02s ==========================
+
+--- 退出码: 1 （非 0）---
+
+结论: 存在失败用例（退出码非 0），失败详情见上方断言信息；失败必须是断言失败而非 import error 或环境错误。
+用例统计: ========================= 2 failed, 6 passed in 0.02s ==========================

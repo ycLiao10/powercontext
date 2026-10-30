@@ -1,0 +1,16 @@
+# SDD 上下文管理系统（minimax/）运行依赖
+#
+# 安装：pip install -r requirements.txt
+# 版本已在本地实测通过（Python 3.12.3，WSL）。
+
+# seekdb 客户端（ctx index / ctx build 走 MySQL 协议）
+PyMySQL==1.2.3
+
+# PowerContext HTTP 客户端（ctx status / ctx save）
+requests==2.34.2
+
+# PowerContext 服务端（powercontext server run）
+powercontext[cli,server]==1.2.0
+
+# 目标测试与回归测试
+pytest==9.2.0

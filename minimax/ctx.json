@@ -1,0 +1,130 @@
+{
+  "task": "让 total 按规格实现满减与会员折扣不叠加，取优惠金额更大的那个",
+  "specs": [
+    {
+      "path": "sample_project/specs/pricing.md",
+      "section": "计价规则",
+      "text": "# 计价规则\n应付金额 = 商品金额 − 优惠金额。\n\n| 规则 | 说明 |\n| --- | --- |\n| 满 200 减 30 | 商品金额达到 200 元（含）时，优惠 30 元。 |\n| 会员 9 折 | 会员订单打 9 折，即优惠商品金额的 10%。 |\n| **不叠加** | 满减与会员折扣**不能同时生效**，取优惠金额**更大的那个**。 |\n\n商品金额 = 所有条目单价之和。",
+      "score": 24.324898
+    },
+    {
+      "path": "sample_project/specs/pricing.md",
+      "section": "示例",
+      "text": "# 示例\n| 商品金额 | 是否会员 | 满减优惠 | 会员优惠 | 应付金额 |\n| --- | --- | --- | --- | --- |\n| 250 | 否 | 30 | — | 220 |\n| 250 | 是 | 30 | 25 | **220**（取 30，不叠加） |\n| 1000 | 是 | 30 | 100 | **900**（取 100，不叠加） |\n| 100 | 是 | — | 10 | 90 |\n| 199 | 否 | — | — | 199 |",
+      "score": 6.854198
+    },
+    {
+      "path": "sample_project/specs/pricing.md",
+      "section": "订单计价规格",
+      "text": "# 订单计价规格",
+      "score": 2.618445
+    },
+    {
+      "path": "sample_project/specs/pricing.md",
+      "section": "边界",
+      "text": "# 边界\n- 空订单应付 0。\n- 金额按四舍五入保留两位小数。",
+      "score": 0.813743
+    }
+  ],
+  "code": [
+    {
+      "path": "sample_project/src/pricing.py",
+      "symbol": "<file>",
+      "text": "\"\"\"订单计价服务。\n\n计价规格见 specs/pricing.md：\n  - 满 200 减 30\n  - 会员 9 折\n  - 两者不叠加，取优惠金额更大的那个\n\"\"\"\n\n\ndef total(items, is_member):\n    \"\"\"计算订单应付金额。\n\n    :param items: 订单条目，每个条目是 {\"name\": str, \"price\": float} 字典\n    :param is_member: 订单是否属于会员\n    :return: 应付金额，保留两位小数\n    \"\"\"\n    amount = sum(float(item[\"price\"]) for item in items)\n    discount = 0.0\n    if amount >= 200:\n        discount = 30.0\n    if is_member:\n        discount = max(discount, amount * 0.1)\n    return round(amount - discount, 2)\n",
+      "score": 11.371056
+    },
+    {
+      "path": "sample_project/src/pricing.py",
+      "symbol": "total",
+      "text": "def total(items, is_member):\n    \"\"\"计算订单应付金额。\n\n    :param items: 订单条目，每个条目是 {\"name\": str, \"price\": float} 字典\n    :param is_member: 订单是否属于会员\n    :return: 应付金额，保留两位小数\n    \"\"\"\n    amount = sum(float(item[\"price\"]) for item in items)\n    discount = 0.0\n    if amount >= 200:\n        discount = 30.0\n    if is_member:\n        discount = max(discount, amount * 0.1)\n    return round(amount - discount, 2)",
+      "score": 1.41874
+    }
+  ],
+  "files": [
+    {
+      "path": "sample_project/src/pricing.py",
+      "symbol": "<file>",
+      "text": "\"\"\"订单计价服务。\n\n计价规格见 specs/pricing.md：\n  - 满 200 减 30\n  - 会员 9 折\n  - 两者不叠加，取优惠金额更大的那个\n\"\"\"\n\n\ndef total(items, is_member):\n    \"\"\"计算订单应付金额。\n\n    :param items: 订单条目，每个条目是 {\"name\": str, \"price\": float} 字典\n    :param is_member: 订单是否属于会员\n    :return: 应付金额，保留两位小数\n    \"\"\"\n    amount = sum(float(item[\"price\"]) for item in items)\n    discount = 0.0\n    if amount >= 200:\n        discount = 30.0\n    if is_member:\n        discount = max(discount, amount * 0.1)\n    return round(amount - discount, 2)\n"
+    }
+  ],
+  "tests": [
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_target_discounts_do_not_stack_when_the_full_reduction_is_larger",
+      "text": "def test_target_discounts_do_not_stack_when_the_full_reduction_is_larger():\n    \"\"\"满减 30 大于会员折扣 25 时，只能优惠 30。\"\"\"\n    assert total(_items(250), is_member=True) == 220",
+      "score": 4.768879
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_target_discounts_do_not_stack_when_the_member_discount_is_larger",
+      "text": "def test_target_discounts_do_not_stack_when_the_member_discount_is_larger():\n    \"\"\"会员折扣 100 大于满减 30 时，只能优惠 100。\"\"\"\n    assert total(_items(1000), is_member=True) == 900",
+      "score": 4.693177
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_of_empty_order_is_zero",
+      "text": "def test_total_of_empty_order_is_zero():\n    assert total([], is_member=False) == 0",
+      "score": 1.573823
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_applies_the_full_reduction",
+      "text": "def test_total_applies_the_full_reduction():\n    assert total(_items(250), is_member=False) == 220",
+      "score": 1.507608
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_sums_the_prices_of_the_items",
+      "text": "def test_total_sums_the_prices_of_the_items():\n    assert total(_items(30, 20, 12.5), is_member=False) == 62.5",
+      "score": 1.497919
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_applies_the_member_discount",
+      "text": "def test_total_applies_the_member_discount():\n    assert total(_items(100), is_member=True) == 90",
+      "score": 1.466667
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_without_discount_below_the_threshold",
+      "text": "def test_total_without_discount_below_the_threshold():\n    assert total(_items(100, 99), is_member=False) == 199",
+      "score": 1.455838
+    },
+    {
+      "path": "sample_project/tests/test_pricing.py",
+      "case": "test_total_applies_the_member_discount_below_the_threshold",
+      "text": "def test_total_applies_the_member_discount_below_the_threshold():\n    assert total(_items(199), is_member=True) == 179.1",
+      "score": 1.366713
+    }
+  ],
+  "state": {
+    "completed": [
+      "已用 ctx index 把 sample_project 的规格/代码/测试导入 seekdb",
+      "MiniMax 已生成并落地 sample_project/src/pricing.py 的修改（+1/-1 行）"
+    ],
+    "todo": [
+      "等 MiniMax 生成 pricing.py 的修改",
+      "证据：重启前写入的一条待办",
+      "跑目标测试确认 8 条全通过"
+    ],
+    "verification": [
+      "改后验证：python -m pytest sample_project/tests/test_pricing.py -v -> 退出码 0，8 passed（目标测试 2 条 + 回归 6 条）"
+    ],
+    "task": "让 total 按规格实现满减与会员折扣不叠加，取优惠金额更大的那个"
+  },
+  "retrieval": {
+    "backend": "seekdb",
+    "database": "powercontext_minimax",
+    "dsn": "root@127.0.0.1:2881/powercontext_minimax",
+    "parser": "ngram",
+    "mode": "fulltext",
+    "query": "让 total 按规格实现满减与会员折扣不叠加，取优惠金额更大的那个",
+    "limit": 8,
+    "doc_counts": {
+      "code": 2,
+      "spec": 4,
+      "test": 8
+    },
+    "powercontext_available": true
+  }
+}

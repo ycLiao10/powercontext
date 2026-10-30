@@ -1,0 +1,13 @@
+# Python 字节码与 pytest 缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# PowerContext 本地状态（由服务进程生成，不入库）
+.powercontext/
+
+# MiniMax 多轮调用时保存的原始文件基线（用于算累计 diff）
+logs/.baseline/
+
+# 本地环境文件（只放占位值，不提交真实 key）
+.env
