@@ -67,6 +67,7 @@ from powercontext.builtin.runtime.processing_contracts import (
     ArtifactProcessingWorkerOutcome,
     WorkerEntrypoint,
 )
+from powercontext.builtin.runtime.processing_count import pending_source_counts
 from powercontext.builtin.runtime.protocols import RuntimeTracing
 
 logger = logging.getLogger(__name__)
@@ -80,6 +81,7 @@ _RETRY_STATE_LIMIT = 1000
 _CHANNEL_QUEUE_LIMIT = _DISCOVERY_PAGE_SIZE // 2
 _DISCOVERY_PAGE_DELAY_SECONDS = 0.01
 _DISCOVERY_TIMEOUT_SECONDS = 2.0
+_COUNT_SCAN_POLL_SECONDS = 0.5
 _SPAWN_SIGTERM_GRACE_SECONDS = 1.0
 _WORKER_SHUTDOWN_TIMEOUT_SECONDS = 5.0
 ProcessingKey = tuple[str, str]
@@ -100,6 +102,13 @@ class ArtifactProcessingPendingProvider(Protocol):
         ...
 
 
+def _require_positive_threshold(value: int | None) -> None:
+    """Reject a count threshold that is not a strict positive integer."""
+
+    if value is not None and (type(value) is not int or value < 1):
+        raise ValueError("source count threshold must be a positive integer")  # noqa: TRY003
+
+
 @dataclass(frozen=True, slots=True)
 class ArtifactProcessingBinding:
     """Startup registration of one Family and its independently budgeted Worker."""
@@ -110,6 +119,10 @@ class ArtifactProcessingBinding:
     max_workers: int = 1
     worker_timeout_seconds: float = 600.0
     automatic_processing_interval: timedelta | None = None
+    # Count admission starts this Family once enough new Source journal
+    # entries accumulate after its own last committed cursor. None keeps the
+    # time-only trigger.
+    source_count_threshold: int | None = None
     cron: str | None = None
     timezone: str = "Asia/Shanghai"
     config_prefix: str | None = None
@@ -136,6 +149,7 @@ class ArtifactProcessingBinding:
                 raise ValueError("automatic interval must be positive")  # noqa: TRY003
             if self.cron is not None:
                 raise ValueError("interval and cron cannot both be enabled")  # noqa: TRY003
+        _require_positive_threshold(self.source_count_threshold)
         if self.cron is not None:
             CronTrigger.from_crontab(self.cron, timezone=ZoneInfo(self.timezone))
 
@@ -393,6 +407,7 @@ class _FamilyState:
     retries: dict[str, _RetryState] = field(default_factory=dict)
     requested_after: int = 0
     scan_after: int = 0
+    count_scan_after: int = 0
     scan_generation: int = 0
     scan_in_progress: bool = False
     reconcile_after: str | None = None
@@ -633,6 +648,11 @@ class ArtifactProcessingSupervisor:
                     self._log_failure(state, None, error, "scope_discovery")
                 finally:
                     state.discovery_seconds = asyncio.get_running_loop().time() - now
+            if state.binding.source_count_threshold is not None:
+                # Count admission depends on new journal entries that arrive
+                # without a Supervisor notification, so keep one bounded poll
+                # running even when this pass skipped discovery.
+                state.next_schedule_at = asyncio.get_running_loop().time() + _COUNT_SCAN_POLL_SECONDS
             await self._activate_retries(state)
             await self._dispatch(state)
 
@@ -656,6 +676,58 @@ class ArtifactProcessingSupervisor:
         else:
             await self._discover_requested(state)
             await self._discover_automatic(state)
+        await self._discover_count_triggered(state)
+
+    async def _discover_count_triggered(self, state: _FamilyState) -> None:
+        """Accept one invocation when a Scope reached its Source count threshold.
+
+        The count follows the persisted journal identity after this binding's
+        last committed cursor. A Scope keeps its own count, and Memory and
+        Topic Memory keep separate cursors, so neither substitutes for the
+        other. This channel is independent of the time schedule: either
+        condition may start the same processing call.
+        """
+
+        binding = state.binding
+        threshold = binding.source_count_threshold
+        if threshold is None:
+            return
+        capacity = self._fresh_capacity(state)
+        if capacity <= 0:
+            return
+        page = min(capacity, _DISCOVERY_PAGE_SIZE)
+        admitted: list[str] = []
+        async with self._database.transaction() as connection:
+            await self._leases.require_fence(connection, self._require_current_fence())
+            rows = await self._intents.scan(
+                connection,
+                binding.binding_name,
+                after_sequence=state.count_scan_after,
+                limit=page,
+                dirty_only=True,
+            )
+            # Wrap around so a Scope that becomes eligible later is reconsidered.
+            state.count_scan_after = 0 if len(rows) < page else rows[-1].pending_sequence
+            candidates = tuple(
+                row.scope_id
+                for row in rows
+                if row.scope_id not in state.queued
+                and row.scope_id not in state.running
+                and row.scope_id not in state.retries
+                and row.requested_generation <= row.handled_generation
+            )
+            if candidates:
+                counts = await pending_source_counts(connection, candidates, binding.binding_name)
+                for scope_id in candidates:
+                    if counts.get(scope_id, 0) < threshold:
+                        continue
+                    row = await self._intents.load(connection, scope_id, binding.binding_name, for_update=True)
+                    if row is None or row.requested_generation > row.handled_generation:
+                        continue
+                    await self._intents.request(connection, scope_id, binding.binding_name)
+                    admitted.append(scope_id)
+        for scope_id in admitted:
+            self._enqueue(state, scope_id)
 
     async def _discover_requested(self, state: _FamilyState) -> None:
         capacity = self._fresh_capacity(state)
@@ -1058,6 +1130,7 @@ class ArtifactProcessingSupervisor:
             state.overflow_not_before = 0.0
             state.retries.clear()
             state.requested_after = state.scan_after = state.scan_generation = 0
+            state.count_scan_after = 0
             state.scan_in_progress = False
             state.discovery_pending = True
 

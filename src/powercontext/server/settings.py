@@ -20,7 +20,7 @@ from collections.abc import Mapping
 from contextlib import suppress
 from ipaddress import ip_address
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 from urllib.parse import urlsplit
 
 from pydantic import BaseModel, Field, SecretStr, field_validator, model_validator
@@ -217,6 +217,28 @@ class ServerSettings(BaseSettings):
     handoff_report: HandoffReportConfig = Field(default_factory=HandoffReportConfig)
     inference: InferenceConfig = Field(default_factory=InferenceConfig)
     external_skills: ExternalSkillsConfig = Field(default_factory=ExternalSkillsConfig)
+
+    @field_validator("runtime", mode="before")
+    @classmethod
+    def coerce_runtime_count_thresholds(cls, value: Any) -> Any:
+        """Read the count thresholds as integers from the environment.
+
+        The Runtime model accepts only a strict positive integer, while every
+        environment value arrives as text. Convert the text here so an
+        unusable value still fails startup as a configuration error.
+        """
+
+        if not isinstance(value, dict):
+            return value
+        coerced = dict(value)
+        for name in ("memory_source_count_threshold", "topic_memory_source_count_threshold"):
+            raw = coerced.get(name)
+            if isinstance(raw, str) and raw.strip():
+                try:
+                    coerced[name] = int(raw.strip())
+                except ValueError as error:
+                    raise ValueError(f"{name} must be a positive integer") from error  # noqa: TRY003
+        return coerced
 
     @field_validator("cursor_signing_secret")
     @classmethod

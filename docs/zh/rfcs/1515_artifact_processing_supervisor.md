@@ -342,6 +342,28 @@ interval T 是检查开始之间的间隔，不是全部业务处理完成后的
 关闭自动处理后不继续接纳尚未准入的普通 dirty Scope；恢复已有 requested > handled 的调用。未完成自动扫描
 可以在确认关闭配置后结束，已经持久化的准入请求不撤回。配置恢复开启时，按持久化时间重新检查。
 
+### 按新增条目数触发
+
+除时间条件外，可以按待处理 Source 条目数启动处理。`runtime.memory_source_count_threshold` 与
+`runtime.topic_memory_source_count_threshold` 默认均为 None，表示关闭数量触发；非空值必须是严格正整数，
+布尔值、字符串、浮点数、零和负数都是配置错误。
+
+数量按每个 Scope、每个 Family 独立计算：从该 Family 最后一次成功提交的 Source 游标之后，到当前 journal 末尾的
+新条目数；首次处理从游标 0 开始。计数依据已持久化的 journal 身份，不依据正文长度、token 数或生成结果数。
+同一身份的重复 capture、已有 Source 的 receipt 信任升级不增加计数。只允许用于 lineage 的服务端 Source 同样
+占一个 journal 条目，参与启动计数，仍按原有规则从生成证据中排除。
+
+数量条件与时间条件是 OR 关系，任一条件满足即可启动一次原有处理调用，无需显式 flush。显式
+`memory.for_scope(...).flush()` 和 `topic_memory.for_scope(...).flush()` 绕过数量门槛。
+
+数量触发不改变既有消费方式：`source_window_limit` 与 `topic_memory_source_window_limit` 仍是每次读取的上限。
+Memory 成功后按新游标重新判断剩余数量，不足门槛时等待新增输入、时间条件或显式 flush；一次达到门槛不等于必须
+排空全部输入。Topic Memory 已接受的处理批次继续按原有分窗行为完成，不把门槛重新施加到它的后续窗口。
+
+已经接受的调用失败后沿用原有重试，不因重新检查门槛丢弃工作，失败不消耗成功游标。关闭并重开同一数据库后，
+不足门槛的待处理输入继续保留，已达到门槛但尚未成功的处理继续恢复。成功后已消费的历史条目不再计入门槛。
+不同 Scope 以及 Memory 与 Topic Memory 的游标和门槛互不替代。
+
 ## 5. 显式触发、合并与完成
 
 显式触发由制品 API 校验 Scope、权限、参数及业务能力。接受请求的短事务同时发布必要输入的引用并推进
@@ -479,6 +501,7 @@ API 与后台必须对 mode、binding 到 Family 的映射以及可触发能力�
 | `ARTIFACT_PROCESSING_SUPERVISOR_MODE` | `artifact_processing_supervisor_mode` | `global`；仅允许 `global`、`dedicated` |
 | `ARTIFACT_PROCESSING_ROLE` | `artifact_processing_role` | `all`；后端支持范围见上文 |
 | `<ARTIFACT>_SCHEDULE_SECONDS` | `<artifact>_schedule_seconds` | 未设置/None 关闭自动准入；配置值必须大于 0 |
+| `<ARTIFACT>_SOURCE_COUNT_THRESHOLD` | `<artifact>_source_count_threshold` | 未设置/None 关闭数量触发；必须是严格正整数，拒绝布尔值、字符串、浮点数、零和负数 |
 | `<ARTIFACT>_SCHEDULE_ENABLED` | `<artifact>_schedule_enabled` | cron 制品的显式开关；首个使用者为 Profile |
 | `<ARTIFACT>_CRON` | `<artifact>_cron` | 五段 cron；必须与合法 IANA timezone 一起解析 |
 | `<ARTIFACT>_TIMEZONE` | `<artifact>_timezone` | cron 时区；Profile 保持 `Asia/Shanghai` 默认值 |

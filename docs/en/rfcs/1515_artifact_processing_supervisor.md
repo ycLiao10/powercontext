@@ -411,6 +411,37 @@ restoring existing invocations with requested > handled. An unfinished automatic
 configuration is confirmed; requests already admitted durably are not withdrawn. Re-enabling configuration resumes
 checks according to persisted timing.
 
+### Count admission
+
+Besides the time condition, processing may start from the number of pending Source entries.
+`runtime.memory_source_count_threshold` and `runtime.topic_memory_source_count_threshold` both default to None,
+which disables count admission. A non-None value must be a strict positive integer; booleans, strings, floats,
+zero, and negative values are configuration errors.
+
+The count is computed per Scope and per Family: it covers the new entries between that Family's last successfully
+committed Source cursor and the current journal tail, and the first processing pass starts from cursor 0. Counting
+follows persisted journal identity, never body length, token count, or generated row count. A repeated capture of
+the same identity, and the receipt trust upgrade of an existing Source, add nothing. A Server-owned Source that is
+allowed only for lineage still occupies one journal entry: it counts toward admission and stays excluded from
+generation evidence by the existing rules.
+
+The count condition and the time condition are OR-ed: either one may start the same existing processing call, with
+no explicit flush and no waiting for the time condition. Explicit `memory.for_scope(...).flush()` and
+`topic_memory.for_scope(...).flush()` bypass the count threshold.
+
+Count admission does not change how input is consumed. `source_window_limit` and
+`topic_memory_source_window_limit` remain the per-read ceiling. After a successful Memory window, the remaining
+count is judged again from the new cursor; when it falls below the threshold, processing waits for new input, the
+time condition, or an explicit flush. Reaching a threshold once does not mean Memory must drain all input. A Topic
+Memory wave that was already accepted continues with its original window behavior; the threshold is not reapplied to
+its later windows.
+
+A failed invocation keeps the existing retry behavior: re-checking the threshold never discards accepted work, and a
+failure does not consume the successful cursor. After closing and reopening the same database, input below the
+threshold is preserved and processing that already reached the threshold but has not succeeded resumes. Once input is
+consumed, it is no longer counted. Different Scopes, and Memory versus Topic Memory, keep independent cursors and
+thresholds.
+
 ## 5. Explicit triggers, coalescing, and completion
 
 The artifact API validates Scope, permissions, parameters, and business capability for an explicit trigger. The short
@@ -588,6 +619,7 @@ fields.
 | `ARTIFACT_PROCESSING_SUPERVISOR_MODE` | `artifact_processing_supervisor_mode` | `global`; only `global` and `dedicated` are valid |
 | `ARTIFACT_PROCESSING_ROLE` | `artifact_processing_role` | `all`; backend support is defined above |
 | `<ARTIFACT>_SCHEDULE_SECONDS` | `<artifact>_schedule_seconds` | Unset/None disables automatic admission; a configured value must be greater than 0 |
+| `<ARTIFACT>_SOURCE_COUNT_THRESHOLD` | `<artifact>_source_count_threshold` | Unset/None disables count admission; must be a strict positive integer and rejects booleans, strings, floats, zero, and negative values |
 | `<ARTIFACT>_SCHEDULE_ENABLED` | `<artifact>_schedule_enabled` | Explicit switch for cron-based artifacts; Profile is the first user |
 | `<ARTIFACT>_CRON` | `<artifact>_cron` | Five-field cron; must parse with a valid IANA timezone |
 | `<ARTIFACT>_TIMEZONE` | `<artifact>_timezone` | Cron timezone; Profile retains `Asia/Shanghai` by default |
