@@ -43,6 +43,7 @@ PDF_PAGE_IDENTITY_PREFIX = "pdf"
 _SEARCH_FETCH_LIMIT = 200
 _MAX_QUERY_TERMS = 10
 _MAX_PAIR_QUERIES = 12
+_MAX_EXPANSION_QUERIES = 6
 _CANDIDATE_MULTIPLIER = 2
 
 
@@ -291,7 +292,10 @@ def _build_queries(question: str) -> tuple[str, ...]:
     page repeats enough question words, which hides single-term evidence pages.
     Issuing each distinctive word on its own, plus the adjacent word pairs that
     carry the actual financial phrase, keeps those pages in the candidate pool;
-    the offline ranker then decides the order.
+    the offline ranker then decides the order. The last group asks for the
+    finance phrases the question implies, because the page that answers a
+    liquidity or capex question names current assets or purchases of property
+    and equipment instead of the question's own words.
     """
 
     terms = list(pdf_ranking.query_terms(question, limit=_MAX_QUERY_TERMS))
@@ -299,6 +303,7 @@ def _build_queries(question: str) -> tuple[str, ...]:
     queries.extend(terms)
     for left, right in list(combinations(terms, 2))[:_MAX_PAIR_QUERIES]:
         queries.append(f"{left} {right}")
+    queries.extend(pdf_ranking.expansion_queries(question, limit=_MAX_EXPANSION_QUERIES))
     return tuple(dict.fromkeys(queries))
 
 

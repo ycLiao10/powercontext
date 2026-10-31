@@ -525,6 +525,32 @@ def query_terms(question: str, limit: int = 12) -> tuple[str, ...]:
     return tuple(terms)
 
 
+def expansion_queries(question: str, limit: int = 6) -> tuple[str, ...]:
+    """Return the finance phrases a question implies without saying them.
+
+    "Is the quick ratio healthy" is answered by the balance sheet, which speaks
+    of current assets and current liabilities rather than of liquidity, and "how
+    much did capex grow" is answered by a cash flow page that says purchases of
+    property and equipment. Those pages never repeat the question's wording, so
+    a lexical backend cannot return them unless the implied phrase is searched
+    for as well. Single words are skipped: :func:`query_terms` already asks for
+    every word of the question.
+    """
+
+    flat = f" {normalize(question)} "
+    phrases: list[str] = []
+    seen: set[str] = set()
+    for token in _WORD.findall(normalize(_expand(question))):
+        for form in _SYNONYMS_BY_STEM.get(stem(token), ()):
+            if " " not in form or form in seen or f" {form} " in flat:
+                continue
+            seen.add(form)
+            phrases.append(form)
+            if len(phrases) >= limit:
+                return tuple(phrases)
+    return tuple(phrases)
+
+
 def _section_lines(text: str) -> list[str]:
     """Return the heading-like lines of a page, stemmed and space padded.
 
