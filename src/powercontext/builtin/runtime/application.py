@@ -166,6 +166,13 @@ from powercontext.builtin.runtime._scope_cache import (
     ScopeCacheObserver,
     ScopeEvictor,
 )
+from powercontext.builtin.runtime.context_pack import (
+    INCREMENTAL_CHUNK_BYTES,
+    ContextPack,
+    ContextPackDelta,
+    ContextPackError,
+    infer_chunk_size,
+)
 from powercontext.builtin.runtime.decision_model import DecisionModel
 from powercontext.builtin.runtime.errors import InvalidRuntimeRequestError, TopicMemoryProcessingUnavailableError
 from powercontext.builtin.runtime.models import (
@@ -846,6 +853,35 @@ class ScopedContextApplication:
             if authorize_scopes is not None:
                 await authorize_scopes((self.scope_id, *scope.context_references))
             return await self._prepare(request, scope)
+
+    async def prepare_incremental(
+        self,
+        request: PrepareContextRequest,
+        base_pack: ContextPack | bytes | None = None,
+        *,
+        authorize_scopes: Callable[[tuple[str, ...]], Awaitable[None]] | None = None,
+    ) -> ContextPack | ContextPackDelta:
+        """Prepare the same context as :meth:`prepare`, in transferable form.
+
+        Without a base pack the result is the complete pack for this round. With one, the
+        result is the delta that turns that base pack into this round's pack, so a receiver
+        that already holds the base reads only the delta. The prepared body and its citations
+        are the ones plain ``prepare`` returns; only the transport form differs.
+        """
+
+        prepared = await self.prepare(request, authorize_scopes=authorize_scopes)
+        content = prepared.content or ""
+        if base_pack is None:
+            return ContextPack.from_content(content, chunk_bytes=INCREMENTAL_CHUNK_BYTES)
+        if isinstance(base_pack, (bytes, bytearray, memoryview, str)):
+            base_pack = ContextPack.from_bytes(base_pack)
+        if not isinstance(base_pack, ContextPack):
+            raise ContextPackError("delta-base-not-a-context-pack")
+        # The target has to be chunked like the base, otherwise the two item sequences cannot
+        # share a prefix and the delta would have to carry the whole body again.
+        chunk_bytes = infer_chunk_size(base_pack) or INCREMENTAL_CHUNK_BYTES
+        target = ContextPack.from_content(content, chunk_bytes=chunk_bytes)
+        return ContextPackDelta.between(base_pack, target)
 
     async def _prepare(self, request: PrepareContextRequest, scope: ScopeDescriptor, /) -> PreparedContext:
         build, effort = await self._prepare_build(request, scope)
