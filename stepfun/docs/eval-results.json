@@ -1,0 +1,2420 @@
+{
+  "environment": {
+    "browser": "Edg/156.0.4314.50",
+    "platform": "win32 10.0.26300 x64",
+    "node": "v24.18.0",
+    "measuredAt": "2026-10-31T10:20:45.177Z",
+    "corpusSize": 60,
+    "queryCount": 30,
+    "topK": 10,
+    "method": "同语料库内检索评测：每种配置独立导入同一批语料到独立集合，再用全部查询在 seekdb 内做向量+全文混合检索，按人工标注相关性计算 Recall@K / nDCG@K / MRR@K"
+  },
+  "configs": [
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "auto",
+        "dtype": "fp32"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "fp32"
+      },
+      "collection": "eval_bge_small_zh_v1_5_fp32",
+      "documentCount": 60,
+      "queries": 30,
+      "metrics": {
+        "recallAt1": 0.23611111111111105,
+        "recallAt5": 0.5777777777777778,
+        "recallAt10": 0.6555555555555556,
+        "ndcgAt10": 0.6215944747573796,
+        "mrrAt10": 0.754021164021164
+      },
+      "latency": {
+        "queryEmbedMsMedian": 31.217500002185503,
+        "dbMsMedian": 48.66866666666667
+      }
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "auto",
+        "dtype": "fp16"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "fp16"
+      },
+      "collection": "eval_bge_small_zh_v1_5_fp16",
+      "documentCount": 60,
+      "queries": 30,
+      "metrics": {
+        "recallAt1": 0.23611111111111105,
+        "recallAt5": 0.5666666666666668,
+        "recallAt10": 0.6666666666666666,
+        "ndcgAt10": 0.628503389038866,
+        "mrrAt10": 0.7484656084656085
+      },
+      "latency": {
+        "queryEmbedMsMedian": 24.89966666599115,
+        "dbMsMedian": 49.00066666666667
+      }
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "auto",
+        "dtype": "q8"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "q8"
+      },
+      "collection": "eval_bge_small_zh_v1_5_q8",
+      "documentCount": 60,
+      "queries": 30,
+      "metrics": {
+        "recallAt1": 0.25833333333333325,
+        "recallAt5": 0.5888888888888889,
+        "recallAt10": 0.6555555555555556,
+        "ndcgAt10": 0.6342208289785244,
+        "mrrAt10": 0.7773015873015873
+      },
+      "latency": {
+        "queryEmbedMsMedian": 81.5228333324194,
+        "dbMsMedian": 47.739000000000004
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "comparedWith": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "fp32"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "fp32"
+        },
+        "collection": "eval_bge_small_zh_v1_5_fp32",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.23611111111111105,
+          "recallAt5": 0.5777777777777778,
+          "recallAt10": 0.6555555555555556,
+          "ndcgAt10": 0.6215944747573796,
+          "mrrAt10": 0.754021164021164
+        },
+        "latency": {
+          "queryEmbedMsMedian": 31.217500002185503,
+          "dbMsMedian": 48.66866666666667
+        }
+      },
+      "target": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "fp16"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "fp16"
+        },
+        "collection": "eval_bge_small_zh_v1_5_fp16",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.23611111111111105,
+          "recallAt5": 0.5666666666666668,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.628503389038866,
+          "mrrAt10": 0.7484656084656085
+        },
+        "latency": {
+          "queryEmbedMsMedian": 24.89966666599115,
+          "dbMsMedian": 49.00066666666667
+        }
+      },
+      "delta": {
+        "recallAt1": {
+          "baseline": 0.23611111111111105,
+          "quantized": 0.23611111111111105,
+          "abs": 0,
+          "rel": 0
+        },
+        "recallAt5": {
+          "baseline": 0.5777777777777778,
+          "quantized": 0.5666666666666668,
+          "abs": -0.011111111111111072,
+          "rel": -0.01923076923076916
+        },
+        "recallAt10": {
+          "baseline": 0.6555555555555556,
+          "quantized": 0.6666666666666666,
+          "abs": 0.011111111111111072,
+          "rel": 0.016949152542372822
+        },
+        "ndcgAt10": {
+          "baseline": 0.6215944747573796,
+          "quantized": 0.628503389038866,
+          "abs": 0.0069089142814864335,
+          "rel": 0.011114825761897444
+        },
+        "mrrAt10": {
+          "baseline": 0.754021164021164,
+          "quantized": 0.7484656084656085,
+          "abs": -0.005555555555555536,
+          "rel": -0.007367904006736343
+        }
+      },
+      "rankingChangedQueries": 3
+    },
+    {
+      "comparedWith": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "fp32"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "fp32"
+        },
+        "collection": "eval_bge_small_zh_v1_5_fp32",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.23611111111111105,
+          "recallAt5": 0.5777777777777778,
+          "recallAt10": 0.6555555555555556,
+          "ndcgAt10": 0.6215944747573796,
+          "mrrAt10": 0.754021164021164
+        },
+        "latency": {
+          "queryEmbedMsMedian": 31.217500002185503,
+          "dbMsMedian": 48.66866666666667
+        }
+      },
+      "target": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "q8"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "q8"
+        },
+        "collection": "eval_bge_small_zh_v1_5_q8",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.25833333333333325,
+          "recallAt5": 0.5888888888888889,
+          "recallAt10": 0.6555555555555556,
+          "ndcgAt10": 0.6342208289785244,
+          "mrrAt10": 0.7773015873015873
+        },
+        "latency": {
+          "queryEmbedMsMedian": 81.5228333324194,
+          "dbMsMedian": 47.739000000000004
+        }
+      },
+      "delta": {
+        "recallAt1": {
+          "baseline": 0.23611111111111105,
+          "quantized": 0.25833333333333325,
+          "abs": 0.0222222222222222,
+          "rel": 0.09411764705882346
+        },
+        "recallAt5": {
+          "baseline": 0.5777777777777778,
+          "quantized": 0.5888888888888889,
+          "abs": 0.011111111111111072,
+          "rel": 0.01923076923076916
+        },
+        "recallAt10": {
+          "baseline": 0.6555555555555556,
+          "quantized": 0.6555555555555556,
+          "abs": 0,
+          "rel": 0
+        },
+        "ndcgAt10": {
+          "baseline": 0.6215944747573796,
+          "quantized": 0.6342208289785244,
+          "abs": 0.012626354221144775,
+          "rel": 0.020312848221620834
+        },
+        "mrrAt10": {
+          "baseline": 0.754021164021164,
+          "quantized": 0.7773015873015873,
+          "abs": 0.023280423280423235,
+          "rel": 0.03087502631394282
+        }
+      },
+      "rankingChangedQueries": 27
+    }
+  ],
+  "details": [
+    {
+      "summary": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "fp32"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "fp32"
+        },
+        "collection": "eval_bge_small_zh_v1_5_fp32",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.23611111111111105,
+          "recallAt5": 0.5777777777777778,
+          "recallAt10": 0.6555555555555556,
+          "ndcgAt10": 0.6215944747573796,
+          "mrrAt10": 0.754021164021164
+        },
+        "latency": {
+          "queryEmbedMsMedian": 31.217500002185503,
+          "dbMsMedian": 48.66866666666667
+        }
+      },
+      "perQuery": [
+        {
+          "id": "q-001",
+          "text": "ef_construction 调大之后建索引要多久",
+          "ranked": [
+            "doc-012",
+            "doc-014",
+            "doc-024",
+            "doc-008",
+            "doc-028",
+            "doc-027",
+            "doc-046",
+            "doc-033",
+            "doc-026",
+            "doc-038"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9832184408687481,
+          "mrrAt10": 1,
+          "queryEmbedMs": 225.01500000059605,
+          "dbMs": 57.55
+        },
+        {
+          "id": "q-002",
+          "text": "ef_search 调大之后召回率和延迟怎么权衡",
+          "ranked": [
+            "doc-009",
+            "doc-028",
+            "doc-012",
+            "doc-035",
+            "doc-014",
+            "doc-015",
+            "doc-046",
+            "doc-024",
+            "doc-040",
+            "doc-051"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.924133208028394,
+          "mrrAt10": 1,
+          "queryEmbedMs": 54.46500000357628,
+          "dbMs": 48.83
+        },
+        {
+          "id": "q-003",
+          "text": "IK 分词器 smart 和 max_word 两种模式有什么区别",
+          "ranked": [
+            "doc-015",
+            "doc-029",
+            "doc-011",
+            "doc-032",
+            "doc-023",
+            "doc-047",
+            "doc-058",
+            "doc-024",
+            "doc-036",
+            "doc-034"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 24.510000005364418,
+          "dbMs": 45.76
+        },
+        {
+          "id": "q-004",
+          "text": "ngram 分词器和自定义词典怎么选",
+          "ranked": [
+            "doc-029",
+            "doc-015",
+            "doc-033",
+            "doc-024",
+            "doc-023",
+            "doc-039",
+            "doc-032",
+            "doc-059",
+            "doc-003",
+            "doc-011"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9639404333166532,
+          "mrrAt10": 1,
+          "queryEmbedMs": 23.194999992847443,
+          "dbMs": 48.37
+        },
+        {
+          "id": "q-005",
+          "text": "RRF 的 rank_constant 和 rank_window_size 怎么配",
+          "ranked": [
+            "doc-034",
+            "doc-042",
+            "doc-041",
+            "doc-024",
+            "doc-039",
+            "doc-047",
+            "doc-012",
+            "doc-020",
+            "doc-040",
+            "doc-049"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 21.055000007152557,
+          "dbMs": 49.37
+        },
+        {
+          "id": "q-006",
+          "text": "dbms_index_manager.refresh 之后新导入的文档什么时候能被检索到",
+          "ranked": [
+            "doc-054",
+            "doc-053",
+            "doc-055",
+            "doc-060",
+            "doc-012",
+            "doc-026",
+            "doc-007",
+            "doc-033",
+            "doc-038",
+            "doc-020"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.538891418360014,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 19.015000000596046,
+          "dbMs": 45.43
+        },
+        {
+          "id": "q-007",
+          "text": "SYNC_MODE 同步提交和异步提交有什么区别",
+          "ranked": [
+            "doc-054",
+            "doc-017",
+            "doc-039",
+            "doc-007",
+            "doc-040",
+            "doc-024",
+            "doc-032",
+            "doc-011",
+            "doc-034",
+            "doc-001"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 20.03999999165535,
+          "dbMs": 49.27
+        },
+        {
+          "id": "q-008",
+          "text": "INT8 量化的压缩比是多少，召回会掉多少",
+          "ranked": [
+            "doc-044",
+            "doc-046",
+            "doc-045",
+            "doc-004",
+            "doc-014",
+            "doc-034",
+            "doc-048",
+            "doc-012",
+            "doc-013",
+            "doc-049"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.878961873034099,
+          "mrrAt10": 1,
+          "queryEmbedMs": 18.25500001013279,
+          "dbMs": 45.99
+        },
+        {
+          "id": "q-009",
+          "text": "FP16 和 FP32 有什么区别，dtype 文件怎么对应",
+          "ranked": [
+            "doc-039",
+            "doc-040",
+            "doc-024",
+            "doc-034",
+            "doc-011",
+            "doc-032",
+            "doc-057",
+            "doc-041",
+            "doc-036",
+            "doc-049"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.24207625393180188,
+          "mrrAt10": 1,
+          "queryEmbedMs": 18.474999994039536,
+          "dbMs": 48.01
+        },
+        {
+          "id": "q-010",
+          "text": "WebGPU 和 WASM 后端的 numThreads 与 wasmPaths 怎么配",
+          "ranked": [
+            "doc-040",
+            "doc-041",
+            "doc-042",
+            "doc-045",
+            "doc-034",
+            "doc-012",
+            "doc-024",
+            "doc-023",
+            "doc-011",
+            "doc-036"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 17.484999999403954,
+          "dbMs": 47.76
+        },
+        {
+          "id": "q-011",
+          "text": "BM25 的 k1 和 b 参数分别影响什么",
+          "ranked": [
+            "doc-032",
+            "doc-046",
+            "doc-024",
+            "doc-058",
+            "doc-028",
+            "doc-034",
+            "doc-036",
+            "doc-057",
+            "doc-011",
+            "doc-041"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 19.58500000834465,
+          "dbMs": 46.84
+        },
+        {
+          "id": "q-012",
+          "text": "HNSW 的 m 参数设成 16 还是 32",
+          "ranked": [
+            "doc-014",
+            "doc-024",
+            "doc-028",
+            "doc-046",
+            "doc-058",
+            "doc-041",
+            "doc-034",
+            "doc-045",
+            "doc-057",
+            "doc-040"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.39480936517049525,
+          "mrrAt10": 1,
+          "queryEmbedMs": 102.77000001072884,
+          "dbMs": 48.02
+        },
+        {
+          "id": "q-013",
+          "text": "余弦距离和 L2 选哪个，查询向量要不要先归一化",
+          "ranked": [
+            "doc-011",
+            "doc-010",
+            "doc-013",
+            "doc-044",
+            "doc-046",
+            "doc-036",
+            "doc-014",
+            "doc-004",
+            "doc-057",
+            "doc-003"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 21.46000000834465,
+          "dbMs": 50.54
+        },
+        {
+          "id": "q-014",
+          "text": "换到别的机器上就慢一大截，排查该从哪下手",
+          "ranked": [
+            "doc-020",
+            "doc-043",
+            "doc-051",
+            "doc-060",
+            "doc-024",
+            "doc-028",
+            "doc-059",
+            "doc-018",
+            "doc-050",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.3818327780967333,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 22.984999999403954,
+          "dbMs": 48.43
+        },
+        {
+          "id": "q-015",
+          "text": "明明跳出来了，进去一看却说早就没了",
+          "ranked": [
+            "doc-060",
+            "doc-035",
+            "doc-051",
+            "doc-054",
+            "doc-007",
+            "doc-040",
+            "doc-058",
+            "doc-026",
+            "doc-028",
+            "doc-037"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 22.989999994635582,
+          "dbMs": 48.08
+        },
+        {
+          "id": "q-016",
+          "text": "写这些的人离职之后，那些字句还会留在库里吗",
+          "ranked": [
+            "doc-024",
+            "doc-030",
+            "doc-060",
+            "doc-005",
+            "doc-023",
+            "doc-002",
+            "doc-033",
+            "doc-059",
+            "doc-016",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.5158474921363962,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 20.650000005960464,
+          "dbMs": 46.98
+        },
+        {
+          "id": "q-017",
+          "text": "怎么知道这次调整到底变好了还是变差了",
+          "ranked": [
+            "doc-022",
+            "doc-037",
+            "doc-028",
+            "doc-058",
+            "doc-014",
+            "doc-046",
+            "doc-035",
+            "doc-013",
+            "doc-060",
+            "doc-019"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.43380783046984833,
+          "mrrAt10": 0.3333333333333333,
+          "queryEmbedMs": 17.91500000655651,
+          "dbMs": 48.2
+        },
+        {
+          "id": "q-018",
+          "text": "把这些私密内容存在本机，真的不会被谁拿到吗",
+          "ranked": [
+            "doc-021",
+            "doc-016",
+            "doc-060",
+            "doc-058",
+            "doc-026",
+            "doc-023",
+            "doc-059",
+            "doc-054",
+            "doc-003",
+            "doc-028"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9651911745127936,
+          "mrrAt10": 1,
+          "queryEmbedMs": 19.734999999403954,
+          "dbMs": 45.24
+        },
+        {
+          "id": "q-019",
+          "text": "同一台设备上快慢忽高忽低，是哪儿出了状况",
+          "ranked": [
+            "doc-043",
+            "doc-018",
+            "doc-040",
+            "doc-058",
+            "doc-007",
+            "doc-037",
+            "doc-006",
+            "doc-012",
+            "doc-041",
+            "doc-028"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.21861664101432943,
+          "mrrAt10": 0.1111111111111111,
+          "queryEmbedMs": 20.07999999821186,
+          "dbMs": 48.14
+        },
+        {
+          "id": "q-020",
+          "text": "换种措辞就再也搜不着想要的内容",
+          "ranked": [
+            "doc-027",
+            "doc-060",
+            "doc-053",
+            "doc-028",
+            "doc-026",
+            "doc-024",
+            "doc-009",
+            "doc-055",
+            "doc-051",
+            "doc-033"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "ndcgAt10": 0,
+          "mrrAt10": 0,
+          "queryEmbedMs": 17.615000009536743,
+          "dbMs": 50.15
+        },
+        {
+          "id": "q-021",
+          "text": "别让我手工挑，交给程序按相关性排就行",
+          "ranked": [
+            "doc-058",
+            "doc-060",
+            "doc-028",
+            "doc-003",
+            "doc-059",
+            "doc-050",
+            "doc-057",
+            "doc-032",
+            "doc-005",
+            "doc-022"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.08069208464393396,
+          "mrrAt10": 0.14285714285714285,
+          "queryEmbedMs": 18.635000005364418,
+          "dbMs": 48.31
+        },
+        {
+          "id": "q-022",
+          "text": "外面拿来的权重打包进产品，会不会惹上麻烦",
+          "ranked": [
+            "doc-023",
+            "doc-058",
+            "doc-039",
+            "doc-049",
+            "doc-059",
+            "doc-050",
+            "doc-060",
+            "doc-026",
+            "doc-033",
+            "doc-007"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 18.12999999523163,
+          "dbMs": 54.12
+        },
+        {
+          "id": "q-023",
+          "text": "刚加入的人接手这套服务，连不上数据库先看哪儿",
+          "ranked": [
+            "doc-006",
+            "doc-001",
+            "doc-007",
+            "doc-056",
+            "doc-016",
+            "doc-021",
+            "doc-054",
+            "doc-033",
+            "doc-053",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.15273311123869335,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 20.355000004172325,
+          "dbMs": 47.57
+        },
+        {
+          "id": "q-024",
+          "text": "换了模型之后库里的东西还能用吗",
+          "ranked": [
+            "doc-023",
+            "doc-052",
+            "doc-005",
+            "doc-051",
+            "doc-060",
+            "doc-024",
+            "doc-033",
+            "doc-027",
+            "doc-011",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.19740468258524763,
+          "mrrAt10": 0.3333333333333333,
+          "queryEmbedMs": 20.685000002384186,
+          "dbMs": 46.09
+        },
+        {
+          "id": "q-025",
+          "text": "一次灌很多文件进去，界面就卡住不动了，批大小要不要调",
+          "ranked": [
+            "doc-050",
+            "doc-048",
+            "doc-049",
+            "doc-051",
+            "doc-055",
+            "doc-007",
+            "doc-014",
+            "doc-016",
+            "doc-058",
+            "doc-017"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 23.280000001192093,
+          "dbMs": 49.14
+        },
+        {
+          "id": "q-026",
+          "text": "两千篇文档导进去大概要几分钟，瓶颈在哪一段",
+          "ranked": [
+            "doc-060",
+            "doc-059",
+            "doc-003",
+            "doc-007",
+            "doc-048",
+            "doc-050",
+            "doc-058",
+            "doc-016",
+            "doc-012",
+            "doc-051"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.09364787839833931,
+          "mrrAt10": 0.2,
+          "queryEmbedMs": 23.17000000178814,
+          "dbMs": 48.85
+        },
+        {
+          "id": "q-027",
+          "text": "正文存很长会不会拖慢查询，段落要不要限长",
+          "ranked": [
+            "doc-020",
+            "doc-059",
+            "doc-048",
+            "doc-060",
+            "doc-031",
+            "doc-058",
+            "doc-050",
+            "doc-038",
+            "doc-003",
+            "doc-013"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.464997630651362,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 23.28999999165535,
+          "dbMs": 48.14
+        },
+        {
+          "id": "q-028",
+          "text": "两台机器部署会不会丢数据，副本数量够不够",
+          "ranked": [
+            "doc-017",
+            "doc-001",
+            "doc-016",
+            "doc-054",
+            "doc-007",
+            "doc-051",
+            "doc-049",
+            "doc-059",
+            "doc-060",
+            "doc-041"
+          ],
+          "recallAt1": 0.25,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.7959761332981399,
+          "mrrAt10": 1,
+          "queryEmbedMs": 20.875,
+          "dbMs": 52.02
+        },
+        {
+          "id": "q-029",
+          "text": "能不能给两路结果配不同权重",
+          "ranked": [
+            "doc-037",
+            "doc-036",
+            "doc-034",
+            "doc-035",
+            "doc-023",
+            "doc-026",
+            "doc-057",
+            "doc-060",
+            "doc-058",
+            "doc-046"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 18.350000008940697,
+          "dbMs": 49.39
+        },
+        {
+          "id": "q-030",
+          "text": "多人共用一套知识库，怎么防止数据串",
+          "ranked": [
+            "doc-002",
+            "doc-005",
+            "doc-026",
+            "doc-017",
+            "doc-058",
+            "doc-037",
+            "doc-003",
+            "doc-055",
+            "doc-030",
+            "doc-033"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.8472668887613066,
+          "mrrAt10": 1,
+          "queryEmbedMs": 22.46000000834465,
+          "dbMs": 49.47
+        }
+      ]
+    },
+    {
+      "summary": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "fp16"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "fp16"
+        },
+        "collection": "eval_bge_small_zh_v1_5_fp16",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.23611111111111105,
+          "recallAt5": 0.5666666666666668,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.628503389038866,
+          "mrrAt10": 0.7484656084656085
+        },
+        "latency": {
+          "queryEmbedMsMedian": 24.89966666599115,
+          "dbMsMedian": 49.00066666666667
+        }
+      },
+      "perQuery": [
+        {
+          "id": "q-001",
+          "text": "ef_construction 调大之后建索引要多久",
+          "ranked": [
+            "doc-012",
+            "doc-014",
+            "doc-024",
+            "doc-008",
+            "doc-028",
+            "doc-027",
+            "doc-046",
+            "doc-033",
+            "doc-026",
+            "doc-038"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9832184408687481,
+          "mrrAt10": 1,
+          "queryEmbedMs": 170.9599999934435,
+          "dbMs": 52.25
+        },
+        {
+          "id": "q-002",
+          "text": "ef_search 调大之后召回率和延迟怎么权衡",
+          "ranked": [
+            "doc-009",
+            "doc-028",
+            "doc-012",
+            "doc-035",
+            "doc-014",
+            "doc-015",
+            "doc-046",
+            "doc-024",
+            "doc-040",
+            "doc-051"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.924133208028394,
+          "mrrAt10": 1,
+          "queryEmbedMs": 39.98999999463558,
+          "dbMs": 48.22
+        },
+        {
+          "id": "q-003",
+          "text": "IK 分词器 smart 和 max_word 两种模式有什么区别",
+          "ranked": [
+            "doc-015",
+            "doc-029",
+            "doc-011",
+            "doc-032",
+            "doc-023",
+            "doc-047",
+            "doc-058",
+            "doc-024",
+            "doc-036",
+            "doc-034"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 19.71500000357628,
+          "dbMs": 46.73
+        },
+        {
+          "id": "q-004",
+          "text": "ngram 分词器和自定义词典怎么选",
+          "ranked": [
+            "doc-029",
+            "doc-015",
+            "doc-033",
+            "doc-024",
+            "doc-023",
+            "doc-039",
+            "doc-032",
+            "doc-059",
+            "doc-003",
+            "doc-011"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9639404333166532,
+          "mrrAt10": 1,
+          "queryEmbedMs": 17.230000004172325,
+          "dbMs": 44.29
+        },
+        {
+          "id": "q-005",
+          "text": "RRF 的 rank_constant 和 rank_window_size 怎么配",
+          "ranked": [
+            "doc-034",
+            "doc-042",
+            "doc-045",
+            "doc-041",
+            "doc-024",
+            "doc-047",
+            "doc-012",
+            "doc-020",
+            "doc-040",
+            "doc-049"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 12.435000002384186,
+          "dbMs": 49.73
+        },
+        {
+          "id": "q-006",
+          "text": "dbms_index_manager.refresh 之后新导入的文档什么时候能被检索到",
+          "ranked": [
+            "doc-054",
+            "doc-053",
+            "doc-055",
+            "doc-060",
+            "doc-012",
+            "doc-026",
+            "doc-007",
+            "doc-033",
+            "doc-038",
+            "doc-020"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.538891418360014,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 11.790000006556511,
+          "dbMs": 48.36
+        },
+        {
+          "id": "q-007",
+          "text": "SYNC_MODE 同步提交和异步提交有什么区别",
+          "ranked": [
+            "doc-054",
+            "doc-017",
+            "doc-039",
+            "doc-007",
+            "doc-040",
+            "doc-024",
+            "doc-032",
+            "doc-011",
+            "doc-034",
+            "doc-001"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 20.070000007748604,
+          "dbMs": 48.54
+        },
+        {
+          "id": "q-008",
+          "text": "INT8 量化的压缩比是多少，召回会掉多少",
+          "ranked": [
+            "doc-044",
+            "doc-046",
+            "doc-045",
+            "doc-004",
+            "doc-014",
+            "doc-034",
+            "doc-048",
+            "doc-012",
+            "doc-013",
+            "doc-049"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.878961873034099,
+          "mrrAt10": 1,
+          "queryEmbedMs": 19.799999997019768,
+          "dbMs": 43.89
+        },
+        {
+          "id": "q-009",
+          "text": "FP16 和 FP32 有什么区别，dtype 文件怎么对应",
+          "ranked": [
+            "doc-039",
+            "doc-040",
+            "doc-024",
+            "doc-034",
+            "doc-011",
+            "doc-032",
+            "doc-057",
+            "doc-041",
+            "doc-036",
+            "doc-049"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.24207625393180188,
+          "mrrAt10": 1,
+          "queryEmbedMs": 12.644999995827675,
+          "dbMs": 52.18
+        },
+        {
+          "id": "q-010",
+          "text": "WebGPU 和 WASM 后端的 numThreads 与 wasmPaths 怎么配",
+          "ranked": [
+            "doc-040",
+            "doc-041",
+            "doc-042",
+            "doc-045",
+            "doc-034",
+            "doc-012",
+            "doc-024",
+            "doc-023",
+            "doc-011",
+            "doc-036"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 12.715000003576279,
+          "dbMs": 47.64
+        },
+        {
+          "id": "q-011",
+          "text": "BM25 的 k1 和 b 参数分别影响什么",
+          "ranked": [
+            "doc-032",
+            "doc-046",
+            "doc-024",
+            "doc-058",
+            "doc-028",
+            "doc-034",
+            "doc-036",
+            "doc-057",
+            "doc-011",
+            "doc-041"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 11.25,
+          "dbMs": 46.07
+        },
+        {
+          "id": "q-012",
+          "text": "HNSW 的 m 参数设成 16 还是 32",
+          "ranked": [
+            "doc-014",
+            "doc-024",
+            "doc-028",
+            "doc-046",
+            "doc-058",
+            "doc-041",
+            "doc-034",
+            "doc-045",
+            "doc-057",
+            "doc-040"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.39480936517049525,
+          "mrrAt10": 1,
+          "queryEmbedMs": 62.224999994039536,
+          "dbMs": 52.35
+        },
+        {
+          "id": "q-013",
+          "text": "余弦距离和 L2 选哪个，查询向量要不要先归一化",
+          "ranked": [
+            "doc-011",
+            "doc-010",
+            "doc-013",
+            "doc-044",
+            "doc-046",
+            "doc-036",
+            "doc-014",
+            "doc-004",
+            "doc-057",
+            "doc-003"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 14.32999999821186,
+          "dbMs": 51.51
+        },
+        {
+          "id": "q-014",
+          "text": "换到别的机器上就慢一大截，排查该从哪下手",
+          "ranked": [
+            "doc-020",
+            "doc-043",
+            "doc-051",
+            "doc-060",
+            "doc-024",
+            "doc-028",
+            "doc-059",
+            "doc-018",
+            "doc-050",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.3818327780967333,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 12.740000009536743,
+          "dbMs": 51.55
+        },
+        {
+          "id": "q-015",
+          "text": "明明跳出来了，进去一看却说早就没了",
+          "ranked": [
+            "doc-060",
+            "doc-035",
+            "doc-051",
+            "doc-054",
+            "doc-007",
+            "doc-040",
+            "doc-058",
+            "doc-026",
+            "doc-028",
+            "doc-037"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 16.069999992847443,
+          "dbMs": 49.5
+        },
+        {
+          "id": "q-016",
+          "text": "写这些的人离职之后，那些字句还会留在库里吗",
+          "ranked": [
+            "doc-024",
+            "doc-030",
+            "doc-060",
+            "doc-005",
+            "doc-023",
+            "doc-002",
+            "doc-033",
+            "doc-059",
+            "doc-016",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.5158474921363962,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 14.540000006556511,
+          "dbMs": 51.1
+        },
+        {
+          "id": "q-017",
+          "text": "怎么知道这次调整到底变好了还是变差了",
+          "ranked": [
+            "doc-022",
+            "doc-037",
+            "doc-028",
+            "doc-058",
+            "doc-014",
+            "doc-046",
+            "doc-035",
+            "doc-013",
+            "doc-060",
+            "doc-019"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.43380783046984833,
+          "mrrAt10": 0.3333333333333333,
+          "queryEmbedMs": 16.564999997615814,
+          "dbMs": 47.56
+        },
+        {
+          "id": "q-018",
+          "text": "把这些私密内容存在本机，真的不会被谁拿到吗",
+          "ranked": [
+            "doc-021",
+            "doc-016",
+            "doc-060",
+            "doc-058",
+            "doc-026",
+            "doc-023",
+            "doc-059",
+            "doc-054",
+            "doc-003",
+            "doc-028"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9651911745127936,
+          "mrrAt10": 1,
+          "queryEmbedMs": 17.625,
+          "dbMs": 51.36
+        },
+        {
+          "id": "q-019",
+          "text": "同一台设备上快慢忽高忽低，是哪儿出了状况",
+          "ranked": [
+            "doc-043",
+            "doc-018",
+            "doc-040",
+            "doc-058",
+            "doc-007",
+            "doc-037",
+            "doc-006",
+            "doc-012",
+            "doc-041",
+            "doc-028"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.21861664101432943,
+          "mrrAt10": 0.1111111111111111,
+          "queryEmbedMs": 17.424999997019768,
+          "dbMs": 47.44
+        },
+        {
+          "id": "q-020",
+          "text": "换种措辞就再也搜不着想要的内容",
+          "ranked": [
+            "doc-027",
+            "doc-060",
+            "doc-053",
+            "doc-028",
+            "doc-026",
+            "doc-024",
+            "doc-009",
+            "doc-055",
+            "doc-051",
+            "doc-033"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "ndcgAt10": 0,
+          "mrrAt10": 0,
+          "queryEmbedMs": 17.12999999523163,
+          "dbMs": 48.39
+        },
+        {
+          "id": "q-021",
+          "text": "别让我手工挑，交给程序按相关性排就行",
+          "ranked": [
+            "doc-058",
+            "doc-060",
+            "doc-028",
+            "doc-003",
+            "doc-059",
+            "doc-050",
+            "doc-057",
+            "doc-032",
+            "doc-005",
+            "doc-022"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.08069208464393396,
+          "mrrAt10": 0.14285714285714285,
+          "queryEmbedMs": 19.810000002384186,
+          "dbMs": 50.98
+        },
+        {
+          "id": "q-022",
+          "text": "外面拿来的权重打包进产品，会不会惹上麻烦",
+          "ranked": [
+            "doc-023",
+            "doc-058",
+            "doc-039",
+            "doc-049",
+            "doc-059",
+            "doc-050",
+            "doc-060",
+            "doc-026",
+            "doc-033",
+            "doc-007"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 20.61999998986721,
+          "dbMs": 49.45
+        },
+        {
+          "id": "q-023",
+          "text": "刚加入的人接手这套服务，连不上数据库先看哪儿",
+          "ranked": [
+            "doc-006",
+            "doc-001",
+            "doc-007",
+            "doc-056",
+            "doc-016",
+            "doc-021",
+            "doc-054",
+            "doc-033",
+            "doc-053",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.15273311123869335,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 21.20999999344349,
+          "dbMs": 48.96
+        },
+        {
+          "id": "q-024",
+          "text": "换了模型之后库里的东西还能用吗",
+          "ranked": [
+            "doc-023",
+            "doc-052",
+            "doc-051",
+            "doc-060",
+            "doc-024",
+            "doc-005",
+            "doc-004",
+            "doc-027",
+            "doc-011",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 1,
+          "ndcgAt10": 0.40467211102984296,
+          "mrrAt10": 0.16666666666666666,
+          "queryEmbedMs": 17.03999999165535,
+          "dbMs": 48.31
+        },
+        {
+          "id": "q-025",
+          "text": "一次灌很多文件进去，界面就卡住不动了，批大小要不要调",
+          "ranked": [
+            "doc-050",
+            "doc-048",
+            "doc-049",
+            "doc-051",
+            "doc-055",
+            "doc-007",
+            "doc-014",
+            "doc-016",
+            "doc-058",
+            "doc-017"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 18.38000001013279,
+          "dbMs": 48.68
+        },
+        {
+          "id": "q-026",
+          "text": "两千篇文档导进去大概要几分钟，瓶颈在哪一段",
+          "ranked": [
+            "doc-060",
+            "doc-059",
+            "doc-003",
+            "doc-007",
+            "doc-048",
+            "doc-050",
+            "doc-058",
+            "doc-016",
+            "doc-012",
+            "doc-051"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.09364787839833931,
+          "mrrAt10": 0.2,
+          "queryEmbedMs": 20.969999998807907,
+          "dbMs": 49.33
+        },
+        {
+          "id": "q-027",
+          "text": "正文存很长会不会拖慢查询，段落要不要限长",
+          "ranked": [
+            "doc-020",
+            "doc-059",
+            "doc-048",
+            "doc-060",
+            "doc-031",
+            "doc-058",
+            "doc-038",
+            "doc-050",
+            "doc-003",
+            "doc-013"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.464997630651362,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 22.20999999344349,
+          "dbMs": 51.74
+        },
+        {
+          "id": "q-028",
+          "text": "两台机器部署会不会丢数据，副本数量够不够",
+          "ranked": [
+            "doc-017",
+            "doc-001",
+            "doc-016",
+            "doc-054",
+            "doc-007",
+            "doc-051",
+            "doc-049",
+            "doc-059",
+            "doc-060",
+            "doc-041"
+          ],
+          "recallAt1": 0.25,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.7959761332981399,
+          "mrrAt10": 1,
+          "queryEmbedMs": 27.864999994635582,
+          "dbMs": 52.09
+        },
+        {
+          "id": "q-029",
+          "text": "能不能给两路结果配不同权重",
+          "ranked": [
+            "doc-037",
+            "doc-036",
+            "doc-034",
+            "doc-035",
+            "doc-023",
+            "doc-026",
+            "doc-057",
+            "doc-060",
+            "doc-058",
+            "doc-046"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 20.070000007748604,
+          "dbMs": 45.94
+        },
+        {
+          "id": "q-030",
+          "text": "多人共用一套知识库，怎么防止数据串",
+          "ranked": [
+            "doc-002",
+            "doc-005",
+            "doc-026",
+            "doc-017",
+            "doc-058",
+            "doc-037",
+            "doc-003",
+            "doc-055",
+            "doc-030",
+            "doc-033"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.8472668887613066,
+          "mrrAt10": 1,
+          "queryEmbedMs": 21.564999997615814,
+          "dbMs": 45.88
+        }
+      ]
+    },
+    {
+      "summary": {
+        "model": "Xenova/bge-small-zh-v1.5",
+        "requested": {
+          "device": "auto",
+          "dtype": "q8"
+        },
+        "actual": {
+          "backend": "webgpu",
+          "dtype": "q8"
+        },
+        "collection": "eval_bge_small_zh_v1_5_q8",
+        "documentCount": 60,
+        "queries": 30,
+        "metrics": {
+          "recallAt1": 0.25833333333333325,
+          "recallAt5": 0.5888888888888889,
+          "recallAt10": 0.6555555555555556,
+          "ndcgAt10": 0.6342208289785244,
+          "mrrAt10": 0.7773015873015873
+        },
+        "latency": {
+          "queryEmbedMsMedian": 81.5228333324194,
+          "dbMsMedian": 47.739000000000004
+        }
+      },
+      "perQuery": [
+        {
+          "id": "q-001",
+          "text": "ef_construction 调大之后建索引要多久",
+          "ranked": [
+            "doc-012",
+            "doc-014",
+            "doc-024",
+            "doc-008",
+            "doc-028",
+            "doc-027",
+            "doc-046",
+            "doc-026",
+            "doc-033",
+            "doc-038"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9832184408687481,
+          "mrrAt10": 1,
+          "queryEmbedMs": 80.98000000417233,
+          "dbMs": 51.87
+        },
+        {
+          "id": "q-002",
+          "text": "ef_search 调大之后召回率和延迟怎么权衡",
+          "ranked": [
+            "doc-009",
+            "doc-028",
+            "doc-012",
+            "doc-035",
+            "doc-014",
+            "doc-015",
+            "doc-046",
+            "doc-024",
+            "doc-040",
+            "doc-051"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.924133208028394,
+          "mrrAt10": 1,
+          "queryEmbedMs": 77.67000000178814,
+          "dbMs": 46.54
+        },
+        {
+          "id": "q-003",
+          "text": "IK 分词器 smart 和 max_word 两种模式有什么区别",
+          "ranked": [
+            "doc-015",
+            "doc-029",
+            "doc-011",
+            "doc-032",
+            "doc-023",
+            "doc-047",
+            "doc-024",
+            "doc-058",
+            "doc-036",
+            "doc-034"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 83.01500000059605,
+          "dbMs": 46.23
+        },
+        {
+          "id": "q-004",
+          "text": "ngram 分词器和自定义词典怎么选",
+          "ranked": [
+            "doc-029",
+            "doc-015",
+            "doc-033",
+            "doc-024",
+            "doc-023",
+            "doc-039",
+            "doc-032",
+            "doc-059",
+            "doc-011",
+            "doc-003"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9639404333166532,
+          "mrrAt10": 1,
+          "queryEmbedMs": 78.58499999344349,
+          "dbMs": 50.48
+        },
+        {
+          "id": "q-005",
+          "text": "RRF 的 rank_constant 和 rank_window_size 怎么配",
+          "ranked": [
+            "doc-034",
+            "doc-042",
+            "doc-024",
+            "doc-028",
+            "doc-047",
+            "doc-012",
+            "doc-011",
+            "doc-020",
+            "doc-040",
+            "doc-049"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 80.48999999463558,
+          "dbMs": 47.52
+        },
+        {
+          "id": "q-006",
+          "text": "dbms_index_manager.refresh 之后新导入的文档什么时候能被检索到",
+          "ranked": [
+            "doc-054",
+            "doc-053",
+            "doc-055",
+            "doc-060",
+            "doc-012",
+            "doc-026",
+            "doc-016",
+            "doc-007",
+            "doc-033",
+            "doc-038"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.5345658893354267,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 86.14000000059605,
+          "dbMs": 49.17
+        },
+        {
+          "id": "q-007",
+          "text": "SYNC_MODE 同步提交和异步提交有什么区别",
+          "ranked": [
+            "doc-054",
+            "doc-017",
+            "doc-039",
+            "doc-007",
+            "doc-040",
+            "doc-011",
+            "doc-024",
+            "doc-046",
+            "doc-001",
+            "doc-060"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 92.44499999284744,
+          "dbMs": 47.69
+        },
+        {
+          "id": "q-008",
+          "text": "INT8 量化的压缩比是多少，召回会掉多少",
+          "ranked": [
+            "doc-044",
+            "doc-046",
+            "doc-045",
+            "doc-047",
+            "doc-004",
+            "doc-014",
+            "doc-034",
+            "doc-048",
+            "doc-013",
+            "doc-049"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9832184408687481,
+          "mrrAt10": 1,
+          "queryEmbedMs": 82.07500000298023,
+          "dbMs": 47.4
+        },
+        {
+          "id": "q-009",
+          "text": "FP16 和 FP32 有什么区别，dtype 文件怎么对应",
+          "ranked": [
+            "doc-039",
+            "doc-040",
+            "doc-045",
+            "doc-034",
+            "doc-024",
+            "doc-057",
+            "doc-011",
+            "doc-032",
+            "doc-049",
+            "doc-036"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.6051906348295047,
+          "mrrAt10": 1,
+          "queryEmbedMs": 84.20000000298023,
+          "dbMs": 45.1
+        },
+        {
+          "id": "q-010",
+          "text": "WebGPU 和 WASM 后端的 numThreads 与 wasmPaths 怎么配",
+          "ranked": [
+            "doc-040",
+            "doc-041",
+            "doc-045",
+            "doc-042",
+            "doc-034",
+            "doc-012",
+            "doc-024",
+            "doc-023",
+            "doc-011",
+            "doc-036"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9871451602176229,
+          "mrrAt10": 1,
+          "queryEmbedMs": 77.84000000357628,
+          "dbMs": 46.88
+        },
+        {
+          "id": "q-011",
+          "text": "BM25 的 k1 和 b 参数分别影响什么",
+          "ranked": [
+            "doc-032",
+            "doc-046",
+            "doc-024",
+            "doc-058",
+            "doc-028",
+            "doc-034",
+            "doc-036",
+            "doc-057",
+            "doc-011",
+            "doc-045"
+          ],
+          "recallAt1": 0.5,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.8262346571285599,
+          "mrrAt10": 1,
+          "queryEmbedMs": 72.9750000089407,
+          "dbMs": 48.04
+        },
+        {
+          "id": "q-012",
+          "text": "HNSW 的 m 参数设成 16 还是 32",
+          "ranked": [
+            "doc-014",
+            "doc-024",
+            "doc-028",
+            "doc-046",
+            "doc-058",
+            "doc-047",
+            "doc-041",
+            "doc-034",
+            "doc-045",
+            "doc-040"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.39480936517049525,
+          "mrrAt10": 1,
+          "queryEmbedMs": 82.66499999165535,
+          "dbMs": 46.78
+        },
+        {
+          "id": "q-013",
+          "text": "余弦距离和 L2 选哪个，查询向量要不要先归一化",
+          "ranked": [
+            "doc-011",
+            "doc-010",
+            "doc-013",
+            "doc-044",
+            "doc-046",
+            "doc-036",
+            "doc-014",
+            "doc-004",
+            "doc-057",
+            "doc-003"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 81.18500000238419,
+          "dbMs": 50.57
+        },
+        {
+          "id": "q-014",
+          "text": "换到别的机器上就慢一大截，排查该从哪下手",
+          "ranked": [
+            "doc-020",
+            "doc-043",
+            "doc-051",
+            "doc-009",
+            "doc-024",
+            "doc-060",
+            "doc-028",
+            "doc-018",
+            "doc-003",
+            "doc-015"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.3818327780967333,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 84.19499999284744,
+          "dbMs": 47.02
+        },
+        {
+          "id": "q-015",
+          "text": "明明跳出来了，进去一看却说早就没了",
+          "ranked": [
+            "doc-060",
+            "doc-035",
+            "doc-051",
+            "doc-054",
+            "doc-007",
+            "doc-040",
+            "doc-026",
+            "doc-037",
+            "doc-058",
+            "doc-028"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 72.26500000059605,
+          "dbMs": 47.16
+        },
+        {
+          "id": "q-016",
+          "text": "写这些的人离职之后，那些字句还会留在库里吗",
+          "ranked": [
+            "doc-030",
+            "doc-024",
+            "doc-060",
+            "doc-002",
+            "doc-005",
+            "doc-033",
+            "doc-023",
+            "doc-059",
+            "doc-016",
+            "doc-026"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.6051906348295047,
+          "mrrAt10": 1,
+          "queryEmbedMs": 75.0700000077486,
+          "dbMs": 54.24
+        },
+        {
+          "id": "q-017",
+          "text": "怎么知道这次调整到底变好了还是变差了",
+          "ranked": [
+            "doc-022",
+            "doc-037",
+            "doc-028",
+            "doc-058",
+            "doc-014",
+            "doc-046",
+            "doc-035",
+            "doc-013",
+            "doc-060",
+            "doc-019"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.43380783046984833,
+          "mrrAt10": 0.3333333333333333,
+          "queryEmbedMs": 87.90000000596046,
+          "dbMs": 49.25
+        },
+        {
+          "id": "q-018",
+          "text": "把这些私密内容存在本机，真的不会被谁拿到吗",
+          "ranked": [
+            "doc-021",
+            "doc-016",
+            "doc-060",
+            "doc-058",
+            "doc-026",
+            "doc-054",
+            "doc-023",
+            "doc-059",
+            "doc-003",
+            "doc-051"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.9596539576780331,
+          "mrrAt10": 1,
+          "queryEmbedMs": 95.18999999761581,
+          "dbMs": 45.9
+        },
+        {
+          "id": "q-019",
+          "text": "同一台设备上快慢忽高忽低，是哪儿出了状况",
+          "ranked": [
+            "doc-043",
+            "doc-018",
+            "doc-040",
+            "doc-058",
+            "doc-007",
+            "doc-037",
+            "doc-012",
+            "doc-006",
+            "doc-028",
+            "doc-035"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "ndcgAt10": 0,
+          "mrrAt10": 0,
+          "queryEmbedMs": 75.20000000298023,
+          "dbMs": 45.79
+        },
+        {
+          "id": "q-020",
+          "text": "换种措辞就再也搜不着想要的内容",
+          "ranked": [
+            "doc-027",
+            "doc-053",
+            "doc-060",
+            "doc-028",
+            "doc-026",
+            "doc-024",
+            "doc-009",
+            "doc-055",
+            "doc-033",
+            "doc-025"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "ndcgAt10": 0,
+          "mrrAt10": 0,
+          "queryEmbedMs": 83.89000000059605,
+          "dbMs": 44.86
+        },
+        {
+          "id": "q-021",
+          "text": "别让我手工挑，交给程序按相关性排就行",
+          "ranked": [
+            "doc-058",
+            "doc-060",
+            "doc-028",
+            "doc-003",
+            "doc-059",
+            "doc-050",
+            "doc-057",
+            "doc-012",
+            "doc-032",
+            "doc-005"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.08069208464393396,
+          "mrrAt10": 0.14285714285714285,
+          "queryEmbedMs": 76.69999998807907,
+          "dbMs": 48.31
+        },
+        {
+          "id": "q-022",
+          "text": "外面拿来的权重打包进产品，会不会惹上麻烦",
+          "ranked": [
+            "doc-023",
+            "doc-058",
+            "doc-049",
+            "doc-059",
+            "doc-051",
+            "doc-060",
+            "doc-038",
+            "doc-026",
+            "doc-050",
+            "doc-033"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.7262287617954056,
+          "mrrAt10": 1,
+          "queryEmbedMs": 86.00499999523163,
+          "dbMs": 46.13
+        },
+        {
+          "id": "q-023",
+          "text": "刚加入的人接手这套服务，连不上数据库先看哪儿",
+          "ranked": [
+            "doc-006",
+            "doc-001",
+            "doc-007",
+            "doc-056",
+            "doc-033",
+            "doc-021",
+            "doc-054",
+            "doc-016",
+            "doc-053",
+            "doc-026"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.15273311123869335,
+          "mrrAt10": 0.5,
+          "queryEmbedMs": 88.42499999701977,
+          "dbMs": 49.06
+        },
+        {
+          "id": "q-024",
+          "text": "换了模型之后库里的东西还能用吗",
+          "ranked": [
+            "doc-023",
+            "doc-052",
+            "doc-047",
+            "doc-060",
+            "doc-051",
+            "doc-024",
+            "doc-027",
+            "doc-011",
+            "doc-015",
+            "doc-003"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.08069208464393396,
+          "mrrAt10": 0.14285714285714285,
+          "queryEmbedMs": 78.5,
+          "dbMs": 47.66
+        },
+        {
+          "id": "q-025",
+          "text": "一次灌很多文件进去，界面就卡住不动了，批大小要不要调",
+          "ranked": [
+            "doc-050",
+            "doc-048",
+            "doc-049",
+            "doc-051",
+            "doc-055",
+            "doc-007",
+            "doc-014",
+            "doc-058",
+            "doc-025",
+            "doc-017"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 1,
+          "mrrAt10": 1,
+          "queryEmbedMs": 94.35999999940395,
+          "dbMs": 46.97
+        },
+        {
+          "id": "q-026",
+          "text": "两千篇文档导进去大概要几分钟，瓶颈在哪一段",
+          "ranked": [
+            "doc-059",
+            "doc-060",
+            "doc-003",
+            "doc-007",
+            "doc-048",
+            "doc-058",
+            "doc-016",
+            "doc-031",
+            "doc-012",
+            "doc-051"
+          ],
+          "recallAt1": 0,
+          "recallAt5": 0.3333333333333333,
+          "recallAt10": 0.3333333333333333,
+          "ndcgAt10": 0.09364787839833931,
+          "mrrAt10": 0.2,
+          "queryEmbedMs": 77.33999998867512,
+          "dbMs": 48.08
+        },
+        {
+          "id": "q-027",
+          "text": "正文存很长会不会拖慢查询，段落要不要限长",
+          "ranked": [
+            "doc-031",
+            "doc-059",
+            "doc-020",
+            "doc-048",
+            "doc-060",
+            "doc-058",
+            "doc-050",
+            "doc-038",
+            "doc-003",
+            "doc-013"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 1,
+          "ndcgAt10": 0.6134260061848246,
+          "mrrAt10": 1,
+          "queryEmbedMs": 71.56499999761581,
+          "dbMs": 46.22
+        },
+        {
+          "id": "q-028",
+          "text": "两台机器部署会不会丢数据，副本数量够不够",
+          "ranked": [
+            "doc-017",
+            "doc-001",
+            "doc-016",
+            "doc-002",
+            "doc-051",
+            "doc-007",
+            "doc-049",
+            "doc-059",
+            "doc-060",
+            "doc-054"
+          ],
+          "recallAt1": 0.25,
+          "recallAt5": 0.5,
+          "recallAt10": 0.5,
+          "ndcgAt10": 0.7959761332981399,
+          "mrrAt10": 1,
+          "queryEmbedMs": 75.54500000178814,
+          "dbMs": 46.52
+        },
+        {
+          "id": "q-029",
+          "text": "能不能给两路结果配不同权重",
+          "ranked": [
+            "doc-037",
+            "doc-036",
+            "doc-034",
+            "doc-035",
+            "doc-026",
+            "doc-057",
+            "doc-013",
+            "doc-060",
+            "doc-058",
+            "doc-046"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 1,
+          "recallAt10": 1,
+          "ndcgAt10": 0.8213137146137828,
+          "mrrAt10": 1,
+          "queryEmbedMs": 72.43999999761581,
+          "dbMs": 47.13
+        },
+        {
+          "id": "q-030",
+          "text": "多人共用一套知识库，怎么防止数据串",
+          "ranked": [
+            "doc-002",
+            "doc-026",
+            "doc-058",
+            "doc-017",
+            "doc-005",
+            "doc-037",
+            "doc-003",
+            "doc-030",
+            "doc-060",
+            "doc-033"
+          ],
+          "recallAt1": 0.3333333333333333,
+          "recallAt5": 0.6666666666666666,
+          "recallAt10": 0.6666666666666666,
+          "ndcgAt10": 0.878961873034099,
+          "mrrAt10": 1,
+          "queryEmbedMs": 90.82999999821186,
+          "dbMs": 47.6
+        }
+      ]
+    }
+  ]
+}

@@ -1,26 +1,29 @@
 {
-  "name": "stepfun-seekdb-hybrid",
-  "version": "0.1.0",
+  "name": "stepfun-edge-kb",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "OceanBase 赛题「seekdb × 阶跃星辰：端侧 AI 推理性能优化与 seekdb 混合检索」——浏览器端向量化 + seekdb 内一条 SQL 混合检索",
-  "engines": {
-    "node": ">=20"
-  },
+  "description": "端侧 AI 推理性能优化与 seekdb 混合检索 —— 浏览器本地向量化 + seekdb 向量/全文混合检索的迷你知识库",
   "scripts": {
-    "start": "node server/proxy.js",
-    "smoke": "node server/smoke.js",
-    "init-db": "node scripts/init-db.js",
-    "import-corpus": "node scripts/import-corpus.js",
-    "search": "node scripts/search.js",
-    "eval": "node scripts/search.js --eval",
-    "verify-sync-mode": "node scripts/verify-sync-mode.js"
+    "copy-ort": "node scripts/copy-ort.mjs",
+    "fetch-models": "node scripts/fetch-model.mjs",
+    "build": "npm run copy-ort && vite build",
+    "start": "node server/index.mjs",
+    "dev": "node scripts/dev.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "bench": "node scripts/bench.mjs",
+    "eval": "node scripts/eval-quality.mjs"
   },
-  "workspaces": [
-    "server"
-  ],
   "dependencies": {
     "@huggingface/transformers": "^4.3.2",
-    "mysql2": "^3.11.5"
+    "express": "^4.21.2",
+    "seekdb": "1.4.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.10.0",
+    "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

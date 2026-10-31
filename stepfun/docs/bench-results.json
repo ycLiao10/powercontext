@@ -1,0 +1,317 @@
+{
+  "environment": {
+    "browser": "Edg/156.0.4314.50",
+    "platform": "win32 10.0.26300 x64",
+    "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+    "cpuCount": 12,
+    "node": "v24.18.0",
+    "appUrl": "http://127.0.0.1:8787",
+    "corpusSize": 60,
+    "querySetSize": 30,
+    "iterations": 20,
+    "batchSize": 8,
+    "measuredAt": "2026-10-31T10:20:02.969Z"
+  },
+  "results": [
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "webgpu",
+        "dtype": "fp32"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "fp32"
+      },
+      "collection": "bench_bge_small_zh_v1_5_webgpu_fp32",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 1611,
+        "docEmbedMs": 11135.88,
+        "docEmbedThroughput": 5.39,
+        "writeMs": 427.56,
+        "indexRefreshMs": 503.13
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 20.92,
+          "p90": 42.22,
+          "min": 11.82
+        },
+        "seekdbSearchMs": {
+          "median": 47.24,
+          "p90": 50.14,
+          "min": 45.13
+        },
+        "endToEndMs": {
+          "median": 54.45,
+          "p90": 57.97,
+          "min": 51.07
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "webgpu",
+        "dtype": "fp16"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "fp16"
+      },
+      "collection": "bench_bge_small_zh_v1_5_webgpu_fp16",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 565.81,
+        "docEmbedMs": 5052.39,
+        "docEmbedThroughput": 11.88,
+        "writeMs": 445.01,
+        "indexRefreshMs": 594.28
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 26.41,
+          "p90": 59.2,
+          "min": 11.89
+        },
+        "seekdbSearchMs": {
+          "median": 48.68,
+          "p90": 50.75,
+          "min": 45.25
+        },
+        "endToEndMs": {
+          "median": 56.13,
+          "p90": 61.86,
+          "min": 51.82
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "webgpu",
+        "dtype": "q8"
+      },
+      "actual": {
+        "backend": "webgpu",
+        "dtype": "q8"
+      },
+      "collection": "bench_bge_small_zh_v1_5_webgpu_q8",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 295.44,
+        "docEmbedMs": 10126.09,
+        "docEmbedThroughput": 5.93,
+        "writeMs": 390.54,
+        "indexRefreshMs": 588.74
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 81.19,
+          "p90": 109.33,
+          "min": 74.95
+        },
+        "seekdbSearchMs": {
+          "median": 48.14,
+          "p90": 52.93,
+          "min": 46.53
+        },
+        "endToEndMs": {
+          "median": 56.52,
+          "p90": 60.04,
+          "min": 53.38
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "wasm",
+        "dtype": "fp32"
+      },
+      "actual": {
+        "backend": "wasm",
+        "dtype": "fp32"
+      },
+      "collection": "bench_bge_small_zh_v1_5_wasm_fp32",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 212.25,
+        "docEmbedMs": 10883.72,
+        "docEmbedThroughput": 5.51,
+        "writeMs": 323.41,
+        "indexRefreshMs": 492.79
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 13.79,
+          "p90": 16.47,
+          "min": 8.64
+        },
+        "seekdbSearchMs": {
+          "median": 49.2,
+          "p90": 54.4,
+          "min": 45.69
+        },
+        "endToEndMs": {
+          "median": 57.02,
+          "p90": 62.29,
+          "min": 52.99
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "wasm",
+        "dtype": "fp16"
+      },
+      "actual": {
+        "backend": "wasm",
+        "dtype": "q8"
+      },
+      "collection": "bench_bge_small_zh_v1_5_wasm_fp16",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 87.95,
+        "docEmbedMs": 7244.98,
+        "docEmbedThroughput": 8.28,
+        "writeMs": 397.19,
+        "indexRefreshMs": 589.25
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 8.49,
+          "p90": 11.83,
+          "min": 5.4
+        },
+        "seekdbSearchMs": {
+          "median": 47.71,
+          "p90": 50.27,
+          "min": 44.1
+        },
+        "endToEndMs": {
+          "median": 54,
+          "p90": 58.67,
+          "min": 49.85
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    },
+    {
+      "model": "Xenova/bge-small-zh-v1.5",
+      "requested": {
+        "device": "wasm",
+        "dtype": "q8"
+      },
+      "actual": {
+        "backend": "wasm",
+        "dtype": "q8"
+      },
+      "collection": "bench_bge_small_zh_v1_5_wasm_q8",
+      "documentCount": 60,
+      "batchSize": 8,
+      "cold": {
+        "modelLoadMs": 70.88,
+        "docEmbedMs": 6525.66,
+        "docEmbedThroughput": 9.19,
+        "writeMs": 392.64,
+        "indexRefreshMs": 787.89
+      },
+      "warm": {
+        "queryEmbedMs": {
+          "median": 7.15,
+          "p90": 10.76,
+          "min": 5.25
+        },
+        "seekdbSearchMs": {
+          "median": 47.07,
+          "p90": 49.02,
+          "min": 44.63
+        },
+        "endToEndMs": {
+          "median": 53.87,
+          "p90": 56.93,
+          "min": 50.12
+        }
+      },
+      "gpu": {
+        "available": true,
+        "adapter": {
+          "vendor": "intel",
+          "architecture": "gen-12lp",
+          "device": "",
+          "description": ""
+        }
+      },
+      "crossOriginIsolated": true,
+      "hardwareConcurrency": 12,
+      "iterations": 20
+    }
+  ]
+}

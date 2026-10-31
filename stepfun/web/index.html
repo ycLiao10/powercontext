@@ -1,17 +1,122 @@
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>seekdb 混合检索 · 浏览器内本地向量化</title>
-    <meta
-      name="description"
-      content="文档与查询向量全部在浏览器内计算，向量与原文存于 seekdb，混合检索在数据库内一条 SQL 完成。"
-    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>端侧知识库 · seekdb 混合检索</title>
+    <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <noscript>本应用需要启用 JavaScript。</noscript>
-    <script type="module" src="/src/main.jsx"></script>
+    <header class="topbar">
+      <div class="brand">
+        <h1>端侧知识库</h1>
+        <span class="sub">浏览器本地向量化 · seekdb 混合检索</span>
+      </div>
+      <div class="runtime">
+        <span id="backend-badge" class="badge badge-idle">后端未初始化</span>
+        <span id="model-badge" class="badge badge-muted">模型未加载</span>
+        <span id="db-badge" class="badge badge-muted">seekdb 检测中…</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- 左栏：语料导入与模型 -->
+      <section class="panel">
+        <h2>1 · 端侧模型</h2>
+        <div class="row">
+          <label for="model-select">模型</label>
+          <select id="model-select"></select>
+        </div>
+        <div class="row">
+          <label for="dtype-select">量化精度</label>
+          <select id="dtype-select"></select>
+        </div>
+        <div class="row">
+          <label for="device-select">推理后端</label>
+          <select id="device-select">
+            <option value="auto">自动（优先 WebGPU）</option>
+            <option value="webgpu">强制 WebGPU</option>
+            <option value="wasm">强制 WASM</option>
+          </select>
+        </div>
+        <div class="row">
+          <button id="load-model" class="primary">加载模型（本地）</button>
+        </div>
+        <div id="model-info" class="hint">
+          模型权重从本地 <code>/models</code> 目录读取，不访问任何云端推理接口。
+        </div>
+        <div id="model-meta" class="meta-grid"></div>
+
+        <h2>2 · 导入语料</h2>
+        <div class="row">
+          <label for="collection-select">知识库集合</label>
+          <select id="collection-select"></select>
+        </div>
+        <textarea
+          id="corpus-input"
+          placeholder="粘贴文档内容，空行分隔为多个文档；或使用下方文件导入"
+          rows="8"
+        ></textarea>
+        <div class="row">
+          <input type="file" id="corpus-file" accept=".txt,.md,.json" multiple />
+          <button id="import-btn" class="primary">导入 → 本地向量化 → 写入 seekdb</button>
+        </div>
+        <div id="import-progress" class="progress-wrap">
+          <div class="progress"><div id="import-bar" class="bar"></div></div>
+          <span id="import-status" class="hint"></span>
+        </div>
+        <div id="kb-stats" class="meta-grid"></div>
+      </section>
+
+      <!-- 中栏：检索 -->
+      <section class="panel">
+        <h2>3 · 混合检索</h2>
+        <div class="row">
+          <input
+            type="search"
+            id="query-input"
+            placeholder="输入查询，关键词与自然语言都支持"
+            autocomplete="off"
+          />
+          <button id="search-btn" class="primary">检索</button>
+        </div>
+        <div class="row small">
+          <label for="topk-input">TopK</label>
+          <input type="number" id="topk-input" value="10" min="1" max="100" />
+          <button id="explain-btn" class="ghost" title="展示 seekdb 内部生成的单条候选 SQL">
+            查看库内候选 SQL
+          </button>
+        </div>
+        <div id="timing" class="meta-grid"></div>
+        <ol id="results" class="results"></ol>
+        <pre id="sql-preview" class="sql-preview" hidden></pre>
+      </section>
+
+      <!-- 右栏：性能与质量 -->
+      <section class="panel">
+        <h2>4 · 性能与质量</h2>
+        <div class="row">
+          <button id="bench-btn" class="ghost">运行内置基准（当前浏览器）</button>
+        </div>
+        <div id="bench-output" class="bench-output">
+          点击上方按钮在当前浏览器中采集：模型加载、向量化吞吐、seekdb 检索延迟、端到端延迟。
+        </div>
+        <h2>5 · 语料与评测</h2>
+        <div id="eval-info" class="hint">
+          仓库内 <code>data/corpus</code> 提供演示语料，<code>data/eval</code> 提供带相关性标注的评测集，
+          用于量化前后 Recall@K / nDCG@K 对比。
+        </div>
+        <div class="row">
+          <button id="load-sample" class="ghost">载入演示语料</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      端侧推理在浏览器完成（Transformers.js + ONNX Runtime Web），向量与原文写入 seekdb，
+      向量 + 全文混合检索由 seekdb 单条 SQL 完成。
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
