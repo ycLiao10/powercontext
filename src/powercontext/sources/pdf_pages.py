@@ -41,8 +41,8 @@ PDF_PAGE_IDENTITY_PREFIX = "pdf"
 # pages are then re-ranked offline by :mod:`powercontext.sources.pdf_ranking`, which
 # is what turns a flat lexical pool into page-accurate evidence.
 _SEARCH_FETCH_LIMIT = 200
-_MAX_QUERY_TERMS = 12
-_MAX_PAIR_QUERIES = 24
+_MAX_QUERY_TERMS = 10
+_MAX_PAIR_QUERIES = 12
 _CANDIDATE_MULTIPLIER = 2
 
 
@@ -191,6 +191,7 @@ async def search_pdf_pages(memory: Any, question: str, limit: int = 10) -> tuple
     if not hits:
         return ()
     by_key = {f"{entry_id}|{entry_version_id}": hit for (entry_id, entry_version_id), hit in hits.items()}
+    by_key = _focus_on_named_document(question, by_key)
     pages = [pdf_ranking.prepare(key, hit.text or "") for key, hit in by_key.items()]
     order = pdf_ranking.rank(question, pages, limit=min(len(pages), max(limit, 1) * _CANDIDATE_MULTIPLIER))
     citations: list[MemoryCitation] = []
@@ -212,6 +213,38 @@ async def search_pdf_pages(memory: Any, question: str, limit: int = 10) -> tuple
         if len(citations) >= limit:
             break
     return tuple(citations)
+
+
+def _focus_on_named_document(question: str, by_key: dict[str, Any]) -> dict[str, Any]:
+    """Keep only the filing a question names, when the pool holds several.
+
+    A scoped Memory may carry more than one document. If the question names a
+    company that exactly one of those documents belongs to, pages of the other
+    filings cannot be evidence and would only take up the citation budget.
+    """
+
+    documents: dict[str, list[str]] = {}
+    for key, hit in by_key.items():
+        identity = _page_identity(hit.text or "")
+        if identity is not None:
+            documents.setdefault(identity[0], []).append(key)
+    if len(documents) < 2:
+        return by_key
+    flat = pdf_ranking.normalize(question)
+    compact = flat.replace(" ", "")
+    named = [document for document in documents if _names_document(flat, compact, document)]
+    if len(named) != 1:
+        return by_key
+    return {key: by_key[key] for key in documents[named[0]]}
+
+
+def _names_document(flat_question: str, compact_question: str, document_id: str) -> bool:
+    """Return whether a question names the company a document id belongs to."""
+
+    name = pdf_ranking.normalize(document_id.split("_", 1)[0])
+    if len(name) < 4:
+        return False
+    return f" {name} " in f" {flat_question} " or name in compact_question
 
 
 def _page_identity(text: str) -> tuple[str, str] | None:

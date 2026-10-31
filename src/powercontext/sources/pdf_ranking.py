@@ -56,6 +56,45 @@ __all__ = [
 
 _WORD = re.compile(r"[a-z]+|\d+")
 _YEAR = re.compile(r"\b(?:19|20)\d{2}\b")
+# Filings print four-digit years, questions often write ``FY22``.
+_SHORT_YEAR = re.compile(r"\bfy\s?'?(\d{2})\b", re.IGNORECASE)
+
+# FinanceBench writes many line items as the abbreviation the filing itself uses
+# only in tables. Expanding the acronym before tokenizing lets a question such as
+# "did Pfizer grow its PPNE" reach the balance sheet line it names.
+_ABBREVIATIONS = {
+    "pp&e": "property plant and equipment",
+    "ppe": "property plant and equipment",
+    "ppne": "property plant and equipment",
+    "cogs": "cost of revenue",
+    "sg&a": "selling general and administrative",
+    "sga": "selling general and administrative",
+    "r&d": "research and development",
+    "fcf": "free cash flow",
+    "ocf": "operating cash flow",
+    "eps": "earnings per share",
+    "dso": "days sales outstanding",
+    "dpo": "days payable outstanding",
+    "asp": "average selling price",
+    "ytd": "year to date",
+}
+
+
+def _expand(question: str) -> str:
+    """Return ``question`` with finance abbreviations spelled out."""
+
+    expanded = question
+    for abbreviation, phrase in _ABBREVIATIONS.items():
+        expanded = re.sub(rf"(?<![\w&]){re.escape(abbreviation)}(?![\w&])", phrase, expanded, flags=re.IGNORECASE)
+    return expanded
+
+
+def _years(text: str) -> set[str]:
+    """Return the four-digit years a text mentions, including ``FY22`` forms."""
+
+    found = {match.group() for match in _YEAR.finditer(text)}
+    found.update(f"20{match.group(1)}" for match in _SHORT_YEAR.finditer(text))
+    return found
 
 # English function words, question phrasing, and the instruction boilerplate that
 # FinanceBench questions carry ("assume you are a public equities analyst",
@@ -350,15 +389,26 @@ _SYNONYMS = {
     "turnover": ("turnover", "net sales", "revenue"),
 }
 
-# Questions that ask for a quantity are answered from table pages.
+# Questions that ask for a quantity are answered from table pages and from the
+# primary statements. Narrative questions ("who are the customers", "is the
+# business cyclical") are not, so the metric vocabulary below is what decides
+# whether the statement and table priors apply at all.
 _NUMERIC_INTENT = re.compile(
     r"how much|how many|amount|ratio|percentage|percent|%|value|total|growth|margin|cost|expense"
-    r"|increase|decrease|what is|what was|what were|balance|capital|revenue|sales|income|cash",
+    r"|\brate\b|\btax\b|ebitda|\beps\b|per share|debt|liabilit|equity|dividend|asset|goodwill"
+    r"|depreciation|amortization|inventor|receivable|backlog|obligation|provision|impairment"
+    r"|return|yield|profit|loss|sales|revenue|income|cash|capital|increase|decrease|balance"
+    r"|spend|spending|compensation|headcount|employees|share count|weighted average|grow|grew|growing",
     re.IGNORECASE,
 )
 
 _HEADING_MAX_WORDS = 9
 _HEADING_MAX_CHARS = 72
+# Questions and filings word the same metric differently ("cyclicality" against
+# "cyclical"), so a term that is absent verbatim still counts when a page carries
+# a term with the same opening letters.
+PREFIX_WIDTH = 6
+_PREFIX_WEIGHT = 0.55
 
 
 def normalize(text: str) -> str:
@@ -423,6 +473,8 @@ _STATEMENT_SQUASHED = {
     name: tuple(_squash(heading) for heading in headings) for name, headings in _STATEMENT_HEADINGS.items()
 }
 _STATEMENT_PHRASES = frozenset(_phrase(heading) for headings in _STATEMENT_HEADINGS.values() for heading in headings)
+# Every page of a filing repeats its running head; it is not a section title.
+_TOC_PHRASE = _phrase("Table of Contents")
 
 
 def _synonym_index() -> dict[str, tuple[str, ...]]:
@@ -460,7 +512,7 @@ def query_terms(question: str, limit: int = 12) -> tuple[str, ...]:
 
     terms: list[str] = []
     seen: set[str] = set()
-    for token in _WORD.findall(normalize(question)):
+    for token in _WORD.findall(normalize(_expand(question))):
         if len(token) < 2 or token in _STOP_WORDS:
             continue
         key = stem(token)
@@ -476,24 +528,36 @@ def query_terms(question: str, limit: int = 12) -> tuple[str, ...]:
 def _section_lines(text: str) -> list[str]:
     """Return the heading-like lines of a page, stemmed and space padded.
 
-    An evidence page is often the page where the relevant section *starts*, so a
-    question phrase that appears in a heading outranks the same phrase buried in
-    a paragraph.
+    A filing announces its sections with short standalone lines: all-caps
+    (``CUSTOMERS``), title case (``Risks Related to Our Contracts``) or an item
+    prefix (``Item 1A. Risk Factors``). An evidence page is often the page where
+    the relevant section *starts*, so a question term that appears in a heading
+    outranks the same term buried in a paragraph.
     """
 
     lines: list[str] = []
     for raw_line in text.splitlines():
         line = re.sub(r"\s+", " ", raw_line).strip()
-        if not line or len(line) > _HEADING_MAX_CHARS or len(line.split()) > _HEADING_MAX_WORDS:
+        if not line or len(line) > _HEADING_MAX_CHARS:
+            continue
+        words = line.split()
+        if len(words) > _HEADING_MAX_WORDS or line[-1] in ",;":
             continue
         letters = [character for character in line if character.isalpha()]
         if len(letters) < 3:
             continue
         capitals = sum(1 for character in letters if character.isupper()) / len(letters)
-        if capitals >= 0.6 or line.endswith((".", ":")) or line.startswith(("Item ", "ITEM ")):
-            phrase = _phrase(line)
-            if phrase:
-                lines.append(f" {phrase} ")
+        title_case = sum(1 for word in words if word[:1].isupper()) / len(words)
+        if (
+            capitals < 0.6
+            and title_case < 0.75
+            and not line.endswith(":")
+            and not line.startswith(("Item ", "ITEM ", "Part ", "PART "))
+        ):
+            continue
+        phrase = _phrase(line)
+        if phrase and phrase != _TOC_PHRASE:
+            lines.append(f" {phrase} ")
     return lines
 
 
@@ -518,6 +582,7 @@ class Page:
     key: str
     text: str
     terms: Counter = field(default_factory=Counter)
+    prefixes: Counter = field(default_factory=Counter)
     length: int = 0
     flat: str = ""
     heading_terms: frozenset = frozenset()
@@ -534,8 +599,9 @@ def prepare(key: str, text: str) -> Page:
     body = [stem(token) for token in raw if len(token) > 1 and token not in _STOP_WORDS]
     page = Page(key=key, text=text, terms=Counter(body), length=len(body))
     page.flat = f" {' '.join(body)} "
-    page.heading_terms = frozenset(_stems(text[:280]))
+    page.prefixes = Counter(term[:PREFIX_WIDTH] for term in page.terms if len(term) >= PREFIX_WIDTH)
     page.section_lines = _section_lines(text)
+    page.heading_terms = frozenset(term for line in page.section_lines for term in line.split())
     page.statements = _statement_strength(text)
     digits = sum(1 for token in raw if any(character.isdigit() for character in token))
     page.numeric_ratio = digits / max(len(raw), 1)
@@ -560,9 +626,10 @@ def concepts(question: str) -> list[Concept]:  # noqa: C901 - one explicit list 
     phrase is discounted so a page cannot win by repeating one generic term.
     """
 
+    expanded = _expand(question)
     ordered: list[str] = []
     seen: set[str] = set()
-    for token in _WORD.findall(normalize(question)):
+    for token in _WORD.findall(normalize(expanded)):
         if len(token) < 2 or token in _STOP_WORDS or _YEAR.fullmatch(token):
             continue
         key = stem(token)
@@ -589,7 +656,7 @@ def concepts(question: str) -> list[Concept]:  # noqa: C901 - one explicit list 
         out.append(Concept(0.45 if single and stem(word) in covered else 1.0, stems_forms))
     for phrase in dict.fromkeys(phrases):
         out.append(Concept(1.7, (phrase,)))
-    flat = normalize(question)
+    flat = normalize(expanded)
     for phrases_hint in _STATEMENT_HINTS.values():
         for phrase in phrases_hint:
             if normalize(phrase) in flat:
@@ -613,19 +680,15 @@ def rank(  # noqa: C901 - the score is one explicit sum of independent signals
     table_weight: float = 2.0,
     year_weight: float = 2.0,
     heading_weight: float = 1.2,
-    similarity_ceiling: float = 0.95,
 ) -> list[tuple[str, float]]:
-    """Return ``(page key, score)`` in descending relevance, at most ``limit`` pages.
-
-    Pages that would duplicate an already selected one are skipped, so the caller
-    always receives distinct pages to cite.
-    """
+    """Return ``(page key, score)`` in descending relevance, at most ``limit`` pages."""
 
     total = max(len(pages), 1)
     average = max(sum(page.length for page in pages) / total, 1.0)
     document_frequency: Counter = Counter()
     for page in pages:
         document_frequency.update(page.terms.keys())
+        document_frequency.update({f"~{prefix}": 1 for prefix in page.prefixes})
     inverse = {
         term: math.log(1.0 + (total - count + 0.5) / (count + 0.5))
         for term, count in document_frequency.items()
@@ -635,7 +698,7 @@ def rank(  # noqa: C901 - the score is one explicit sum of independent signals
     query_concepts = concepts(question)
     hints = statement_hints(question)
     wants_number = bool(_NUMERIC_INTENT.search(question))
-    query_years = {match.group() for match in _YEAR.finditer(question)}
+    query_years = _years(question)
     heading_query = {term for concept in query_concepts for form in concept.forms for term in form.split()}
 
     scored: list[tuple[float, Page]] = []
@@ -645,7 +708,7 @@ def rank(  # noqa: C901 - the score is one explicit sum of independent signals
         score = 0.0
         for concept in query_concepts:
             best = 0.0
-            in_section = False
+            section_idf = 0.0
             for form in concept.forms:
                 if " " in form:
                     occurrences = page.flat.count(f" {form} ")
@@ -653,22 +716,38 @@ def rank(  # noqa: C901 - the score is one explicit sum of independent signals
                     # Statement names are scored by the statement signal instead: a
                     # note page that mentions "the balance sheet" in a sub-heading is
                     # not the balance sheet page.
-                    in_section = in_section or (form not in _STATEMENT_PHRASES and f" {form} " in sections)
+                    if form not in _STATEMENT_PHRASES and f" {form} " in sections:
+                        section_idf = max(section_idf, term_idf)
                 else:
                     occurrences = page.terms.get(form, 0)
                     term_idf = inverse.get(form, unseen)
+                    if occurrences == 0 and len(form) >= PREFIX_WIDTH:
+                        # The page carries the same word with a different ending.
+                        prefix = form[:PREFIX_WIDTH]
+                        occurrences = page.prefixes.get(prefix, 0)
+                        term_idf = _PREFIX_WEIGHT * inverse.get(f"~{prefix}", unseen)
                 if occurrences <= 0:
                     continue
                 best = max(best, term_idf * occurrences * (k1 + 1) / (occurrences + denominator))
             score += concept.weight * best
-            if in_section:
-                score += section_weight * concept.weight
+            if section_idf:
+                # A term in a page heading earns more than the same term in running
+                # text, and a rare heading term earns more than a generic one.
+                score += section_weight * concept.weight * min(section_idf / 3.0, 2.0)
         if hints:
-            score += statement_weight * max((page.statements.get(name, 0.0) for name in hints), default=0.0)
-        elif page.statements:
-            # A question that never names a statement but asks how the business is
-            # financed, how liquid it is, or how much it invests is answered by the
-            # primary statements themselves.
+            # A named statement is a prior on the page, not a substitute for
+            # matching the question: it multiplies the lexical score so a page
+            # that also carries the question's terms wins, while an unrelated
+            # statement page cannot vault over a better lexical candidate.
+            score *= 1.0 + (statement_weight / 12.0) * max(
+                (page.statements.get(name, 0.0) for name in hints), default=0.0
+            )
+        elif wants_number and page.statements:
+            # A quantity question that never names a statement but asks how the
+            # business is financed, how liquid it is, or how much it invests is
+            # answered by the primary statements themselves. A narrative question
+            # ("who are the customers") is not: there the statements only take up
+            # slots that belong to the business description.
             score += primary_statement_weight * max(
                 (strength for name, strength in page.statements.items() if name != "equity"), default=0.0
             )
@@ -681,14 +760,4 @@ def rank(  # noqa: C901 - the score is one explicit sum of independent signals
         scored.append((score, page))
 
     scored.sort(key=lambda item: (-item[0], item[1].key))
-    chosen: list[tuple[str, float]] = []
-    kept: list[set[str]] = []
-    for score, page in scored:
-        profile = set(page.terms)
-        if any(len(profile & other) / max(len(profile | other), 1) > similarity_ceiling for other in kept):
-            continue
-        kept.append(profile)
-        chosen.append((page.key, score))
-        if len(chosen) >= limit:
-            break
-    return chosen
+    return [(page.key, score) for score, page in scored[:limit]]
