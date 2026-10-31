@@ -308,7 +308,7 @@ DSL 里**不含任何密钥**。导入到新环境后，需要处理这几项：
 3. 状态只有一个主轴（记仇值）与辅助轴（恩情值），没有做多属性角色养成。
 4. 依赖 Dify 的 Code 节点（跑在 `dify-sandbox` 容器里），如果评审环境禁用了 sandbox，状态合并节点会失败。
 5. PowerContext 官方没有发布 Docker 镜像，本作品自建了 `deploy/Dockerfile.powercontext`（等价于官方文档的 `pip install "powercontext[cli,server]"`）。
-6. `scripts/dify_api.sh` 里内置了一个本地演示用的默认管理员密码（`Dify-Local-2026!`），只适用于本机自建栈；部署到共享环境前请在 `.env` 里改成自己的密码（`.env` 已被 `.gitignore` 忽略）。
+6. 管理员邮箱与密码只从环境变量读（`DIFY_EMAIL` / `DIFY_PASSWORD`），仓库里**不含任何默认凭据**；缺失时脚本会直接报错退出，请先在 `.env` 里填好（`.env` 已被 `.gitignore` 忽略）。
 
 ---
 
