@@ -29,6 +29,18 @@ python -m ctx status
 以上步骤**不依赖任何本地残留**：seekdb 的表会自己建，PowerContext 的 scope
 会按幂等键自己建（`idempotency_key=ctx-<POWERCONTEXT_SCOPE_ID>`）。
 
+## 更省事：一条命令跑完全流程
+
+```bash
+cd minimax
+bash run_demo.sh
+```
+
+它会依次做：建库灌数据 → 导入 → 起 PowerContext → 检索出上下文 →
+写入任务状态 → **重启 PowerContext 进程** → 再读回状态 → 跑测试，
+每步打印 `PASS/FAIL` 与退出码。状态目录默认在 `.powercontext/`，
+删掉它就等于回到空状态。
+
 ## 分项重置
 
 | 想清掉什么 | 怎么做 |
@@ -47,7 +59,14 @@ python -m ctx status
 ## 把代码退回「改前」状态
 
 第四阶段之后 `sample_project/src/pricing.py` 会被 MiniMax 的修改覆盖。
-要复现「改前失败」，把叠加实现写回去即可：
+**改前的完整代码快照就在仓库里**：`sample_project_before/src/pricing.py`。
+
+```bash
+cd minimax
+cp sample_project_before/src/pricing.py sample_project/src/pricing.py
+```
+
+它就是下面这段（满减与会员折扣**叠加**）：
 
 ```python
 def total(items, is_member):
@@ -64,6 +83,12 @@ def total(items, is_member):
 
 ```bash
 python -m ctx verify --root sample_project --label "改前（before）" --out logs/before.txt
+```
+
+**改回了改后的版本**：
+
+```bash
+git checkout -- sample_project/src/pricing.py
 ```
 
 **改了代码就要重新导入索引**，否则 seekdb 里还是旧内容：

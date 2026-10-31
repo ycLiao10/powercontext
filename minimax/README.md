@@ -20,9 +20,10 @@ minimax/
 ├── tech-notes.md          一页技术说明
 ├── requirements.txt       依赖与版本
 ├── init_db.py             seekdb 建表与灌数据
+├── run_demo.sh            一键全流程（含「重启后读回状态」），每步打印退出码
 ├── ctx/                   上下文模块源码（CLI）
 │   ├── __main__.py        python -m ctx 入口
-│   ├── cli.py             六个子命令
+│   ├── cli.py             七个子命令
 │   ├── config.py          环境变量配置（无任何硬编码密钥）
 │   ├── seekdb.py          连接、eng_docs 建表、自纠正 schema、幂等 upsert
 │   ├── ingest.py          抽取规格/代码/测试（Markdown 分节 + Python AST）
@@ -37,6 +38,8 @@ minimax/
 │   ├── specs/pricing.md   规格
 │   ├── tests/test_pricing.py  6 条回归 + 2 条目标测试
 │   └── conftest.py
+├── sample_project_before/ 改前代码快照（与 sample_project/ 同一组测试，叠加实现）
+│   └── src/pricing.py     改前的 total()：满减与会员折扣**叠加**
 ├── samples/               任务描述、有效规格、初始数据、预期结果、重置方法
 ├── logs/                  before.txt / after.txt / minimax.md / seekdb.md / powercontext.md
 └── ctx.json               ctx build 的实际产物（参考输出）
@@ -167,6 +170,29 @@ python -m ctx fix --ctx ctx.json --out logs/minimax.md
 python -m ctx verify --root sample_project --label "改后（after）" --out logs/after.txt
 ```
 
+### 3.8 一键全流程（推荐评审直接跑这个）
+
+```bash
+cd minimax
+bash run_demo.sh
+```
+
+它把上面 1～6 步串成一条命令，并且**包含「重启 PowerContext 进程再读回状态」**这一段，
+每步都打印 `PASS/FAIL` 和退出码，最后给出总结果：
+
+```
+1/6 建库建表 + 灌数据（seekdb）        PASS  init_db.py (exit=0)
+2/6 导入工程资料（seekdb）             PASS  ctx index (exit=0)
+3/6 启动 PowerContext                  PASS  ctx serve (exit=0)
+4/6 按任务检索并输出上下文             PASS  ctx build (exit=0)
+5/6 写入任务状态 -> 重启进程 -> 读回   PASS  ctx save / ctx status (exit=0)
+6/6 目标测试 + 回归测试                PASS  pytest (exit=0)
+全部通过 ✅
+```
+
+可用环境变量：`PYTHON`（默认 `python3`）、`POWERCONTEXT_PORT`（默认 8000）、
+`POWERCONTEXT_STATE_DIR`（默认 `.powercontext`）、`POWERCONTEXT_SERVER_URL`。
+
 ---
 
 ## 4. CLI 参考
@@ -247,6 +273,45 @@ python -m ctx verify --root sample_project --out logs/after.txt
 | 失败原因 | `AssertionError: assert 195.0 == 220` | — |
 
 证据：`logs/before.txt`、`logs/after.txt`。两条记录由**同一个** `ctx verify` 入口生成。
+
+### 改前代码快照
+
+赛题要求交付「**修改前后代码快照**」。仓库里两份都在：
+
+| 快照 | 路径 | 内容 |
+| --- | --- | --- |
+| 改前 | `sample_project_before/src/pricing.py` | 满减与会员折扣**叠加**（`discount += amount * 0.1`） |
+| 改后 | `sample_project/src/pricing.py` | 取优惠金额更大的那个（`discount = max(discount, amount * 0.1)`） |
+
+两者只有 1 行差异：
+
+```diff
+--- sample_project_before/src/pricing.py
++++ sample_project/src/pricing.py
+@@ -19,5 +19,5 @@
+     if amount >= 200:
+         discount = 30.0
+     if is_member:
+-        discount += amount * 0.1
++        discount = max(discount, amount * 0.1)
+     return round(amount - discount, 2)
+```
+
+**复现「改前失败」**（用改前快照覆盖当前文件，跑**同一条**测试命令）：
+
+```bash
+cd minimax
+cp sample_project_before/src/pricing.py sample_project/src/pricing.py
+python -m ctx verify --root sample_project --label "改前（before）" --out logs/before.txt
+# => 退出码 1，2 failed / 6 passed，AssertionError: assert 195.0 == 220
+```
+
+改回去：
+
+```bash
+cp sample_project/src/pricing.py /tmp/pricing.after.bak   # 或用 git checkout
+git checkout -- sample_project/src/pricing.py
+```
 
 ---
 

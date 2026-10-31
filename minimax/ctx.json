@@ -100,15 +100,18 @@
   "state": {
     "completed": [
       "已用 ctx index 把 sample_project 的规格/代码/测试导入 seekdb",
+      "已用 ctx index 把 sample_project 导入 seekdb",
       "MiniMax 已生成并落地 sample_project/src/pricing.py 的修改（+1/-1 行）"
     ],
     "todo": [
       "等 MiniMax 生成 pricing.py 的修改",
+      "终验：重启前写入的一条待办",
       "证据：重启前写入的一条待办",
       "跑目标测试确认 8 条全通过"
     ],
     "verification": [
-      "改后验证：python -m pytest sample_project/tests/test_pricing.py -v -> 退出码 0，8 passed（目标测试 2 条 + 回归 6 条）"
+      "改后验证：python -m pytest sample_project/tests/test_pricing.py -v -> 退出码 0，8 passed（目标测试 2 条 + 回归 6 条）",
+      "目标测试与回归测试见 logs/after.txt：退出码 0，8 passed"
     ],
     "task": "让 total 按规格实现满减与会员折扣不叠加，取优惠金额更大的那个"
   },
