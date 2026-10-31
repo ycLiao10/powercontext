@@ -1,0 +1,26 @@
+# PowerContext 官方没有发布 Docker 镜像，这里用一个最小镜像把它跑起来。
+# 安装内容与官方文档一致：pip install "powercontext[cli,server]"
+#
+# 中国大陆网络下 files.pythonhosted.org 可能不可达，
+# 可以用 PYPI_INDEX 构建参数切到镜像源，例如：
+#   docker compose build --build-arg PYPI_INDEX=https://mirrors.aliyun.com/pypi/simple/ powercontext
+FROM python:3.12-slim
+
+ARG PYPI_INDEX=https://pypi.org/simple
+ARG PYPI_TRUSTED_HOST=pypi.org
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    POWERCONTEXT_HOME=/app/state \
+    POWERCONTEXT_SERVER_DATABASE_URL=sqlite+aiosqlite:////app/state/powercontext.db
+
+RUN pip install --no-cache-dir --index-url "${PYPI_INDEX}" --trusted-host "${PYPI_TRUSTED_HOST}" \
+    "powercontext[cli,server]==1.2.0"
+
+WORKDIR /app
+RUN mkdir -p /app/state
+VOLUME ["/app/state"]
+EXPOSE 8000
+
+# 绑定 0.0.0.0，让同一 Docker 网络里的 Dify 容器能访问到
+CMD ["powercontext", "server", "run", "--host", "0.0.0.0", "--port", "8000", "--no-env-file"]

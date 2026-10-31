@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# Dify 官方 docker/docker-compose.yaml 的增量覆盖文件
+#
+# 用法（把本文件和 Dockerfile.powercontext 复制到 Dify 的 docker/ 目录后）：
+#   docker compose --profile postgresql --profile qdrant up -d
+#
+# 这里做两件事：
+#   1. 增加 powercontext 服务，让 PowerContext 与 Dify 在同一个 Docker 网络里，
+#      Dify 的 HTTP Request 节点可以直接用 http://powercontext:8000 访问它
+#   2. 不改动 Dify 官方栈的任何默认行为
+#
+# 关于鉴权：PowerContext 默认拒绝"未鉴权且绑定非 loopback 地址"。
+# 这里显式打开这个开关（POWERCONTEXT_SERVER_ALLOW_UNAUTHENTICATED_NON_LOOPBACK），
+# 同时把对外发布的端口绑到 127.0.0.1，只让宿主机本机能访问。
+# 如果要在生产/多人环境使用，请改成开启 Bearer 鉴权：
+#   environment:
+#     POWERCONTEXT_SERVER_AUTH_TOKEN: <你的 token>
+#     POWERCONTEXT_SERVER_ACCESS_MODE: enforced
+#   并在 Dify 应用的环境变量 POWERCONTEXT_TOKEN 里填同一个 token，
+#   同时把 DSL 里 HTTP Request 节点的 authorization 改成 api-key / bearer。
+# ---------------------------------------------------------------------------
+services:
+  powercontext:
+    build:
+      context: .
+      dockerfile: Dockerfile.powercontext
+      args:
+        PYPI_INDEX: ${PYPI_INDEX:-https://pypi.org/simple}
+        PYPI_TRUSTED_HOST: ${PYPI_TRUSTED_HOST:-pypi.org}
+    image: dify-powercontext:1.2.0
+    container_name: dify-powercontext
+    environment:
+      POWERCONTEXT_HOME: /app/state
+      POWERCONTEXT_SERVER_DATABASE_URL: sqlite+aiosqlite:////app/state/powercontext.db
+      POWERCONTEXT_SERVER_HTTP_HOST: 0.0.0.0
+      POWERCONTEXT_SERVER_HTTP_PORT: "8000"
+      POWERCONTEXT_SERVER_ALLOW_UNAUTHENTICATED_NON_LOOPBACK: "true"
+    volumes:
+      - ./volumes/powercontext:/app/state
+    ports:
+      - "127.0.0.1:${EXPOSE_POWERCONTEXT_PORT:-8000}:8000"
+    networks:
+      - default
+    restart: unless-stopped

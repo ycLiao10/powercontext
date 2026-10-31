@@ -1,0 +1,362 @@
+2026-10-31T10:24:33.579058250Z 
+2026-10-31T10:24:33.579097473Z Inference capability notice
+2026-10-31T10:24:33.579100464Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:24:33.579102926Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:24:33.579104489Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:24:33.958735764Z 2026-10-31T10:24:33+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:24:33.958765874Z 2026-10-31T10:24:33+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:24:33.959942963Z 2026-10-31T10:24:33+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:24:34.800373116Z 2026-10-31T10:24:34+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:24:34.805468889Z 2026-10-31T10:24:34+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:24:34.817646311Z 2026-10-31T10:24:34+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:24:34.818239482Z 2026-10-31T10:24:34+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:30:01.835559601Z 2026-10-31T10:30:01+0000 INFO uvicorn Shutting down
+2026-10-31T10:30:01.936833000Z 2026-10-31T10:30:01+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:30:01.938374966Z 2026-10-31T10:30:01+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:30:01.956857691Z 2026-10-31T10:30:01+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:30:01.957062436Z 2026-10-31T10:30:01+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:30:01.957077613Z 2026-10-31T10:30:01+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:30:39.147286497Z 
+2026-10-31T10:30:39.147728222Z Inference capability notice
+2026-10-31T10:30:39.147748078Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:30:39.147755642Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:30:39.147761245Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:30:39.581627028Z 2026-10-31T10:30:39+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:30:39.581720791Z 2026-10-31T10:30:39+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:30:39.583100664Z 2026-10-31T10:30:39+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:30:39.832834354Z 2026-10-31T10:30:39+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:30:39.836879869Z 2026-10-31T10:30:39+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:30:39.855820978Z 2026-10-31T10:30:39+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:30:39.856096080Z 2026-10-31T10:30:39+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:33:41.367291513Z 2026-10-31T10:33:41+0000 INFO uvicorn Shutting down
+2026-10-31T10:33:41.468569651Z 2026-10-31T10:33:41+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:33:41.471178092Z 2026-10-31T10:33:41+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:33:41.476395315Z 2026-10-31T10:33:41+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:33:41.476519476Z 2026-10-31T10:33:41+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:33:41.476765260Z 2026-10-31T10:33:41+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:34:11.842044726Z 
+2026-10-31T10:34:11.842447187Z Inference capability notice
+2026-10-31T10:34:11.842464488Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:34:11.842471527Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:34:11.842476027Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:34:12.261038417Z 2026-10-31T10:34:12+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:34:12.261114722Z 2026-10-31T10:34:12+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:34:12.262392135Z 2026-10-31T10:34:12+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:34:12.547740070Z 2026-10-31T10:34:12+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:34:12.551877308Z 2026-10-31T10:34:12+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:34:12.574816052Z 2026-10-31T10:34:12+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:34:12.575082863Z 2026-10-31T10:34:12+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:34:24.856436055Z 2026-10-31T10:34:24+0000 INFO uvicorn Shutting down
+2026-10-31T10:34:24.957206911Z 2026-10-31T10:34:24+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:34:24.958106978Z 2026-10-31T10:34:24+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:34:24.961774657Z 2026-10-31T10:34:24+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:34:24.961892565Z 2026-10-31T10:34:24+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:34:24.962234486Z 2026-10-31T10:34:24+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:34:42.880430114Z 
+2026-10-31T10:34:42.880471038Z Inference capability notice
+2026-10-31T10:34:42.880476206Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:34:42.880480378Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:34:42.880505186Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:34:43.333709913Z 2026-10-31T10:34:43+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:34:43.333755368Z 2026-10-31T10:34:43+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:34:43.335044382Z 2026-10-31T10:34:43+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:34:43.624773835Z 2026-10-31T10:34:43+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:34:43.636754141Z 2026-10-31T10:34:43+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:34:43.665227347Z 2026-10-31T10:34:43+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:34:43.665674934Z 2026-10-31T10:34:43+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:34:53.766432680Z 2026-10-31T10:34:53+0000 INFO uvicorn Shutting down
+2026-10-31T10:34:53.867368370Z 2026-10-31T10:34:53+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:34:53.868002617Z 2026-10-31T10:34:53+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:34:53.871151329Z 2026-10-31T10:34:53+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:34:53.871609478Z 2026-10-31T10:34:53+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:34:53.871627772Z 2026-10-31T10:34:53+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:35:29.391878084Z 
+2026-10-31T10:35:29.392316687Z Inference capability notice
+2026-10-31T10:35:29.392341375Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:35:29.392349970Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:35:29.392356228Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:35:29.862280289Z 2026-10-31T10:35:29+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:35:29.862320013Z 2026-10-31T10:35:29+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:35:29.863923628Z 2026-10-31T10:35:29+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:35:30.132388930Z 2026-10-31T10:35:30+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:35:30.136955745Z 2026-10-31T10:35:30+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:35:30.157237153Z 2026-10-31T10:35:30+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:35:30.157588989Z 2026-10-31T10:35:30+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:36:15.203851768Z 2026-10-31T10:36:15+0000 INFO uvicorn Shutting down
+2026-10-31T10:36:15.305395922Z 2026-10-31T10:36:15+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:36:15.305435643Z 2026-10-31T10:36:15+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:36:15.306524791Z 2026-10-31T10:36:15+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:36:15.306614697Z 2026-10-31T10:36:15+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:36:15.306703428Z 2026-10-31T10:36:15+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:36:42.193538030Z 
+2026-10-31T10:36:42.193951779Z Inference capability notice
+2026-10-31T10:36:42.193971060Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:36:42.193981079Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:36:42.193985670Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:36:42.606559864Z 2026-10-31T10:36:42+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:36:42.606592495Z 2026-10-31T10:36:42+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:36:42.608223009Z 2026-10-31T10:36:42+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:36:42.837648159Z 2026-10-31T10:36:42+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:36:42.840279712Z 2026-10-31T10:36:42+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:36:42.856316911Z 2026-10-31T10:36:42+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:36:42.856568197Z 2026-10-31T10:36:42+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:36:53.490233205Z 2026-10-31T10:36:53+0000 INFO uvicorn Shutting down
+2026-10-31T10:36:53.590896757Z 2026-10-31T10:36:53+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:36:53.591556152Z 2026-10-31T10:36:53+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:36:53.593793036Z 2026-10-31T10:36:53+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:36:53.593816729Z 2026-10-31T10:36:53+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:36:53.593960531Z 2026-10-31T10:36:53+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:37:11.236700359Z 
+2026-10-31T10:37:11.236838973Z Inference capability notice
+2026-10-31T10:37:11.236848403Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:37:11.236854650Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:37:11.236859381Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:37:11.616338127Z 2026-10-31T10:37:11+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:37:11.616377751Z 2026-10-31T10:37:11+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:37:11.617230241Z 2026-10-31T10:37:11+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:37:11.842055890Z 2026-10-31T10:37:11+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:37:11.845975654Z 2026-10-31T10:37:11+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:37:11.857652020Z 2026-10-31T10:37:11+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:37:11.857832513Z 2026-10-31T10:37:11+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:38:30.651096527Z 2026-10-31T10:38:30+0000 INFO uvicorn Shutting down
+2026-10-31T10:38:30.752223996Z 2026-10-31T10:38:30+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:38:30.753007826Z 2026-10-31T10:38:30+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:38:30.755312244Z 2026-10-31T10:38:30+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:38:30.755327355Z 2026-10-31T10:38:30+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:38:30.755329465Z 2026-10-31T10:38:30+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:38:47.673981240Z 
+2026-10-31T10:38:47.674078786Z Inference capability notice
+2026-10-31T10:38:47.674087451Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:38:47.674093595Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:38:47.674098252Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:38:48.029684258Z 2026-10-31T10:38:48+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:38:48.029723771Z 2026-10-31T10:38:48+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:38:48.030487783Z 2026-10-31T10:38:48+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:38:48.281809281Z 2026-10-31T10:38:48+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:38:48.285789939Z 2026-10-31T10:38:48+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:38:48.299901642Z 2026-10-31T10:38:48+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:38:48.300265587Z 2026-10-31T10:38:48+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:39:10.364733208Z 2026-10-31T10:39:10+0000 INFO uvicorn Shutting down
+2026-10-31T10:39:10.465441095Z 2026-10-31T10:39:10+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:39:10.466053614Z 2026-10-31T10:39:10+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:39:10.469289613Z 2026-10-31T10:39:10+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:39:10.469471231Z 2026-10-31T10:39:10+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:39:10.469659438Z 2026-10-31T10:39:10+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:39:27.285427632Z 
+2026-10-31T10:39:27.285476633Z Inference capability notice
+2026-10-31T10:39:27.285480136Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:39:27.285483780Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:39:27.285486111Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:39:27.716393902Z 2026-10-31T10:39:27+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:39:27.716434415Z 2026-10-31T10:39:27+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:39:27.717316123Z 2026-10-31T10:39:27+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:39:27.980892799Z 2026-10-31T10:39:27+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:39:27.985639696Z 2026-10-31T10:39:27+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:39:27.997405358Z 2026-10-31T10:39:27+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:39:27.997491650Z 2026-10-31T10:39:27+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:40:15.196038991Z 2026-10-31T10:40:15+0000 INFO uvicorn Shutting down
+2026-10-31T10:40:15.296972334Z 2026-10-31T10:40:15+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:40:15.297660758Z 2026-10-31T10:40:15+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:40:15.300397475Z 2026-10-31T10:40:15+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:40:15.300646862Z 2026-10-31T10:40:15+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:40:15.300659884Z 2026-10-31T10:40:15+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:40:39.946603587Z 
+2026-10-31T10:40:39.947600027Z Inference capability notice
+2026-10-31T10:40:39.947620735Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:40:39.947627294Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:40:39.947631447Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:40:40.374253519Z 2026-10-31T10:40:40+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:40:40.374355460Z 2026-10-31T10:40:40+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:40:40.376191679Z 2026-10-31T10:40:40+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:40:40.665824151Z 2026-10-31T10:40:40+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:40:40.670161989Z 2026-10-31T10:40:40+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:40:40.691092479Z 2026-10-31T10:40:40+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:40:40.691328169Z 2026-10-31T10:40:40+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:40:46.028774804Z 2026-10-31T10:40:46+0000 WARNING powercontext.server.app PowerContext application operation failed request_id=816697d2d66936db trace_id=343114adc40741c1e4e2aaaf8fa4d799 span_id=b46e3797c113e08f
+2026-10-31T10:40:46.028815179Z Traceback (most recent call last):
+2026-10-31T10:40:46.028820485Z   File "/usr/local/lib/python3.12/site-packages/powercontext/server/app.py", line 5001, in observed_endpoint
+2026-10-31T10:40:46.028824460Z     await _validate_current_scope(app, operation, args, kwargs)
+2026-10-31T10:40:46.028827830Z   File "/usr/local/lib/python3.12/site-packages/powercontext/server/app.py", line 5064, in _validate_current_scope
+2026-10-31T10:40:46.028831712Z     await scopes.get(scope_id)
+2026-10-31T10:40:46.028834748Z   File "/usr/local/lib/python3.12/site-packages/powercontext/builtin/scope/application.py", line 134, in get
+2026-10-31T10:40:46.028837875Z     return await self._required(connection, scope_id)
+2026-10-31T10:40:46.028840693Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-31T10:40:46.028843491Z   File "/usr/local/lib/python3.12/site-packages/powercontext/builtin/scope/application.py", line 281, in _required
+2026-10-31T10:40:46.028846586Z     raise ScopeNotFoundError(scope_id)
+2026-10-31T10:40:46.028849424Z powercontext.builtin.scope.errors.ScopeNotFoundError: scope was not found
+2026-10-31T10:40:46.029871677Z 2026-10-31T10:40:46+0000 INFO powercontext.server.access PowerContext transport request completed request_id=816697d2d66936db trace_id=343114adc40741c1e4e2aaaf8fa4d799 span_id=816697d2d66936db
+2026-10-31T10:40:58.293911321Z 2026-10-31T10:40:58+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d62f15190af16116 trace_id=3ddedca34058449e5926de4e68597786 span_id=d62f15190af16116
+2026-10-31T10:40:58.383185789Z 2026-10-31T10:40:58+0000 INFO powercontext.server.access PowerContext transport request completed request_id=5f422cac770c1664 trace_id=71d41d115f966206845075d31dc9a494 span_id=5f422cac770c1664
+2026-10-31T10:40:58.483211969Z 2026-10-31T10:40:58+0000 INFO powercontext.server.access PowerContext transport request completed request_id=5c8c85d64cd85ab7 trace_id=b2a5b4fde28702136473e6f58899a444 span_id=5c8c85d64cd85ab7
+2026-10-31T10:40:58.556835389Z 2026-10-31T10:40:58+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b3f9c617142b3d22 trace_id=07b77d7fbcff9831f020c519dc36adfe span_id=b3f9c617142b3d22
+2026-10-31T10:41:14.935642582Z 2026-10-31T10:41:14+0000 INFO powercontext.server.access PowerContext transport request completed request_id=e2bce96fe53cd372 trace_id=aa91c7c5323f5f5daeb3fddd286a0805 span_id=e2bce96fe53cd372
+2026-10-31T10:41:15.140784701Z 2026-10-31T10:41:15+0000 INFO powercontext.server.access PowerContext transport request completed request_id=96d4251ff3d92768 trace_id=aa91c7c5323f5f5daeb3fddd286a0805 span_id=96d4251ff3d92768
+2026-10-31T10:41:15.185600340Z 2026-10-31T10:41:15+0000 INFO powercontext.server.access PowerContext transport request completed request_id=adf64dbb0ca71a00 trace_id=aa91c7c5323f5f5daeb3fddd286a0805 span_id=adf64dbb0ca71a00
+2026-10-31T10:41:19.777987603Z 2026-10-31T10:41:19+0000 INFO powercontext.server.access PowerContext transport request completed request_id=f19263718fad0582 trace_id=aa91c7c5323f5f5daeb3fddd286a0805 span_id=f19263718fad0582
+2026-10-31T10:41:19.818859805Z 2026-10-31T10:41:19+0000 INFO powercontext.server.access PowerContext transport request completed request_id=154be579376b8db0 trace_id=aa91c7c5323f5f5daeb3fddd286a0805 span_id=154be579376b8db0
+2026-10-31T10:41:19.970548541Z 2026-10-31T10:41:19+0000 INFO powercontext.server.access PowerContext transport request completed request_id=13b7374d222cc5df trace_id=868b589a21787557eb6897591bba6a8e span_id=13b7374d222cc5df
+2026-10-31T10:41:28.932994647Z 2026-10-31T10:41:28+0000 INFO powercontext.server.access PowerContext transport request completed request_id=227ca637e5a81a38 trace_id=3a2b1b4076805779a86ded4f3ced6268 span_id=227ca637e5a81a38
+2026-10-31T10:41:29.061628005Z 2026-10-31T10:41:29+0000 INFO powercontext.server.access PowerContext transport request completed request_id=e760b583ed6895b5 trace_id=3a2b1b4076805779a86ded4f3ced6268 span_id=e760b583ed6895b5
+2026-10-31T10:41:29.105391272Z 2026-10-31T10:41:29+0000 INFO powercontext.server.access PowerContext transport request completed request_id=4f591798845c67c0 trace_id=3a2b1b4076805779a86ded4f3ced6268 span_id=4f591798845c67c0
+2026-10-31T10:41:32.073152428Z 2026-10-31T10:41:32+0000 INFO powercontext.server.access PowerContext transport request completed request_id=3572addf84dfce6c trace_id=3a2b1b4076805779a86ded4f3ced6268 span_id=3572addf84dfce6c
+2026-10-31T10:41:32.117048806Z 2026-10-31T10:41:32+0000 INFO powercontext.server.access PowerContext transport request completed request_id=27df96f134152197 trace_id=3a2b1b4076805779a86ded4f3ced6268 span_id=27df96f134152197
+2026-10-31T10:41:32.274227926Z 2026-10-31T10:41:32+0000 INFO powercontext.server.access PowerContext transport request completed request_id=4b352e52c53d15a7 trace_id=90c8a8f32ced4ffebd4a059b3b7e349f span_id=4b352e52c53d15a7
+2026-10-31T10:41:48.649803611Z 2026-10-31T10:41:48+0000 INFO uvicorn Shutting down
+2026-10-31T10:41:48.752659664Z 2026-10-31T10:41:48+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:41:48.752692398Z 2026-10-31T10:41:48+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:41:48.766213908Z 2026-10-31T10:41:48+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:41:48.766564547Z 2026-10-31T10:41:48+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:41:48.766867519Z 2026-10-31T10:41:48+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:42:05.077369534Z 
+2026-10-31T10:42:05.077430116Z Inference capability notice
+2026-10-31T10:42:05.077435108Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:42:05.077439759Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:42:05.077443507Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:42:05.538160563Z 2026-10-31T10:42:05+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:42:05.538266165Z 2026-10-31T10:42:05+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:42:05.539213811Z 2026-10-31T10:42:05+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:42:05.864406624Z 2026-10-31T10:42:05+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:42:05.869532164Z 2026-10-31T10:42:05+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:42:05.892669343Z 2026-10-31T10:42:05+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:42:05.892917973Z 2026-10-31T10:42:05+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:42:17.778718928Z 2026-10-31T10:42:17+0000 INFO uvicorn Shutting down
+2026-10-31T10:42:17.880714437Z 2026-10-31T10:42:17+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:42:17.882752808Z 2026-10-31T10:42:17+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:42:17.897251069Z 2026-10-31T10:42:17+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:42:17.897599083Z 2026-10-31T10:42:17+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:42:17.897621570Z 2026-10-31T10:42:17+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:42:34.015973655Z 
+2026-10-31T10:42:34.016012338Z Inference capability notice
+2026-10-31T10:42:34.016017751Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:42:34.016022723Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:42:34.016026318Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:42:34.413820946Z 2026-10-31T10:42:34+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:42:34.413862583Z 2026-10-31T10:42:34+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:42:34.414709785Z 2026-10-31T10:42:34+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:42:34.701281765Z 2026-10-31T10:42:34+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:42:34.704716035Z 2026-10-31T10:42:34+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:42:34.717319091Z 2026-10-31T10:42:34+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:42:34.717471556Z 2026-10-31T10:42:34+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:42:46.201354802Z 2026-10-31T10:42:46+0000 INFO uvicorn Shutting down
+2026-10-31T10:42:46.302267095Z 2026-10-31T10:42:46+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:42:46.303018472Z 2026-10-31T10:42:46+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:42:46.318335079Z 2026-10-31T10:42:46+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:42:46.318599469Z 2026-10-31T10:42:46+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:42:46.318959484Z 2026-10-31T10:42:46+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:43:09.373353337Z 
+2026-10-31T10:43:09.374009646Z Inference capability notice
+2026-10-31T10:43:09.374022984Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:43:09.374026779Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:43:09.374029245Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:43:09.829558552Z 2026-10-31T10:43:09+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:43:09.829604857Z 2026-10-31T10:43:09+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:43:09.831546748Z 2026-10-31T10:43:09+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:43:10.122147613Z 2026-10-31T10:43:10+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:43:10.125004937Z 2026-10-31T10:43:10+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:43:10.145816109Z 2026-10-31T10:43:10+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:43:10.145940536Z 2026-10-31T10:43:10+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:43:20.457855257Z 2026-10-31T10:43:20+0000 INFO uvicorn Shutting down
+2026-10-31T10:43:20.558418527Z 2026-10-31T10:43:20+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:43:20.559127135Z 2026-10-31T10:43:20+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:43:20.569081487Z 2026-10-31T10:43:20+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:43:20.569116324Z 2026-10-31T10:43:20+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:43:20.569319402Z 2026-10-31T10:43:20+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:44:15.003039533Z 
+2026-10-31T10:44:15.003104636Z Inference capability notice
+2026-10-31T10:44:15.003111126Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:44:15.003124269Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:44:15.003128327Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:44:15.401393827Z 2026-10-31T10:44:15+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:44:15.401434803Z 2026-10-31T10:44:15+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:44:15.402853263Z 2026-10-31T10:44:15+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:44:15.654571228Z 2026-10-31T10:44:15+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:44:15.656695833Z 2026-10-31T10:44:15+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:44:15.671595798Z 2026-10-31T10:44:15+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:44:15.671797012Z 2026-10-31T10:44:15+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:44:27.614030874Z 2026-10-31T10:44:27+0000 INFO uvicorn Shutting down
+2026-10-31T10:44:27.713399285Z 2026-10-31T10:44:27+0000 INFO uvicorn Waiting for application shutdown.
+2026-10-31T10:44:27.714137012Z 2026-10-31T10:44:27+0000 INFO powercontext.server.factory PowerContext Server is stopping
+2026-10-31T10:44:27.723387516Z 2026-10-31T10:44:27+0000 INFO powercontext.server.factory PowerContext Server stopped
+2026-10-31T10:44:27.723426245Z 2026-10-31T10:44:27+0000 INFO uvicorn Application shutdown complete.
+2026-10-31T10:44:27.723685460Z 2026-10-31T10:44:27+0000 INFO uvicorn Finished server process [1]
+2026-10-31T10:44:45.759014722Z 
+2026-10-31T10:44:45.759087670Z Inference capability notice
+2026-10-31T10:44:45.759095882Z 未配置或未完整配置 PowerContext Server 推理模型（generation model 和 embedding model），
+2026-10-31T10:44:45.759102318Z 可能影响部分制品功能。具体影响范围及配置方式请参考 PowerContext 官网配置说明：
+2026-10-31T10:44:45.759106951Z https://powercontext.oceanbase.io/en/docs/reference/configuration/
+2026-10-31T10:44:46.176883070Z 2026-10-31T10:44:46+0000 INFO uvicorn Started server process [1]
+2026-10-31T10:44:46.176929218Z 2026-10-31T10:44:46+0000 INFO uvicorn Waiting for application startup.
+2026-10-31T10:44:46.178839511Z 2026-10-31T10:44:46+0000 INFO powercontext.server.factory PowerContext Server is starting
+2026-10-31T10:44:46.468217382Z 2026-10-31T10:44:46+0000 INFO powercontext.builtin.runtime.composition Artifact processing configuration
+2026-10-31T10:44:46.471706381Z 2026-10-31T10:44:46+0000 INFO powercontext.server.factory PowerContext Server is ready
+2026-10-31T10:44:46.487169295Z 2026-10-31T10:44:46+0000 INFO uvicorn Application startup complete.
+2026-10-31T10:44:46.487586408Z 2026-10-31T10:44:46+0000 INFO uvicorn Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-10-31T10:45:23.524924406Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d56317eed962734b trace_id=bcfe268752f60bd0265e746a33024efe span_id=d56317eed962734b
+2026-10-31T10:45:23.608536832Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b376f73874109eed trace_id=a21d0e275d1fa815a1593e9ffa0fc307 span_id=b376f73874109eed
+2026-10-31T10:45:23.720287317Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=2f714eae5d708825 trace_id=55a782e5a32f9b1c0ca9a1cc4a0f1e53 span_id=2f714eae5d708825
+2026-10-31T10:45:23.777112439Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b2c81d4f7fb6a62d trace_id=f6eb650236f8b94a7e0fc06620518d4c span_id=b2c81d4f7fb6a62d
+2026-10-31T10:45:23.885026128Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=49f2871d8eca9b07 trace_id=afc98ae260f99e802b8b8a32768f4a4d span_id=49f2871d8eca9b07
+2026-10-31T10:45:23.941515440Z 2026-10-31T10:45:23+0000 INFO powercontext.server.access PowerContext transport request completed request_id=2864994a351773d8 trace_id=5c69eb2ed3a7d8411e3ea839ead4bb5b span_id=2864994a351773d8
+2026-10-31T10:45:24.049458845Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d2aa02a3bad0cc3a trace_id=8e7292285ac9ee9900f371f461737a54 span_id=d2aa02a3bad0cc3a
+2026-10-31T10:45:24.105477155Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d59a0aab02c7ff83 trace_id=1499c447336aa3bf4bfd7a124a38fd2a span_id=d59a0aab02c7ff83
+2026-10-31T10:45:24.209533797Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=2c0d367adc748828 trace_id=d24486090ccbe3fd31e5bdb0b7590fcb span_id=2c0d367adc748828
+2026-10-31T10:45:24.261538683Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=e79c799941498be9 trace_id=79884b37f7301a368db3a8819dba2cac span_id=e79c799941498be9
+2026-10-31T10:45:24.380009606Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=60cb8945d397842f trace_id=e3fdb339f556c159793a4addd585994b span_id=60cb8945d397842f
+2026-10-31T10:45:24.440491750Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=4b1b5349edba61f1 trace_id=c3e176066fe0dd6c0c0c28473955a047 span_id=4b1b5349edba61f1
+2026-10-31T10:45:24.516617236Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=0c03af9bca96a17b trace_id=04ea114a059b589ef3daca0bbda98c85 span_id=0c03af9bca96a17b
+2026-10-31T10:45:24.622180497Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=751a6d80e0082cea trace_id=414c3b17cc0d82fa63cca6e5bcbf8462 span_id=751a6d80e0082cea
+2026-10-31T10:45:24.686317228Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a7535faeadac0b61 trace_id=52ee2aa8c2a97515255c7cc5878dec07 span_id=a7535faeadac0b61
+2026-10-31T10:45:24.787523048Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=bf60cd7b0e12b390 trace_id=39fdb7b57b01114ff90bcb87e3582771 span_id=bf60cd7b0e12b390
+2026-10-31T10:45:24.897431567Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=003602e41cd989ef trace_id=124b2b95e94dd523b9bcfa952ee9ffd3 span_id=003602e41cd989ef
+2026-10-31T10:45:24.957752486Z 2026-10-31T10:45:24+0000 INFO powercontext.server.access PowerContext transport request completed request_id=f1f8e58a08344e33 trace_id=c5e565f9c105ee0953dad601c27a6e96 span_id=f1f8e58a08344e33
+2026-10-31T10:45:25.029851177Z 2026-10-31T10:45:25+0000 INFO powercontext.server.access PowerContext transport request completed request_id=1f3cf507dcff219d trace_id=fe2e2446f345d9efecf31497dcc1ccda span_id=1f3cf507dcff219d
+2026-10-31T10:45:25.133812609Z 2026-10-31T10:45:25+0000 INFO powercontext.server.access PowerContext transport request completed request_id=3b7db290f097e4f0 trace_id=8e442cbde234b0bbe57ad0b7dbe8e422 span_id=3b7db290f097e4f0
+2026-10-31T10:45:25.186674550Z 2026-10-31T10:45:25+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a41f5eed1f373495 trace_id=89ac9e8aa973412e77b78c5074f3389e span_id=a41f5eed1f373495
+2026-10-31T10:45:26.224680647Z 2026-10-31T10:45:26+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a70b50bdba732e9c trace_id=0b9ca3eeb8e154d0b424cc7c49370b1f span_id=a70b50bdba732e9c
+2026-10-31T10:45:26.495756065Z 2026-10-31T10:45:26+0000 INFO powercontext.server.access PowerContext transport request completed request_id=ac68ae8d6e6e75e2 trace_id=0b9ca3eeb8e154d0b424cc7c49370b1f span_id=ac68ae8d6e6e75e2
+2026-10-31T10:45:26.553585415Z 2026-10-31T10:45:26+0000 INFO powercontext.server.access PowerContext transport request completed request_id=980a9afce9a2492f trace_id=0b9ca3eeb8e154d0b424cc7c49370b1f span_id=980a9afce9a2492f
+2026-10-31T10:45:33.627778813Z 2026-10-31T10:45:33+0000 INFO powercontext.server.access PowerContext transport request completed request_id=ce7615a97dd69dfe trace_id=0b9ca3eeb8e154d0b424cc7c49370b1f span_id=ce7615a97dd69dfe
+2026-10-31T10:45:33.672198301Z 2026-10-31T10:45:33+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a185c14dbbc36088 trace_id=0b9ca3eeb8e154d0b424cc7c49370b1f span_id=a185c14dbbc36088
+2026-10-31T10:45:33.849886270Z 2026-10-31T10:45:33+0000 INFO powercontext.server.access PowerContext transport request completed request_id=c07a3ba1ab336cd7 trace_id=e54913f93651ad445eb56d1468262701 span_id=c07a3ba1ab336cd7
+2026-10-31T10:45:34.041271440Z 2026-10-31T10:45:34+0000 INFO powercontext.server.access PowerContext transport request completed request_id=685d7cf23a66a9bc trace_id=35d1632da4ae573186da63cd3da3590f span_id=685d7cf23a66a9bc
+2026-10-31T10:45:34.158124670Z 2026-10-31T10:45:34+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a26faec6b24923de trace_id=35d1632da4ae573186da63cd3da3590f span_id=a26faec6b24923de
+2026-10-31T10:45:34.207369436Z 2026-10-31T10:45:34+0000 INFO powercontext.server.access PowerContext transport request completed request_id=236c32999c0c3f2c trace_id=35d1632da4ae573186da63cd3da3590f span_id=236c32999c0c3f2c
+2026-10-31T10:45:37.213469118Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=cb8740df0d4d7470 trace_id=35d1632da4ae573186da63cd3da3590f span_id=cb8740df0d4d7470
+2026-10-31T10:45:37.251608086Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=bec6ee1b81a3f18f trace_id=35d1632da4ae573186da63cd3da3590f span_id=bec6ee1b81a3f18f
+2026-10-31T10:45:37.396676071Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=42b63b69c66bb76b trace_id=3688ed6cf3bc3fd1572227e3787c2da1 span_id=42b63b69c66bb76b
+2026-10-31T10:45:37.551746072Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=bb0b6519cfd8768a trace_id=8aa5cce690665f4e9f86d7fa14b8be40 span_id=bb0b6519cfd8768a
+2026-10-31T10:45:37.653633492Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=318a4ae49edc2101 trace_id=8aa5cce690665f4e9f86d7fa14b8be40 span_id=318a4ae49edc2101
+2026-10-31T10:45:37.702637722Z 2026-10-31T10:45:37+0000 INFO powercontext.server.access PowerContext transport request completed request_id=832dcbac06815305 trace_id=8aa5cce690665f4e9f86d7fa14b8be40 span_id=832dcbac06815305
+2026-10-31T10:45:41.054777196Z 2026-10-31T10:45:41+0000 INFO powercontext.server.access PowerContext transport request completed request_id=0b4206b692931732 trace_id=8aa5cce690665f4e9f86d7fa14b8be40 span_id=0b4206b692931732
+2026-10-31T10:45:41.098027227Z 2026-10-31T10:45:41+0000 INFO powercontext.server.access PowerContext transport request completed request_id=1417566176f18c26 trace_id=8aa5cce690665f4e9f86d7fa14b8be40 span_id=1417566176f18c26
+2026-10-31T10:46:16.209610986Z 2026-10-31T10:46:16+0000 INFO powercontext.server.access PowerContext transport request completed request_id=91ba9ac61d064859 trace_id=78b015eb153bc181230a4d9d89134a1d span_id=91ba9ac61d064859
+2026-10-31T10:47:05.259131102Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=a77660c74aba3eb2 trace_id=a8a0b311173e0323cf00f7aee99c4bcc span_id=a77660c74aba3eb2
+2026-10-31T10:47:05.375311192Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d62785b12f2af3ca trace_id=3c812372c30de99714ae87e42cd5000b span_id=d62785b12f2af3ca
+2026-10-31T10:47:05.429083561Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=af75d5e810cc3476 trace_id=db75c1a238b2ab0dc3bba84481cf409a span_id=af75d5e810cc3476
+2026-10-31T10:47:05.530638506Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b57dfe886b3fb368 trace_id=82ec941e9b8b9b3bab0d98168c5b951d span_id=b57dfe886b3fb368
+2026-10-31T10:47:05.588692272Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=e399fd803397d2f7 trace_id=c88c69e4f04cacf1f33eb6ab3dd83150 span_id=e399fd803397d2f7
+2026-10-31T10:47:05.691276100Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=7d9dbf0660e363bc trace_id=481a01021c3f4bdae9053058db8ef9ba span_id=7d9dbf0660e363bc
+2026-10-31T10:47:05.742725541Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=35dec89d108eb59b trace_id=9b07e9ce4a78d5004d2b596577343fa2 span_id=35dec89d108eb59b
+2026-10-31T10:47:05.853031911Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=05072b9b9d6dae22 trace_id=8295dc74b2b0c48a31a6588f006f1417 span_id=05072b9b9d6dae22
+2026-10-31T10:47:05.908424293Z 2026-10-31T10:47:05+0000 INFO powercontext.server.access PowerContext transport request completed request_id=f0a23b70dd9955b9 trace_id=d95caaec8dd0f724d6c8c130b1b47e1c span_id=f0a23b70dd9955b9
+2026-10-31T10:47:06.010977072Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=63c67fe0d8d95859 trace_id=751f72f4f5a5d99a191fe114faa9cecf span_id=63c67fe0d8d95859
+2026-10-31T10:47:06.067554209Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=c617a5c5840b2839 trace_id=e3058ec81a76848f76f6efdd19d82e7e span_id=c617a5c5840b2839
+2026-10-31T10:47:06.162233924Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=89524a058d30ca64 trace_id=0473e8fd92ad16026c0ce998231f867a span_id=89524a058d30ca64
+2026-10-31T10:47:06.215639045Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=271f360e5cd91cd8 trace_id=a11882e68edcab0f44860690e01c11eb span_id=271f360e5cd91cd8
+2026-10-31T10:47:06.311736020Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=969eee7c54fe50cf trace_id=7206b2561d26b8d9bfb5838311548b45 span_id=969eee7c54fe50cf
+2026-10-31T10:47:06.362334835Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=df4a23447b483410 trace_id=632f6a0eed7df89eb8737bbbd6a634c0 span_id=df4a23447b483410
+2026-10-31T10:47:06.419667164Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b14f87941a0c9b65 trace_id=522b802df8699066a96e2898dc984e20 span_id=b14f87941a0c9b65
+2026-10-31T10:47:06.501018341Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=9f0aa73dea3aa139 trace_id=f1f4be9dc9eba002d5918dbfa043f7c0 span_id=9f0aa73dea3aa139
+2026-10-31T10:47:06.555032134Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=df1ad2762a7451af trace_id=38f6f61cbdb3a14c0e990a06ffc1c2c6 span_id=df1ad2762a7451af
+2026-10-31T10:47:06.728249341Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d719f68a973796a9 trace_id=ab1a76b8b8ff5635a3b1ad7910929819 span_id=d719f68a973796a9
+2026-10-31T10:47:06.845028682Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b04f173f4bd2d7d9 trace_id=ab1a76b8b8ff5635a3b1ad7910929819 span_id=b04f173f4bd2d7d9
+2026-10-31T10:47:06.884087507Z 2026-10-31T10:47:06+0000 INFO powercontext.server.access PowerContext transport request completed request_id=e7f438e89e514305 trace_id=ab1a76b8b8ff5635a3b1ad7910929819 span_id=e7f438e89e514305
+2026-10-31T10:47:13.233885899Z 2026-10-31T10:47:13+0000 INFO powercontext.server.access PowerContext transport request completed request_id=6904bd1fd8b2ca87 trace_id=ab1a76b8b8ff5635a3b1ad7910929819 span_id=6904bd1fd8b2ca87
+2026-10-31T10:47:13.275448041Z 2026-10-31T10:47:13+0000 INFO powercontext.server.access PowerContext transport request completed request_id=9c60ff996a3f4b48 trace_id=ab1a76b8b8ff5635a3b1ad7910929819 span_id=9c60ff996a3f4b48
+2026-10-31T10:47:11.536435712Z 2026-10-31T10:47:11+0000 INFO powercontext.server.access PowerContext transport request completed request_id=d824590f953623d1 trace_id=ca163a182631611e11c952869964b3ec span_id=d824590f953623d1
+2026-10-31T10:47:11.703883402Z 2026-10-31T10:47:11+0000 INFO powercontext.server.access PowerContext transport request completed request_id=b82634c49ec6376b trace_id=08ecaa1fbe2f5f9f9a9743372ec14210 span_id=b82634c49ec6376b
+2026-10-31T10:47:11.812397967Z 2026-10-31T10:47:11+0000 INFO powercontext.server.access PowerContext transport request completed request_id=3b8f4308ac2368a8 trace_id=08ecaa1fbe2f5f9f9a9743372ec14210 span_id=3b8f4308ac2368a8
+2026-10-31T10:47:11.850503638Z 2026-10-31T10:47:11+0000 INFO powercontext.server.access PowerContext transport request completed request_id=f0eeb5858799825a trace_id=08ecaa1fbe2f5f9f9a9743372ec14210 span_id=f0eeb5858799825a
+2026-10-31T10:47:13.759943297Z 2026-10-31T10:47:13+0000 INFO powercontext.server.access PowerContext transport request completed request_id=da5d40c0d1e3c193 trace_id=08ecaa1fbe2f5f9f9a9743372ec14210 span_id=da5d40c0d1e3c193
+2026-10-31T10:47:13.802838486Z 2026-10-31T10:47:13+0000 INFO powercontext.server.access PowerContext transport request completed request_id=ca1dbe3b15cf0c83 trace_id=08ecaa1fbe2f5f9f9a9743372ec14210 span_id=ca1dbe3b15cf0c83
+2026-10-31T10:47:13.959567762Z 2026-10-31T10:47:13+0000 INFO powercontext.server.access PowerContext transport request completed request_id=401ddcb78f5b071b trace_id=92aa63f1054a272df16b30cc2da5f2b3 span_id=401ddcb78f5b071b

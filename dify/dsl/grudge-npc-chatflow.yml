@@ -1,0 +1,961 @@
+app:
+  description: 一个会记仇的 NPC 铁匠阿铁。玩家每轮可以选择恶作剧或帮忙，阿铁会把每一次行为写进 PowerContext 的跨会话记忆，下次进入时主动提起旧账并报复或报恩。
+  icon: 🔨
+  icon_background: '#F5F0E6'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 记仇的 NPC：铁匠阿铁
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.73@4cf123ffaa4556f079bed6c47f3a462cc825504b859b183239e74eb19136a4b5
+    version: null
+kind: app
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: en-US
+  description: null
+  icon: 🔨
+  icon_background: '#F5F0E6'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: 记仇的 NPC：铁匠阿铁
+  use_icon_as_answer_icon: false
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: PowerContext 服务地址（Dify 容器内可达的地址，例如 http://powercontext:8000）
+    id: 9f1c3a20-0001-4a10-9c01-pcbaseurl
+    name: POWERCONTEXT_BASE_URL
+    selector:
+    - env
+    - POWERCONTEXT_BASE_URL
+    value: http://powercontext:8000
+    value_type: string
+  - description: PowerContext 开启 Bearer 鉴权时填写；未开启鉴权则留空
+    id: 9f1c3a20-0002-4a10-9c01-pctoken
+    name: POWERCONTEXT_TOKEN
+    selector:
+    - env
+    - POWERCONTEXT_TOKEN
+    value: ''
+    value_type: secret
+  - description: 默认玩家标识，对应一个独立的存档（scope）
+    id: 9f1c3a20-0003-4a10-9c01-pcplayer
+    name: POWERCONTEXT_DEFAULT_PLAYER
+    selector:
+    - env
+    - POWERCONTEXT_DEFAULT_PLAYER
+    value: player-1
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: 铁匠铺的锤声停了。阿铁抬起头，从铁砧后面盯着你：「又是你。说吧，这回想干嘛？」你可以在下方选择这次要「恶作剧」还是「帮忙」，并写清楚你做了什么。
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - 我把阿铁的风筝踩进了泥里
+    - 我帮阿铁修好了烧坏的炉子
+    - 我什么都不干，就来打个招呼
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1000000000001-source-1000000000002-target
+      source: '1000000000001'
+      sourceHandle: source
+      target: '1000000000002'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1000000000002-source-1000000000003-target
+      source: '1000000000002'
+      sourceHandle: source
+      target: '1000000000003'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1000000000003-source-1000000000004-target
+      source: '1000000000003'
+      sourceHandle: source
+      target: '1000000000004'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1000000000003-source-1000000000005-target
+      source: '1000000000003'
+      sourceHandle: source
+      target: '1000000000005'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1000000000004-source-1000000000006-target
+      source: '1000000000004'
+      sourceHandle: source
+      target: '1000000000006'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1000000000005-source-1000000000006-target
+      source: '1000000000005'
+      sourceHandle: source
+      target: '1000000000006'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1000000000006-source-1000000000007-target
+      source: '1000000000006'
+      sourceHandle: source
+      target: '1000000000007'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1000000000007-true-1000000000008-target
+      source: '1000000000007'
+      sourceHandle: 'true'
+      target: '1000000000008'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1000000000007-false-1000000000009-target
+      source: '1000000000007'
+      sourceHandle: 'false'
+      target: '1000000000009'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1000000000008-source-1000000000014-target
+      source: '1000000000008'
+      sourceHandle: source
+      target: '1000000000014'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1000000000009-source-1000000000014-target
+      source: '1000000000009'
+      sourceHandle: source
+      target: '1000000000014'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1000000000014-source-1000000000010-target
+      source: '1000000000014'
+      sourceHandle: source
+      target: '1000000000010'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1000000000010-source-1000000000011-target
+      source: '1000000000010'
+      sourceHandle: source
+      target: '1000000000011'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: http-request
+      id: 1000000000011-source-1000000000012-target
+      source: '1000000000011'
+      sourceHandle: source
+      target: '1000000000012'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: answer
+      id: 1000000000012-source-1000000000013-target
+      source: '1000000000012'
+      sourceHandle: source
+      target: '1000000000013'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: 玩家这一轮的行动
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 玩家ID
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: player_id
+        - label: 本轮行动
+          max_length: 16
+          options:
+          - 恶作剧
+          - 帮忙
+          - 结束冒险
+          required: true
+          type: select
+          variable: action
+        - label: 详细描述
+          max_length: 800
+          options: []
+          required: false
+          type: paragraph
+          variable: detail
+      height: 168
+      id: '1000000000001'
+      position:
+        x: 30
+        y: 300
+      positionAbsolute:
+        x: 30
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: b1
+            key: ''
+            type: text
+            value: '{"title":"记仇的 NPC：铁匠阿铁","summary":"Dify 赛题《记仇的 NPC》跨会话记忆存档 · player={{#1000000000001.player_id#}}","idempotency_key":"dify-npc-{{#1000000000001.player_id#}}"}'
+          type: json
+        desc: 按幂等键向 PowerContext 取得（或创建）该玩家的存档 scope
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 200
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 取得存档 scope
+        type: http-request
+        url: '{{#env.POWERCONTEXT_BASE_URL#}}/v1/scopes'
+        variables: []
+      height: 116
+      id: '1000000000002'
+      position:
+        x: 330
+        y: 300
+      positionAbsolute:
+        x: 330
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\n\ndef main(raw: str) -> dict:\n    \"\"\"从 PowerContext\
+          \ /v1/scopes 的响应里取出 scope_id。\"\"\"\n    scope_id = \"\"\n    try:\n   \
+          \     data = json.loads(raw)\n        if isinstance(data, dict):\n     \
+          \       scope_id = data.get(\"scope_id\", \"\") or \"\"\n    except Exception:\n\
+          \        scope_id = \"\"\n    return {\"scope_id\": scope_id}\n"
+        code_language: python3
+        desc: 解析 scope_id
+        outputs:
+          scope_id:
+            children: null
+            type: string
+        selected: false
+        title: 解析 scope_id
+        type: code
+        variables:
+        - value_selector:
+          - '1000000000002'
+          - body
+          variable: raw
+      height: 96
+      id: '1000000000003'
+      position:
+        x: 630
+        y: 300
+      positionAbsolute:
+        x: 630
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: b1
+            key: ''
+            type: text
+            value: '{"scope_id":"{{#1000000000003.scope_id#}}","query":"玩家对阿铁做过什么，最近发生了什么","max_bytes":4000}'
+          type: json
+        desc: 新会话开始时，从 PowerContext 读取跨会话记忆
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 200
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 读取跨会话记忆
+        type: http-request
+        url: '{{#env.POWERCONTEXT_BASE_URL#}}/v1/context/prepare'
+        variables: []
+      height: 116
+      id: '1000000000004'
+      position:
+        x: 930
+        y: 210
+      positionAbsolute:
+        x: 930
+        y: 210
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: b1
+            key: ''
+            type: text
+            value: '{"scope_id":"{{#1000000000003.scope_id#}}","include_inactive":false}'
+          type: json
+        desc: 列出该存档的全部有效记忆条目（用于读取状态与历史清单）
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 200
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 列出记忆条目
+        type: http-request
+        url: '{{#env.POWERCONTEXT_BASE_URL#}}/v1/memory/entries/list'
+        variables: []
+      height: 116
+      id: '1000000000005'
+      position:
+        x: 930
+        y: 390
+      positionAbsolute:
+        x: 930
+        y: 390
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\nimport re\n\n\ndef _int(pattern, text, default=0):\n \
+          \   match = re.search(pattern, text)\n    return int(match.group(1)) if\
+          \ match else default\n\n\ndef main(entries_raw: str, prepared_raw: str)\
+          \ -> dict:\n    \"\"\"从 PowerContext 的记忆条目里还原 NPC 状态与历史清单。\"\"\"\n    entries\
+          \ = []\n    try:\n        data = json.loads(entries_raw)\n        if isinstance(data,\
+          \ dict):\n            entries = data.get(\"entries\", []) or []\n    except\
+          \ Exception:\n        entries = []\n\n    active = [e for e in entries if\
+          \ isinstance(e, dict) and e.get(\"state\") == \"active\"]\n\n    history_lines\
+          \ = []\n    best = None  # (turn, grudge, favor)\n    for entry in active:\n\
+          \        kind = entry.get(\"kind\", \"\")\n        text = entry.get(\"text\"\
+          , \"\") or \"\"\n        turn = _int(r\"第(\\s*\\d+)\\s*回合\", text)\n   \
+          \     if kind == \"npc_state\":\n            grudge = _int(r\"记仇=(-?\\d+)\"\
+          , text)\n            favor = _int(r\"恩情=(-?\\d+)\", text)\n            if\
+          \ best is None or turn >= best[0]:\n                best = (turn, grudge,\
+          \ favor)\n        elif kind in (\"prank_grudge\", \"help_favor\", \"encounter\"\
+          ):\n            history_lines.append(text)\n\n    turn, grudge, favor =\
+          \ best if best else (0, 0, 0)\n    turn = int(turn)\n    grudge = max(-5,\
+          \ min(5, int(grudge)))\n    favor = max(0, min(5, int(favor)))\n\n    if\
+          \ grudge >= 3:\n        attitude = \"死敌\"\n    elif grudge >= 1:\n     \
+          \   attitude = \"记恨\"\n    elif grudge <= -3:\n        attitude = \"死忠\"\
+          \n    elif grudge <= -1:\n        attitude = \"亲近\"\n    else:\n       \
+          \ attitude = \"中立\"\n\n    prepared = \"\"\n    try:\n        prepared_data\
+          \ = json.loads(prepared_raw)\n        if isinstance(prepared_data, dict):\n\
+          \            prepared = prepared_data.get(\"content\", \"\") or \"\"\n \
+          \   except Exception:\n        prepared = \"\"\n\n    return {\n       \
+          \ \"turn\": turn,\n        \"grudge\": grudge,\n        \"favor\": favor,\n\
+          \        \"attitude\": attitude,\n        \"history\": \"\\n\".join(history_lines[-6:]),\n\
+          \        \"has_history\": \"true\" if history_lines else \"false\",\n  \
+          \      \"prepared\": prepared,\n    }\n"
+        code_language: python3
+        desc: 还原记仇值/恩情值/回合数与历史清单
+        outputs:
+          attitude:
+            children: null
+            type: string
+          favor:
+            children: null
+            type: number
+          grudge:
+            children: null
+            type: number
+          has_history:
+            children: null
+            type: string
+          history:
+            children: null
+            type: string
+          prepared:
+            children: null
+            type: string
+          turn:
+            children: null
+            type: number
+        selected: false
+        title: 还原 NPC 状态
+        type: code
+        variables:
+        - value_selector:
+          - '1000000000005'
+          - body
+          variable: entries_raw
+        - value_selector:
+          - '1000000000004'
+          - body
+          variable: prepared_raw
+      height: 96
+      id: '1000000000006'
+      position:
+        x: 1230
+        y: 300
+      positionAbsolute:
+        x: 1230
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        _targetBranches:
+        - id: 'true'
+          name: 记得旧账
+        - id: 'false'
+          name: 初次见面
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: cond-has-history
+            value: 'true'
+            varType: string
+            variable_selector:
+            - '1000000000006'
+            - has_history
+          id: 'true'
+          logical_operator: and
+        desc: 存档里有没有玩家以前做过的事
+        selected: false
+        title: 有旧账吗
+        type: if-else
+      height: 126
+      id: '1000000000007'
+      position:
+        x: 1530
+        y: 300
+      positionAbsolute:
+        x: 1530
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 有旧账：必须主动提起
+        model:
+          completion_params:
+            temperature: 0.9
+          mode: chat
+          name: MiniMax-M3.1-Flash
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: p-sys-grudge
+          role: system
+          text: '你是铁匠阿铁，一个脾气硬、记仇的 NPC。你说话简短、带火气，从不忘记玩家做过的事。
+
+
+            【你的状态】记仇值 {{#1000000000006.grudge#}}（-5~5，越高越记恨玩家），恩情值 {{#1000000000006.favor#}}，当前态度：{{#1000000000006.attitude#}}。
+
+
+            【你记得的事（来自 PowerContext 的跨会话记忆）】
+
+            {{#1000000000006.history#}}
+
+
+            【本轮玩家的新动作】{{#1000000000001.action#}}：{{#1000000000001.detail#}}
+
+
+            规则：
+
+            1. 这是新的一次对话，你不记得本轮对话之前说过什么，但你记得上面【你记得的事】。
+
+            2. 你必须主动提起【你记得的事】里最近的一件旧事，用一句话点出来（例如「上次你把我风筝踩泥里那事，我可还记着呢」），并据此决定态度。
+
+            3. 语气由态度决定：记恨值越高越记仇（冷嘲、威胁、报复计划）；恩情越高越亲近（别扭地道谢、不舍）。
+
+            4. 玩家这次选「恶作剧」你就记恨，选「帮忙」你就记人情，选「结束冒险」你就给这段冒险一个结局。
+
+            5. 只输出 JSON，不要任何多余文字：
+
+            {"say": "阿铁的台词（40~90字，要像他这个人）", "detail": "一句话概括玩家这次做了什么（不超过30字）"}
+
+            '
+        - id: p-user-grudge
+          role: user
+          text: 玩家 {{#1000000000001.player_id#}} 这次选了「{{#1000000000001.action#}}」：{{#1000000000001.detail#}}。说你的台词。
+        selected: false
+        title: 阿铁反应（有旧账）
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 96
+      id: '1000000000008'
+      position:
+        x: 1830
+        y: 210
+      positionAbsolute:
+        x: 1830
+        y: 210
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 初次见面：先立规矩
+        model:
+          completion_params:
+            temperature: 0.9
+          mode: chat
+          name: MiniMax-M3.1-Flash
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: p-sys-fresh
+          role: system
+          text: '你是铁匠阿铁，一个脾气硬、记仇的 NPC。你说话简短、带火气，从不忘记玩家做过的事。
+
+
+            【你的状态】记仇值 {{#1000000000006.grudge#}}（-5~5，越高越记恨玩家），恩情值 {{#1000000000006.favor#}}，当前态度：{{#1000000000006.attitude#}}。
+
+
+            【你记得的事（来自 PowerContext 的跨会话记忆）】
+
+            {{#1000000000006.history#}}
+
+
+            【本轮玩家的新动作】{{#1000000000001.action#}}：{{#1000000000001.detail#}}
+
+
+            规则：
+
+            1. 存档里没有这位玩家的旧账，你要表现得像是第一次见他：先敲打两句规矩，再应对他这次的动作。
+
+            2. 语气由态度决定：记恨值越高越记仇（冷嘲、威胁）；恩情越高越亲近（别扭地道谢）。
+
+            3. 玩家这次选「恶作剧」你就记恨，选「帮忙」你就记人情，选「结束冒险」你就给这段冒险一个结局。
+
+            4. 只输出 JSON，不要任何多余文字：
+
+            {"say": "阿铁的台词（40~90字，要像他这个人）", "detail": "一句话概括玩家这次做了什么（不超过30字）"}
+
+            '
+        - id: p-user-fresh
+          role: user
+          text: 玩家 {{#1000000000001.player_id#}} 第一次来， 这次选了「{{#1000000000001.action#}}」：{{#1000000000001.detail#}}。说你的台词。
+        selected: false
+        title: 阿铁反应（初次见面）
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 96
+      id: '1000000000009'
+      position:
+        x: 1830
+        y: 390
+      positionAbsolute:
+        x: 1830
+        y: 390
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: 把两条互斥分支的模型输出合并成一路
+        output_type: string
+        selected: false
+        title: 合并模型输出
+        type: variable-aggregator
+        variables:
+        - - '1000000000008'
+          - text
+        - - '1000000000009'
+          - text
+      height: 96
+      id: '1000000000014'
+      position:
+        x: 2130
+        y: 300
+      positionAbsolute:
+        x: 2130
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\nimport re\n\n\ndef main(llm_text: str, action: str, turn:\
+          \ float, grudge: float, favor: float) -> dict:\n    \"\"\"把玩家的行动变成确定的状态变化，并拼出要写进\
+          \ PowerContext 的记忆。\"\"\"\n    say = \"\"\n    detail = \"\"\n    try:\n\
+          \        match = re.search(r\"\\{.*\\}\", llm_text or \"\", re.S)\n    \
+          \    if match:\n            data = json.loads(match.group(0))\n        \
+          \    if isinstance(data, dict):\n                say = str(data.get(\"say\"\
+          , \"\") or \"\").strip()\n                detail = str(data.get(\"detail\"\
+          , \"\") or \"\").strip()\n    except Exception:\n        say = \"\"\n  \
+          \      detail = \"\"\n\n    if not say:\n        say = (llm_text or \"\"\
+          ).strip()[:400] or \"阿铁哼了一声，没再说话。\"\n    if not detail:\n        detail\
+          \ = (action or \"见面\").strip()[:40]\n\n    action = (action or \"\").strip()\n\
+          \    new_turn = int(turn) + 1\n    new_grudge = int(grudge)\n    new_favor\
+          \ = int(favor)\n\n    if action == \"恶作剧\":\n        kind = \"prank_grudge\"\
+          \n        new_grudge = max(-5, min(5, new_grudge + 1))\n        memory_text\
+          \ = \"第{}回合，玩家对阿铁使坏：{}。阿铁记下了这笔账。\".format(new_turn, detail)\n    elif action\
+          \ == \"帮忙\":\n        kind = \"help_favor\"\n        new_favor = max(0,\
+          \ min(5, new_favor + 1))\n        new_grudge = max(-5, min(5, new_grudge\
+          \ - 1))\n        memory_text = \"第{}回合，玩家帮了阿铁：{}。阿铁记着这份人情。\".format(new_turn,\
+          \ detail)\n    else:\n        kind = \"encounter\"\n        memory_text\
+          \ = \"第{}回合，玩家与阿铁：{}。\".format(new_turn, detail)\n\n    if new_grudge >=\
+          \ 3:\n        attitude = \"死敌\"\n    elif new_grudge >= 1:\n        attitude\
+          \ = \"记恨\"\n    elif new_grudge <= -3:\n        attitude = \"死忠\"\n    elif\
+          \ new_grudge <= -1:\n        attitude = \"亲近\"\n    else:\n        attitude\
+          \ = \"中立\"\n\n    if action == \"结束冒险\":\n        ending = \"\\n\\n【冒险结束】\"\
+          \ + say\n        if attitude == \"死敌\":\n            ending += \"\\n（阿铁把锤子往铁砧上一摔：'这辈子别再让我看见你。'）\"\
+          \n        elif attitude in (\"亲近\", \"死忠\"):\n            ending += \"\\\
+          n（阿铁难得地笑了一下：'……下回再来，提前说一声。'）\"\n        else:\n            ending += \"\\\
+          n（阿铁背过身去敲他的铁：'走吧。'）\"\n        say = ending\n\n    return {\n        \"\
+          reply\": say,\n        \"detail\": detail,\n        \"memory_kind\": kind,\n\
+          \        \"memory_text\": memory_text,\n        \"new_turn\": new_turn,\n\
+          \        \"new_grudge\": new_grudge,\n        \"new_favor\": new_favor,\n\
+          \        \"new_attitude\": attitude,\n    }\n"
+        code_language: python3
+        desc: 合并状态、生成要写入的记忆
+        outputs:
+          detail:
+            children: null
+            type: string
+          memory_kind:
+            children: null
+            type: string
+          memory_text:
+            children: null
+            type: string
+          new_attitude:
+            children: null
+            type: string
+          new_favor:
+            children: null
+            type: number
+          new_grudge:
+            children: null
+            type: number
+          new_turn:
+            children: null
+            type: number
+          reply:
+            children: null
+            type: string
+        selected: false
+        title: 合并状态
+        type: code
+        variables:
+        - value_selector:
+          - '1000000000014'
+          - output
+          variable: llm_text
+        - value_selector:
+          - '1000000000001'
+          - action
+          variable: action
+        - value_selector:
+          - '1000000000006'
+          - turn
+          variable: turn
+        - value_selector:
+          - '1000000000006'
+          - grudge
+          variable: grudge
+        - value_selector:
+          - '1000000000006'
+          - favor
+          variable: favor
+      height: 96
+      id: '1000000000010'
+      position:
+        x: 2430
+        y: 300
+      positionAbsolute:
+        x: 2430
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: b1
+            key: ''
+            type: text
+            value: '{"scope_id":"{{#1000000000003.scope_id#}}","kind":"{{#1000000000010.memory_kind#}}","text":"{{#1000000000010.memory_text#}}","reason":"Dify
+              工作流第 {{#1000000000010.new_turn#}} 回合"}'
+          type: json
+        desc: 把本轮玩家的行为写进 PowerContext 记忆
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 200
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 写入本轮记忆
+        type: http-request
+        url: '{{#env.POWERCONTEXT_BASE_URL#}}/v1/memory/remember'
+        variables: []
+      height: 116
+      id: '1000000000011'
+      position:
+        x: 2730
+        y: 300
+      positionAbsolute:
+        x: 2730
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: b1
+            key: ''
+            type: text
+            value: '{"scope_id":"{{#1000000000003.scope_id#}}","kind":"npc_state","text":"第{{#1000000000010.new_turn#}}回合后状态：记仇={{#1000000000010.new_grudge#}}，恩情={{#1000000000010.new_favor#}}，态度={{#1000000000010.new_attitude#}}。","reason":"NPC
+              状态快照"}'
+          type: json
+        desc: 把 NPC 的态度与数值一起写进 PowerContext
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 200
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 写入 NPC 状态
+        type: http-request
+        url: '{{#env.POWERCONTEXT_BASE_URL#}}/v1/memory/remember'
+        variables: []
+      height: 116
+      id: '1000000000012'
+      position:
+        x: 3030
+        y: 300
+      positionAbsolute:
+        x: 3030
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1000000000010.reply#}}
+
+          ---
+
+          第 {{#1000000000010.new_turn#}} 回合 · 记仇 {{#1000000000010.new_grudge#}} ·
+          恩情 {{#1000000000010.new_favor#}} · 态度 {{#1000000000010.new_attitude#}}'
+        desc: 阿铁的回应 + 状态条
+        selected: false
+        title: 回应
+        type: answer
+        variables: []
+      height: 116
+      id: '1000000000013'
+      position:
+        x: 3330
+        y: 300
+      positionAbsolute:
+        x: 3330
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+  rag_pipeline_variables: []
