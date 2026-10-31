@@ -1,0 +1,26 @@
+{
+  "name": "stepfun-seekdb-hybrid",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "OceanBase 赛题「seekdb × 阶跃星辰：端侧 AI 推理性能优化与 seekdb 混合检索」——浏览器端向量化 + seekdb 内一条 SQL 混合检索",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/proxy.js",
+    "smoke": "node server/smoke.js",
+    "init-db": "node scripts/init-db.js",
+    "import-corpus": "node scripts/import-corpus.js",
+    "search": "node scripts/search.js",
+    "eval": "node scripts/search.js --eval",
+    "verify-sync-mode": "node scripts/verify-sync-mode.js"
+  },
+  "workspaces": [
+    "server"
+  ],
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "mysql2": "^3.11.5"
+  }
+}

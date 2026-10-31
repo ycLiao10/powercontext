@@ -1,0 +1,370 @@
+{
+  "generatedAt": "2026-10-31T03:22:27.892Z",
+  "model": "Xenova/bge-small-zh-v1.5",
+  "browser": "chrome.exe",
+  "reps": 5,
+  "methodology": {
+    "corpus": "36 条语料（data/corpus.jsonl）",
+    "queries": "25 条固定查询（data/queries.json，人工标注 relevant / graded）",
+    "median": "每个指标重复 5 次取中位数",
+    "coldLoad": "全新浏览器 profile 下的首次 pipeline() 创建，含权重下载",
+    "warmLoad": "同一页面内第二次创建 pipeline（权重已在浏览器 Cache）",
+    "vectorize": "36 条语料一次批量向量化（标题+正文，与生产路径一致）",
+    "writeAndIndex": "POST /api/documents，代理侧计时含 INSERT 与索引刷新（sync_mode=IMMEDIATE）",
+    "seekdbSearch": "代理返回的 tookMs：服务端执行混合检索 SQL 的耗时",
+    "endToEndQuery": "查询向量计算 → 混合检索 → 结果渲染到 DOM（双 rAF）",
+    "quality": "用同一组向量跑固定评测集，Recall@5 / nDCG@5 公式与 scripts/search.js 一致"
+  },
+  "configs": [
+    {
+      "id": "fp32-wasm",
+      "note": "fp32 基线（WASM）",
+      "dtype": "fp32",
+      "device": "wasm",
+      "batch": 8,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model.onnx",
+      "modelBytes": 94851877,
+      "modelMB": 90.46,
+      "coldLoadMs": 1409.5,
+      "warmLoadMs": 293,
+      "weightDownloadMs": 372.5,
+      "weightBytes": 94852116,
+      "vectorize36": {
+        "ms": 3225.3,
+        "docsPerSec": 11.162
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 3205.1,
+          "docsPerSec": 11.232
+        },
+        "8": {
+          "ms": 3225.3,
+          "docsPerSec": 11.162
+        },
+        "16": {
+          "ms": 3367.7,
+          "docsPerSec": 10.69
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 43.4,
+        "clientRoundTripMs": 65.4
+      },
+      "queryVectorize": {
+        "totalMs25": 344.3,
+        "perQueryMs": 13.77
+      },
+      "seekdbSearchMs": 4.97,
+      "endToEndQueryMs": 67.3,
+      "endToEndEmbedMs": 9.2,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9685,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 1
+    },
+    {
+      "id": "fp32-webgpu",
+      "note": "fp32 + WebGPU",
+      "dtype": "fp32",
+      "device": "webgpu",
+      "batch": 8,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model.onnx",
+      "modelBytes": 94851877,
+      "modelMB": 90.46,
+      "coldLoadMs": 1567.1,
+      "warmLoadMs": 251.2,
+      "weightDownloadMs": 348.2,
+      "weightBytes": 94852116,
+      "vectorize36": {
+        "ms": 422.7,
+        "docsPerSec": 85.167
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 1028.2,
+          "docsPerSec": 35.013
+        },
+        "8": {
+          "ms": 422.7,
+          "docsPerSec": 85.167
+        },
+        "16": {
+          "ms": 410.2,
+          "docsPerSec": 87.762
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 47.9,
+        "clientRoundTripMs": 67.7
+      },
+      "queryVectorize": {
+        "totalMs25": 126.6,
+        "perQueryMs": 5.06
+      },
+      "seekdbSearchMs": 4.97,
+      "endToEndQueryMs": 80.3,
+      "endToEndEmbedMs": 24.7,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9685,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 1
+    },
+    {
+      "id": "q8-webgpu",
+      "note": "q8 + WebGPU",
+      "dtype": "q8",
+      "device": "webgpu",
+      "batch": 8,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model_quantized.onnx",
+      "modelBytes": 24010842,
+      "modelMB": 22.9,
+      "coldLoadMs": 1040.3,
+      "warmLoadMs": 146.7,
+      "weightDownloadMs": 104,
+      "weightBytes": 24011081,
+      "vectorize36": {
+        "ms": 2525.2,
+        "docsPerSec": 14.256
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 4101.3,
+          "docsPerSec": 8.778
+        },
+        "8": {
+          "ms": 2525.2,
+          "docsPerSec": 14.256
+        },
+        "16": {
+          "ms": 2471.6,
+          "docsPerSec": 14.565
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 41.7,
+        "clientRoundTripMs": 59.9
+      },
+      "queryVectorize": {
+        "totalMs25": 469.3,
+        "perQueryMs": 18.77
+      },
+      "seekdbSearchMs": 5,
+      "endToEndQueryMs": 122.8,
+      "endToEndEmbedMs": 69.4,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9683,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 3.95
+    },
+    {
+      "id": "q8-wasm",
+      "note": "q8 + WASM",
+      "dtype": "q8",
+      "device": "wasm",
+      "batch": 8,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model_quantized.onnx",
+      "modelBytes": 24010842,
+      "modelMB": 22.9,
+      "coldLoadMs": 967.6,
+      "warmLoadMs": 162.2,
+      "weightDownloadMs": 130.6,
+      "weightBytes": 24011081,
+      "vectorize36": {
+        "ms": 2061,
+        "docsPerSec": 17.467
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 1967.5,
+          "docsPerSec": 18.297
+        },
+        "8": {
+          "ms": 2061,
+          "docsPerSec": 17.467
+        },
+        "16": {
+          "ms": 2215.8,
+          "docsPerSec": 16.247
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 40.5,
+        "clientRoundTripMs": 56.6
+      },
+      "queryVectorize": {
+        "totalMs25": 207.2,
+        "perQueryMs": 8.29
+      },
+      "seekdbSearchMs": 4.96,
+      "endToEndQueryMs": 61.8,
+      "endToEndEmbedMs": 7.3,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9685,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 3.95
+    },
+    {
+      "id": "q8-wasm-b16",
+      "note": "q8 + WASM + batch=16",
+      "dtype": "q8",
+      "device": "wasm",
+      "batch": 16,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model_quantized.onnx",
+      "modelBytes": 24010842,
+      "modelMB": 22.9,
+      "coldLoadMs": 894.9,
+      "warmLoadMs": 120.9,
+      "weightDownloadMs": 124.4,
+      "weightBytes": 24011081,
+      "vectorize36": {
+        "ms": 2478.5,
+        "docsPerSec": 14.525
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 2007.9,
+          "docsPerSec": 17.929
+        },
+        "8": {
+          "ms": 2519.1,
+          "docsPerSec": 14.291
+        },
+        "16": {
+          "ms": 2478.5,
+          "docsPerSec": 14.525
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 43.1,
+        "clientRoundTripMs": 62.2
+      },
+      "queryVectorize": {
+        "totalMs25": 204.4,
+        "perQueryMs": 8.18
+      },
+      "seekdbSearchMs": 4.95,
+      "endToEndQueryMs": 70.2,
+      "endToEndEmbedMs": 8.7,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9685,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 3.95
+    },
+    {
+      "id": "q8-webgpu-b16",
+      "note": "q8 + WebGPU + batch=16",
+      "dtype": "q8",
+      "device": "webgpu",
+      "batch": 16,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model_quantized.onnx",
+      "modelBytes": 24010842,
+      "modelMB": 22.9,
+      "coldLoadMs": 1172.1,
+      "warmLoadMs": 164,
+      "weightDownloadMs": 133,
+      "weightBytes": 24011081,
+      "vectorize36": {
+        "ms": 2555.2,
+        "docsPerSec": 14.089
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 4063.4,
+          "docsPerSec": 8.86
+        },
+        "8": {
+          "ms": 2580.6,
+          "docsPerSec": 13.95
+        },
+        "16": {
+          "ms": 2555.2,
+          "docsPerSec": 14.089
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 43.2,
+        "clientRoundTripMs": 63.3
+      },
+      "queryVectorize": {
+        "totalMs25": 362,
+        "perQueryMs": 14.48
+      },
+      "seekdbSearchMs": 5.04,
+      "endToEndQueryMs": 114.8,
+      "endToEndEmbedMs": 66,
+      "recallAt5": 0.8867,
+      "ndcgAt5": 0.9663,
+      "rankingsStable": true,
+      "reps": 5,
+      "compressionVsFp32": 3.95
+    },
+    {
+      "id": "fp16-webgpu",
+      "note": "fp16 + WebGPU",
+      "dtype": "fp16",
+      "device": "webgpu",
+      "batch": 8,
+      "status": "ok",
+      "browser": "chrome.exe",
+      "modelFile": "onnx/model_fp16.onnx",
+      "modelBytes": 47497427,
+      "modelMB": 45.3,
+      "coldLoadMs": 1374.2,
+      "warmLoadMs": 211.6,
+      "weightDownloadMs": 216.2,
+      "weightBytes": 47497666,
+      "vectorize36": {
+        "ms": 253.5,
+        "docsPerSec": 142.012
+      },
+      "batchRuns": {
+        "1": {
+          "ms": 660.7,
+          "docsPerSec": 54.488
+        },
+        "8": {
+          "ms": 253.5,
+          "docsPerSec": 142.012
+        },
+        "16": {
+          "ms": 230.1,
+          "docsPerSec": 156.454
+        }
+      },
+      "writeAndIndex": {
+        "serverInsertMs": 46.2,
+        "clientRoundTripMs": 64.8
+      },
+      "queryVectorize": {
+        "totalMs25": 65.3,
+        "perQueryMs": 2.61
+      },
+      "seekdbSearchMs": 4.68,
+      "endToEndQueryMs": 71,
+      "endToEndEmbedMs": 16.6,
+      "recallAt5": 0.9067,
+      "ndcgAt5": 0.9685,
+      "rankingsStable": false,
+      "reps": 5,
+      "compressionVsFp32": 2
+    }
+  ]
+}

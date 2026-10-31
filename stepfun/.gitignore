@@ -1,0 +1,23 @@
+# 依赖
+node_modules/
+
+# 前端构建产物与 onnxruntime-web 运行时资源（由 web/scripts/prepare-ort-assets.mjs 生成）
+web/dist/
+web/public/ort/
+
+# 模型权重镜像（由 web/scripts/download-model.mjs 生成，不入库）
+models/
+
+# onnxruntime-web 运行时资源（由 web/scripts/prepare-ort-assets.mjs 生成，不入库）
+runtime/
+
+# 本地 seekdb 数据目录（由 server/start-seekdb.sh 创建）
+server/.seekdb/
+
+# 本地环境文件（只放占位值，不提交真实 key）
+.env
+.env.local
+
+# 模型缓存（本地 ONNX 权重，由脚本下载）
+.cache/
+models/

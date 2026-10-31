@@ -1,0 +1,180 @@
+{
+  "_comment": "固定评测集：每条查询带人工标注的相关文档（relevant）与分级相关性（graded）。Recall@5 与 nDCG@5 均基于此文件计算。语种比例约 80% 中文 / 20% 中英混合。",
+  "queries": [
+    {
+      "id": "q01",
+      "query": "优惠活动效果如何",
+      "lang": "zh",
+      "relevant": ["doc-02", "doc-01"],
+      "graded": { "doc-02": 3, "doc-01": 1 }
+    },
+    {
+      "id": "q02",
+      "query": "向量索引同步模式会影响增量检索吗",
+      "lang": "zh",
+      "relevant": ["doc-05", "doc-36", "doc-04"],
+      "graded": { "doc-05": 3, "doc-36": 2, "doc-04": 1 }
+    },
+    {
+      "id": "q03",
+      "query": "数据库索引怎么设计才合理",
+      "lang": "zh",
+      "relevant": ["doc-03"],
+      "graded": { "doc-03": 3 }
+    },
+    {
+      "id": "q04",
+      "query": "全文检索和向量检索的区别",
+      "lang": "zh",
+      "relevant": ["doc-04", "doc-30"],
+      "graded": { "doc-04": 3, "doc-30": 2 }
+    },
+    {
+      "id": "q05",
+      "query": "混合检索的排序是怎么融合的",
+      "lang": "zh",
+      "relevant": ["doc-30", "doc-04"],
+      "graded": { "doc-30": 3, "doc-04": 2 }
+    },
+    {
+      "id": "q06",
+      "query": "缓存雪崩和穿透怎么处理",
+      "lang": "zh",
+      "relevant": ["doc-11", "doc-12"],
+      "graded": { "doc-11": 3, "doc-12": 2 }
+    },
+    {
+      "id": "q07",
+      "query": "备份恢复演练多久做一次",
+      "lang": "zh",
+      "relevant": ["doc-06"],
+      "graded": { "doc-06": 3 }
+    },
+    {
+      "id": "q08",
+      "query": "线上出现故障怎么排查",
+      "lang": "zh",
+      "relevant": ["doc-08", "doc-07"],
+      "graded": { "doc-08": 3, "doc-07": 1 }
+    },
+    {
+      "id": "q09",
+      "query": "敏感数据加密和权限怎么管",
+      "lang": "zh",
+      "relevant": ["doc-09", "doc-10"],
+      "graded": { "doc-09": 3, "doc-10": 2 }
+    },
+    {
+      "id": "q10",
+      "query": "限流熔断降级的作用",
+      "lang": "zh",
+      "relevant": ["doc-17", "doc-14"],
+      "graded": { "doc-17": 3, "doc-14": 1 }
+    },
+    {
+      "id": "q11",
+      "query": "行存和列存引擎怎么选",
+      "lang": "zh",
+      "relevant": ["doc-18", "doc-19", "doc-20"],
+      "graded": { "doc-18": 3, "doc-19": 1, "doc-20": 1 }
+    },
+    {
+      "id": "q12",
+      "query": "浏览器里跑模型有什么好处",
+      "lang": "zh",
+      "relevant": ["doc-29"],
+      "graded": { "doc-29": 3 }
+    },
+    {
+      "id": "q13",
+      "query": "embedding 模型量化后体积能小多少",
+      "lang": "zh",
+      "relevant": ["doc-31", "doc-29"],
+      "graded": { "doc-31": 3, "doc-29": 1 }
+    },
+    {
+      "id": "q14",
+      "query": "灰度发布和回滚怎么做",
+      "lang": "zh",
+      "relevant": ["doc-24", "doc-23"],
+      "graded": { "doc-24": 3, "doc-23": 2 }
+    },
+    {
+      "id": "q15",
+      "query": "容器编排的资源调度策略",
+      "lang": "zh",
+      "relevant": ["doc-25"],
+      "graded": { "doc-25": 3 }
+    },
+    {
+      "id": "q16",
+      "query": "链路追踪怎么串联跨服务调用",
+      "lang": "zh",
+      "relevant": ["doc-26"],
+      "graded": { "doc-26": 3 }
+    },
+    {
+      "id": "q17",
+      "query": "性能压测应该关注哪些指标",
+      "lang": "zh",
+      "relevant": ["doc-28", "doc-27"],
+      "graded": { "doc-28": 3, "doc-27": 1 }
+    },
+    {
+      "id": "q18",
+      "query": "订单和库存怎么保证一致性",
+      "lang": "zh",
+      "relevant": ["doc-16"],
+      "graded": { "doc-16": 3 }
+    },
+    {
+      "id": "q19",
+      "query": "前端首屏加载慢怎么优化",
+      "lang": "zh",
+      "relevant": ["doc-21", "doc-22"],
+      "graded": { "doc-21": 3, "doc-22": 2 }
+    },
+    {
+      "id": "q20",
+      "query": "网络容灾切换的目标时间",
+      "lang": "zh",
+      "relevant": ["doc-13", "doc-14"],
+      "graded": { "doc-13": 3, "doc-14": 1 }
+    },
+    {
+      "id": "q21",
+      "query": "索引 tuning 和 execution plan 分析",
+      "lang": "mixed",
+      "relevant": ["doc-32", "doc-03"],
+      "graded": { "doc-32": 3, "doc-03": 2 }
+    },
+    {
+      "id": "q22",
+      "query": "service mesh 的 sidecar proxy 性能开销",
+      "lang": "mixed",
+      "relevant": ["doc-33"],
+      "graded": { "doc-33": 3 }
+    },
+    {
+      "id": "q23",
+      "query": "CI pipeline flaky test 怎么处理",
+      "lang": "mixed",
+      "relevant": ["doc-34", "doc-23"],
+      "graded": { "doc-34": 3, "doc-23": 1 }
+    },
+    {
+      "id": "q24",
+      "query": "缓存架构的本地缓存和分布式缓存",
+      "lang": "mixed",
+      "relevant": ["doc-12", "doc-11"],
+      "graded": { "doc-12": 3, "doc-11": 2 }
+    },
+    {
+      "id": "q25",
+      "query": "监控告警分级和收敛",
+      "lang": "mixed",
+      "relevant": ["doc-07", "doc-08"],
+      "graded": { "doc-07": 3, "doc-08": 1 }
+    }
+  ]
+}

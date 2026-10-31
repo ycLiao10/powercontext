@@ -1,0 +1,25 @@
+{
+  "name": "stepfun-seekdb-hybrid-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "stepfun 赛题前端：浏览器内本地向量化（WebGPU 优先 / WASM 降级）+ seekdb 混合检索",
+  "scripts": {
+    "prepare:ort": "node scripts/prepare-ort-assets.mjs",
+    "prepare:model": "node scripts/download-model.mjs",
+    "predev": "npm run prepare:ort && npm run prepare:model",
+    "dev": "vite",
+    "prebuild": "npm run prepare:ort && npm run prepare:model",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  }
+}
