@@ -156,6 +156,7 @@ from powercontext.builtin.runtime.readiness import (
 )
 from powercontext.builtin.runtime.recall_sufficiency import RecallSufficiencyPolicy
 from powercontext.builtin.runtime.relational import RelationalContexts
+from powercontext.builtin.runtime.source_lifecycle import SourceLifecycleRegistry
 from powercontext.builtin.runtime.topic_memory_processing import (
     TopicMemoryWorkerSpec,
     run_topic_memory_worker,
@@ -581,6 +582,7 @@ async def open_builtin_runtime(
                 if family in registered_families
             )
         topic_memory_processing_available = _topic_memory_processing_available(config, processing_bindings)
+        lifecycle = SourceLifecycleRegistry(contexts.database)
         runtime = await resources.enter_async_context(
             BuiltinRuntime(
                 code_service=await resources.enter_async_context(open_code_service(config.code, config.database)),
@@ -651,8 +653,10 @@ async def open_builtin_runtime(
                 scheduled_source_runner=scheduled_source_runner,
                 scheduled_experience_runner=scheduled_experience_runner,
                 remote_ingestion=contexts,
+                lifecycle=lifecycle,
             )
         )
+        lifecycle.bind(runtime)
         runtime.artifact_processing_supervisor = await resources.enter_async_context(
             _open_artifact_processing_supervisor(config, contexts, processing_bindings, tracing=tracing)
         )

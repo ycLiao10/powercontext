@@ -299,6 +299,7 @@ if TYPE_CHECKING:
 
     from powercontext.builtin.handoff_report.application import HandoffReportApplication
     from powercontext.builtin.runtime.artifact_processing import ArtifactProcessingSupervisors
+    from powercontext.builtin.runtime.source_lifecycle import SourceLifecycleRegistry
 
 
 class TopicMemorySearch(Protocol):
@@ -2667,6 +2668,7 @@ class ScopedTopicMemoryApplication:
                     query_embedding,
                     embedding_timeout_seconds,
                 )
+        result = await self._filter_withdrawn_topics(result)
         observer = self._runtime._topic_memory_search_observer
         if observer is not None:
             try:
@@ -2684,6 +2686,20 @@ class ScopedTopicMemoryApplication:
                     },
                 )
         return result
+
+    async def _filter_withdrawn_topics(self, result: TopicMemorySearchResult) -> TopicMemorySearchResult:
+        """Drop Topic Memory artifacts whose supporting evidence was withdrawn."""
+
+        lifecycle = self._runtime.lifecycle
+        if lifecycle is None or not result.hits:
+            return result
+        withdrawn = await lifecycle.withdrawn_topic_artifact_ids(self.scope_id)
+        if not withdrawn:
+            return result
+        kept = tuple(hit for hit in result.hits if hit.artifact_ref.artifact_id not in withdrawn)
+        if len(kept) == len(result.hits):
+            return result
+        return result.model_copy(update={"hits": kept})
 
     async def _search_with_embedding(
         self,
@@ -2778,7 +2794,22 @@ class ScopedTopicMemoryApplication:
         if not 1 <= limit <= 100:
             raise InvalidRuntimeRequestError("topic-memory-browse-limit")
         async with self._runtime._scoped_operation(self.scope_id):
-            return await self._runtime._topic_memory_browse(self.scope_id, limit=limit, after=after)
+            items = await self._runtime._topic_memory_browse(self.scope_id, limit=limit, after=after)
+        return await self._filter_withdrawn_topic_items(items)
+
+    async def _filter_withdrawn_topic_items(
+        self,
+        items: tuple[TopicMemoryCurrentItem, ...],
+    ) -> tuple[TopicMemoryCurrentItem, ...]:
+        """Drop browsed Topic Memory artifacts whose supporting evidence was withdrawn."""
+
+        lifecycle = self._runtime.lifecycle
+        if lifecycle is None or not items:
+            return items
+        withdrawn = await lifecycle.withdrawn_topic_artifact_ids(self.scope_id)
+        if not withdrawn:
+            return items
+        return tuple(item for item in items if item.artifact_ref.artifact_id not in withdrawn)
 
     async def flush(self) -> TopicMemoryFlushResult:
         if not self._runtime._topic_memory_processing_available or self._runtime._topic_memory_flush is None:
@@ -3027,6 +3058,7 @@ class BuiltinRuntime:
         remote_ingestion: RemoteIngestion | None = None,
         dream_service: DreamService | None = None,
         generation_concurrency: int = 4,
+        lifecycle: SourceLifecycleRegistry | None = None,
     ) -> None:
         if source_window_limit < 1:
             raise _RuntimeConfigurationError("source_window_limit")
@@ -3077,6 +3109,7 @@ class BuiltinRuntime:
         self.decision_model = decision_model
         self.publications = publication_application
         self.scopes = scope_application
+        self.lifecycle = lifecycle
         self._readiness = RuntimeReadinessChecks() if readiness is None else readiness
         self._clock = _utc_now if clock is None else clock
         self._tracing = tracing

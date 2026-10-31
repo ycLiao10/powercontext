@@ -51,6 +51,9 @@ from powercontext.limits import (
     MAX_SCOPE_SUMMARY_LENGTH,
     MAX_SCOPE_TITLE_LENGTH,
     MAX_SOURCE_ID_LENGTH,
+    MAX_SOURCE_LIFECYCLE_KIND_LENGTH,
+    MAX_SOURCE_LIFECYCLE_NODE_ID_LENGTH,
+    MAX_SOURCE_LIFECYCLE_POLICY_LENGTH,
     MAX_SOURCE_TYPE_LENGTH,
 )
 
@@ -1180,6 +1183,52 @@ RECURRENCE_OBSERVATION_TABLE = Table(
 
 RECURRENCE_TABLES = (RECURRENCE_MATCH_TABLE, RECURRENCE_OBSERVATION_TABLE)
 
+SOURCE_LIFECYCLE_NODES_TABLE = Table(
+    "pc_source_lifecycle_nodes",
+    SHARED_METADATA,
+    Column("scope_id", identity_string(MAX_SCOPE_ID_LENGTH), primary_key=True),
+    Column("node_id", identity_string(MAX_SOURCE_LIFECYCLE_NODE_ID_LENGTH), primary_key=True),
+    Column("kind", identity_string(MAX_SOURCE_LIFECYCLE_KIND_LENGTH), nullable=False),
+    Column("policy", identity_string(MAX_SOURCE_LIFECYCLE_POLICY_LENGTH), nullable=False),
+    Column("revision", Integer, nullable=False),
+    Column("available", Boolean, nullable=False),
+    Column("parents", _entry_text_type(), nullable=False),
+    Column("reference", _entry_text_type(), nullable=False),
+    Column("applied_sequence", BigInteger, nullable=False),
+    Column("registration_order", BigInteger, nullable=False),
+    ForeignKeyConstraint(("scope_id",), ("pc_scopes.scope_id",), ondelete="RESTRICT"),
+    CheckConstraint(
+        "kind IN ('source', 'memory', 'topic')",
+        name="ck_pc_source_lifecycle_node_kind",
+    ),
+    CheckConstraint(
+        "policy IN ('all', 'any')",
+        name="ck_pc_source_lifecycle_node_policy",
+    ),
+    CheckConstraint("revision > 0", name="ck_pc_source_lifecycle_node_revision"),
+    CheckConstraint("applied_sequence >= 0", name="ck_pc_source_lifecycle_node_sequence"),
+)
+
+SOURCE_LIFECYCLE_EVENTS_TABLE = Table(
+    "pc_source_lifecycle_events",
+    SHARED_METADATA,
+    Column("scope_id", identity_string(MAX_SCOPE_ID_LENGTH), primary_key=True),
+    Column("node_id", identity_string(MAX_SOURCE_LIFECYCLE_NODE_ID_LENGTH), primary_key=True),
+    Column("sequence", BigInteger, primary_key=True),
+    Column("revision", Integer, nullable=False),
+    Column("available", Boolean, nullable=False),
+    Column("reason", _entry_text_type(), nullable=False),
+    Column("recorded_at", DateTime(timezone=True), nullable=False),
+    ForeignKeyConstraint(("scope_id",), ("pc_scopes.scope_id",), ondelete="RESTRICT"),
+    CheckConstraint("sequence > 0", name="ck_pc_source_lifecycle_event_sequence"),
+    CheckConstraint("revision > 0", name="ck_pc_source_lifecycle_event_revision"),
+)
+
+SOURCE_LIFECYCLE_TABLES = (
+    SOURCE_LIFECYCLE_NODES_TABLE,
+    SOURCE_LIFECYCLE_EVENTS_TABLE,
+)
+
 BUILTIN_TABLES = (
     SCOPE_TABLES
     + SHARED_TABLES
@@ -1187,5 +1236,6 @@ BUILTIN_TABLES = (
     + MEMORY_TABLES
     + STATISTICS_TABLES
     + RECURRENCE_TABLES
+    + SOURCE_LIFECYCLE_TABLES
     + (ARTIFACT_TAGS_TABLE, DREAM_RUNS_TABLE, RECEIPT_MIGRATION_REVIEW_TABLE)
 )
