@@ -17,6 +17,8 @@
 from __future__ import annotations
 
 import asyncio
+import os
+import stat
 from collections.abc import AsyncIterator, Mapping
 from contextlib import asynccontextmanager, suppress
 from importlib import import_module
@@ -135,11 +137,32 @@ class SeekDBProfile:
 
 def _load_binding() -> ModuleType:
     try:
-        return import_module("pylibseekdb")
+        module = import_module("pylibseekdb")
     except ModuleNotFoundError as error:
         if error.name != "pylibseekdb":
             raise
         raise SeekDBUnavailableError from None
+    _ensure_engine_executable(module)
+    return module
+
+
+def _ensure_engine_executable(module: ModuleType) -> None:
+    """Restore the engine's executable bit when an install dropped it.
+
+    The bundled engine ships as a data file inside the wheel, and some
+    installers unpack it without its file mode. The embedded runtime then
+    fails to start with an opaque error, so the mode is repaired here. This is
+    a no-op on a healthy installation.
+    """
+
+    location = getattr(module, "__file__", None)
+    if not location:
+        return
+    engine = Path(location).parent / "seekdb"
+    if not engine.is_file() or os.access(engine, os.X_OK):
+        return
+    with suppress(OSError):
+        engine.chmod(engine.stat().st_mode | stat.S_IXUSR)
 
 
 async def _open_instance(module: ModuleType, path: Path) -> _SeekDBInstance:
