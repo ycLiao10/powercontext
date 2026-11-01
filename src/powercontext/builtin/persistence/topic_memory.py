@@ -489,9 +489,10 @@ class TopicMemoryRepository:
         channels = await self.index.search(connection, scope_id, request)
         await self._check_retrieval_shape(connection)
         outcome = _fuse_topic_memory_rankings(query, channels, limit, mode=used_mode, admission=admission)
+        hits = await self._drop_withdrawn(connection, scope_id, outcome.hits)
         return TopicMemorySearchResult(
             mode=used_mode,
-            hits=outcome.hits,
+            hits=hits,
             admission=AdmissionCounts(
                 family=TopicMemory.family,
                 scope_id=scope_id,
@@ -500,6 +501,37 @@ class TopicMemoryRepository:
                 rejected=outcome.rejected,
             ),
         )
+
+    async def _drop_withdrawn(
+        self,
+        connection: AsyncConnection,
+        scope_id: str,
+        hits: tuple[TopicMemorySearchHit, ...],
+    ) -> tuple[TopicMemorySearchHit, ...]:
+        """Keep only the hits whose Artifact head is still usable.
+
+        Withdrawal is governance on the head, so the index and every Revision stay
+        untouched: the Topic simply stops being recallable until it is restored.
+        """
+
+        if not hits:
+            return hits
+        artifact_ids = {hit.artifact_ref.artifact_id for hit in hits}
+        heads = ARTIFACT_HEADS_TABLE
+        active = {
+            str(row[0])
+            for row in (
+                await connection.execute(
+                    select(heads.c.artifact_id).where(
+                        heads.c.scope_id == scope_id,
+                        heads.c.family == TopicMemory.family,
+                        heads.c.artifact_id.in_(artifact_ids),
+                        heads.c.lifecycle_state == "active",
+                    )
+                )
+            ).all()
+        }
+        return tuple(hit for hit in hits if hit.artifact_ref.artifact_id in active)
 
     async def _activate(
         self,

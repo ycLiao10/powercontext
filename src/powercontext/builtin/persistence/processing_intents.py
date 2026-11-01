@@ -171,6 +171,35 @@ class ArtifactProcessingIntentRepository:
         )
         return cast(StoredArtifactProcessingIntent, await self.load(connection, scope_id, binding_name))
 
+    async def accept_counted(
+        self,
+        connection: AsyncConnection,
+        scope_id: str,
+        binding_name: str,
+        /,
+    ) -> StoredArtifactProcessingIntent:
+        """Accept one Scope that already measured enough pending journal entries.
+
+        Count admission is not a frozen page scan: the caller has just read this
+        Scope's own head and cursor, so a row captured after an older scan began
+        is legitimate work. An accepted-but-unhandled invocation is reused rather
+        than bumped, matching how repeated requests collapse.
+        """
+
+        _require_key(scope_id, binding_name)
+        current = await self.load(connection, scope_id, binding_name, for_update=True)
+        if current is None:
+            raise InvalidRepositoryArgumentError("scope_id", "counted member is not registered")
+        if current.requested_generation > current.handled_generation:
+            return current
+        table = ARTIFACT_PROCESSING_INTENTS_TABLE
+        await connection.execute(
+            update(table)
+            .where(table.c.scope_id == scope_id, table.c.binding_name == binding_name)
+            .values(requested_generation=current.requested_generation + 1)
+        )
+        return cast(StoredArtifactProcessingIntent, await self.load(connection, scope_id, binding_name))
+
     async def scan(
         self,
         connection: AsyncConnection,
