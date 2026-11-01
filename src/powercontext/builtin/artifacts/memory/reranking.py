@@ -124,7 +124,7 @@ class LLMMemoryReranker:
     ) -> MemoryRerankDecision:
         """Generate and normalize a sparse selection from the coarse ranks."""
 
-        _validate_bounds(len(candidates), limit)
+        validate_rerank_bounds(len(candidates), limit)
         result = await self._generator.generate(
             MemoryRerankInput(
                 query=query,
@@ -174,7 +174,9 @@ def _normalize_ranks(
     return tuple(normalized), discarded
 
 
-def _validate_bounds(candidate_count: int, limit: int) -> None:
+def validate_rerank_bounds(candidate_count: int, limit: int) -> None:
+    """Reject a rerank call whose candidate pool or selection size is out of bounds."""
+
     if candidate_count < 1:
         raise ValueError("rerank requires at least one candidate")  # noqa: TRY003
     if limit < 1 or limit > candidate_count:
@@ -191,4 +193,5 @@ __all__ = [
     "MemoryRerankMode",
     "MemoryRerankOutput",
     "MemoryReranker",
+    "validate_rerank_bounds",
 ]
